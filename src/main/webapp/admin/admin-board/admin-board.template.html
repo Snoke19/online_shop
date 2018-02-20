@@ -1,0 +1,57 @@
+<head>
+    <link rel="stylesheet" href="/admin/admin-board/admin-board.css">
+</head>
+
+<div class="container mt-5 pt-3">
+
+    <h3 class="text-center mt-4 mb-5">Admin Board</h3>
+
+    <div class="row">
+
+
+        <div class="col-xl-3 col-md-6 mb-r">
+            <a ng-href="#!/admin/add/product" class="text-dark">
+                <div class="card hoverable">
+                    <div class="card-body text-center">
+                        <i class="fa fa-plus"></i> Add new product
+                    </div>
+                </div>
+            </a>
+        </div>
+
+
+        <div class="col-xl-3 col-md-6 mb-r">
+            <a ng-href="#!/admin/all/products" class="text-dark">
+                <div class="card hoverable">
+                    <div class="card-body text-center">
+                        <i class="fa fa-list-ul"></i> All Products
+                    </div>
+                </div>
+            </a>
+        </div>
+
+
+        <div class="col-xl-3 col-md-6 mb-r">
+            <a ng-href="#!/users/orders" class="text-dark">
+                <div class="card hoverable">
+                    <div class="card-body text-center">
+                        <span class="badge badge-danger" ng-if="amountOrders != 0">{{amountOrders}} new</span> Orders
+                    </div>
+                </div>
+            </a>
+        </div>
+
+
+        <div class="col-xl-3 col-md-6 mb-r">
+            <a ng-href="#!/admin/users" class="text-dark">
+                <div class="card hoverable">
+                    <div class="card-body text-center">
+                        <i class="fa fa-user"></i> Users/Admins
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+</div>
