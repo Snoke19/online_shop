@@ -1,0 +1,211 @@
+.input-group .text-area {
+    border: 1px solid #bdbdbd;
+}
+
+.hide{
+    display: none;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+select {
+    display: inline !important;
+}
+
+.ui-grid-viewport::-webkit-scrollbar-track {
+    width: 10px;
+    background-color: #F5F5F5;
+}
+
+.ui-grid-viewport::-webkit-scrollbar {
+    width: 10px;
+    background-color: #F5F5F5;
+}
+
+.ui-grid-viewport::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    background-color: #4285F4;
+}
+
+.scrollbar {
+    height: 300px;
+    background: #fff;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.force-overflow {
+    min-height: 730px;
+}
+
+.force-overflow2 {
+    min-height: 400px;
+}
+
+.force-overflow1 {
+    min-height: 600px;
+}
+
+.force-overflow3 {
+    min-height: 550px;
+}
+
+.force-overflow-UserOrders {
+    min-height: 650px;
+}
+
+.force-overflow-userOrder {
+    min-height: 405px;
+}
+
+.scrollbar-primary::-webkit-scrollbar {
+    width: 10px;
+    background-color: #F5F5F5;
+}
+
+.scrollbar-primary::-webkit-scrollbar-thumb {
+    /*border-radius: 10px;*/
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    background-color: #4285F4;
+}
+
+.carousel-thumbnails{
+    margin-bottom:80px
+}
+.carousel-thumbnails .carousel-indicators{
+    margin-bottom:-75px;position:absolute
+}
+
+.carousel-thumbnails .carousel-indicators li{
+    height:auto;
+    max-width:100px;
+    width:100px;
+    border:none
+}
+.carousel-thumbnails .carousel-indicators .active{
+    height:auto;
+    width:auto;
+    opacity:.5
+}
+.carousel-thumbnails .carousel-indicators img{
+    max-width:100px;
+    height:50px;
+    overflow:hidden;
+    display:block
+}
+
+@media only screen and (max-width:600px){
+    .carousel-thumbnails {
+        margin-bottom:60px
+    }
+    .carousel-thumbnails .carousel-indicators{
+        margin-bottom:-60px
+    }
+    .carousel-thumbnails .carousel-indicators img{
+        max-width:50px;
+        height:25px
+    }
+}
+
+.carousel-thumbnails .carousel-indicators {
+    margin-bottom: -75px;
+    position: absolute;
+}
+
+.carousel-indicators {
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+    left: 0;
+    z-index: 15;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    padding-left: 0;
+    margin-right: 15%;
+    margin-left: 15%;
+    list-style: none;
+}
+
+.carousel-indicators {
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+    left: 0;
+    z-index: 15;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding-left: 0;
+    margin-right: 15%;
+    margin-left: 15%;
+    list-style: none;
+}
+
+dl, ol, ul {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+dl, ol, ul {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+ol {
+    display: block;
+    list-style-type: decimal;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0;
+    -webkit-margin-end: 0;
+    -webkit-padding-start: 40px;
+}
+
+.ui-grid-pager-control-input{
+    padding: 0!important;
+    height: 23px!important;
+    font-size: 14px!important;
+}
+
+input[type="text"].ui-grid-filter-input {
+    height: 27px;
+    padding-right: 0px!important;
+}
+
+.ui-grid-footer-info {
+    margin-left: 10px;
+}
+
+.ui-grid-pager-max-pages-number{
+    margin: 5px;
+}
+
+.ui-grid-top-panel {
+    position: relative;
+    overflow: hidden;
+    font-weight: normal;
+    background: none;
+    -webkit-border-radius: -1px -1px 0 0;
+    -moz-border-radius: -1px -1px 0 0;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+}
+
+.ui-grid-row .ui-grid-cell.ui-grid-row-header-cell {
+    background-color: white;
+    border-bottom: solid 1px #d4d4d4;
+}
+
+
+.border-input {
+    border: 1px solid #ced4da!important;
+}
