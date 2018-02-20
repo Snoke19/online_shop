@@ -1,0 +1,202 @@
+<head>
+    <link rel="stylesheet" href="/admin/admin.css">
+    <link rel="stylesheet" href="/admin/edit-product/edit.css">
+</head>
+
+<div class="container mt-5 pt-3">
+    <h3 class="mt-3">Admin Board - Edit Product</h3>
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+
+                <div class="col-sm-12 col-md-3 col-lg-2" style="padding-top: 8px;">
+                    Code:
+                    <div class="popover-wrapper">
+                        <a href="#"
+                           editable-text="productUpdate.code"
+                           e-label="Code" onaftersave="updateCode()"> {{ productForUpdate.code || 'empty' }}</a>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-10 col-lg-8"></div>
+
+                <div ng-class="colorActiveOrNotActive" class="col-sm-12 col-md-12 col-lg-2 rounded">
+                    <div ng-class="textActiveOrNotActive1">{{textActiveOrNotActive}}</div>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-xm-12 col-lg-6">
+                    <div class="row">
+                        <div class="col m-2">
+                            <switcher class="styled"
+                                      ng-model="productForUpdate.isActive"
+                                      ng-change="onChange(newValue, oldValue)"
+                                      true-label="active"
+                                      false-label="not active">
+                            </switcher>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col m-2 input-group">
+                            Name product:
+                            <div class="popover-wrapper ml-1">
+                                <a href="#"
+                                   editable-text="productUpdate.name"
+                                   e-label="Product Name" onaftersave="updateNameProduct()"> {{ productForUpdate.name || 'empty' }}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col m-2 input-group">
+                            Quantity of products:
+                            <div class="popover-wrapper ml-1">
+                                <a href="#"
+                                   editable-text="productUpdate.quantity"
+                                   e-label="Quantity of products" onaftersave="updateQuantity()"> {{ productForUpdate.quantity || 'empty' }}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col m-2 mt-3">
+                            Producer:
+                            <div class="popover-wrapper">
+                                <a href="#"
+                                   editable-text="productUpdate.producer"
+                                   e-label="Producer" onaftersave="updateProducer()"> {{ productForUpdate.producer || 'empty' }}</a>
+                            </div>
+                        </div>
+
+                        <div class="col m-2 mt-3">
+                            Category:
+                            <div class="popover-wrapper">
+                                <a href="#" editable-select="productUpdate.category.idCategory" onaftersave="updateCategory()" onshow="loadCategory()" e-ng-options="g.idCategory as g.name for g in allCategories">
+                                    {{ productForUpdate.category.name || 'not set' }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col m-2 mb-3">
+                            Price:
+                            <div class="popover-wrapper">
+                                <a href="#" editable-number="productUpdate.price" e-min="0" e-label="Price" onaftersave="updatePrice()"> {{ productForUpdate.price || 'empty' }} $</a>
+                            </div>
+                        </div>
+
+                        <div class="col m-2 mb-3">
+                            <div ng-if="productForUpdate.quantity != 0">Status: In Stock</div>
+                            <div ng-if="productForUpdate.quantity === 0">Status: Sold out</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col m-2">
+                            <label>Description</label>
+                            <div class="scrollbar scrollbar-primary force-overflow1">
+                                <fieldset  data-ng-repeat="desc in descriptionData">
+                                    <div class="input-group ">
+                                        <span class="input-group-addon" id="NameOfDesc">Name of desc</span>
+                                        <input class="form-control border-input mt-0 h-50 pl-2"
+                                               type="text"
+                                               title="Name of desc"
+                                               aria-label="NameOfDesc"
+                                               ng-model="desc.nameDesc"
+                                               name="nameDescription"
+                                               ng-required="true">
+                                    </div>
+
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="width: 124px;">Data of desc</span>
+                                        <textarea class="form-control border-input pl-2 mt-0"
+                                                  aria-label="DataOfDesc"
+                                                  name="dataDescription"
+                                                  title="Data of desc"
+                                                  ng-model="desc.dataDesc"
+                                                  ng-required="true"></textarea>
+                                    </div>
+
+                                    <button class="btn btn-danger btn-sm mt-2 mb-2" ng-click="descriptionData.splice($index, 1)"><i class="fas fa-times"></i></button>
+                                </fieldset>
+                            </div>
+                            <br>
+
+                            <button class="brn btn-primary btn-sm" ng-click="addNewChoice($event)">Add new describe field</button>
+
+                            <button class="brn btn-success btn-sm" ng-click="updateDescription()">Save new description</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xm-12 col-lg-6">
+                    <h5>Existing images</h5>
+                    <div class="scrollbar scrollbar-primary force-overflow3 border border-cust rounded">
+                        <div class="row m-1">
+                            <div ng-repeat="(key, value) in productForUpdate.listImages track by $index" class="col-lg-6">
+                                <div class="imagewrap">
+                                    <img class="d-block img-fluid border m-1 rounded" ng-src="data:image/jpeg;base64,{{value}}" height="250" width="300">
+                                    <span ng-click="deleteImageFromList(key)" class="counter remImageEdit border"><i class="fas fa-times"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="mt-4">Add new image</h5>
+                    <div class="border rounded p-2 mt-3" ng-class="{'enabled':useUploaderImages, 'disable':useUploaderImages}"
+                         style="border: 3px solid #e9ecef!important; margin-bottom: 40px">
+
+                        <p>Queue length: {{ uploader.queue.length }}</p>
+
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th width="50%">Name</th>
+                                <th>Size</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in uploader.queue">
+                                <td>
+                                    <strong>{{ item.file.name }}</strong>
+                                    <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                </td>
+                                <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                <td>{{added}}</td>
+                                <td nowrap>
+                                    <button type="button" class="btn btn-danger btn-sm" ng-click="item.remove()">
+                                        <span class="glyphicon glyphicon-trash"></span> Remove
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+
+                        <input class="hide" id="image" type="file" ng-disabled="useUploaderImages" nv-file-select="" uploader="uploader" multiple
+                               accept="image/png, image/jpeg, image/jpg, image/bmp, image/gif" />
+                        <br/>
+                        <label for="image" ng-class="{'enabled':useUploaderImages, 'disable':useUploaderImages}" class="btn btn-primary btn-sm mb-0 mt-0">
+                            Choose image
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </label>
+
+                        <button type="button" ng-class="{'disable':useUploaderImages}" class="btn btn-success btn-sm" ng-click="uploader.uploadAll()"
+                                ng-disabled="!uploader.getNotUploadedItems().length">
+                            <span class="glyphicon glyphicon-upload"></span> Upload all
+                        </button>
+
+                        <button type="button" ng-class="{'disable':useUploaderImages}" class="btn btn-danger btn-sm" ng-click="uploader.clearQueue()"
+                                ng-disabled="!uploader.queue.length">
+                            <span class="glyphicon glyphicon-trash"></span> Remove all
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
