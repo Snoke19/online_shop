@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="shop">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Products</title>
+
+    <link   rel="stylesheet"       href="/resource/css/web-fonts-with-css/css/fontawesome-all.min.css">
+    <link   rel="stylesheet"       href="/resource/bower_components/mdbootstrap/css/bootstrap.min.css">
+    <link   rel="stylesheet"       href="/resource/bower_components/mdbootstrap/css/mdb.min.css">
+
+    <link   rel="stylesheet"       href="/resource/bower_components/ngprogress/ngProgress.css">
+    <link   rel="stylesheet"       href="/resource/bower_components/angular-ui-grid/ui-grid.min.css">
+    <link   rel="stylesheet"       href="/resource/bower_components/angular-notify/dist/angular-notify.min.css">
+    <link   rel="stylesheet"       href="/resource/bower_components/angular-confirm/dist/angular-confirm.min.css">
+    <link   rel="stylesheet"       href="/resource/bower_components/angular-xeditable/dist/css/xeditable.min.css">
+    <link   rel="stylesheet"       href="/resource/bower_components/angular-switcher/dist/angular-switcher.min.css">
+    <link   rel="stylesheet"       href="/resource/bower_components/angular-tooltips/dist/angular-tooltips.min.css">
+    <link   rel="stylesheet"       href="/resource/bower_components/v-tabs/dist/v-tabs.min.css">
+    <link   rel="stylesheet"       href="/resource/bower_components/angular-rateit/dist/ng-rateit.css">
+
+    <script type="text/javascript" src="/resource/bower_components/mdbootstrap/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/resource/bower_components/mdbootstrap/js/popper.min.js"></script>
+    <script type="text/javascript" src="/resource/bower_components/mdbootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/resource/bower_components/mdbootstrap/js/mdb.min.js"></script>
+    <script type="text/javascript" src="/resource/bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="/resource/bower_components/angular-route/angular-route.min.js"></script>
+    <script type="text/javascript" src="/resource/bower_components/angular-touch/angular-touch.min.js"></script>
+    <script type="text/javascript" src="/resource/bower_components/angular-animate/angular-animate.min.js"></script>
+
+    <script type="text/javascript" src="/index/app.route.js"></script>
+
+    <!--util-->
+    <script type="text/javascript" src="/resource/bower_components/angular-xeditable/dist/js/xeditable.min.js"></script>
+    <script type="text/javascript" src="/resource/bower_components/angular-notify/dist/angular-notify.min.js"></script>
+    <script type="text/javascript" src="/resource/bower_components/underscore/underscore-min.js"></script>
+    <script type="text/javascript" src="/resource/bower_components/angular-image-dimensions/dist/angular-image-dimensions.js"></script>
+    <script type="text/javascript" src="/resource/bower_components/angular-file-upload/dist/angular-file-upload.min.js"></script>
+    <script type="text/javascript" src="/resource/bower_components/angular-ui-grid/ui-grid.min.js"></script>
+    <script type="text/javascript" src="/resource/bower_components/angular-switcher/dist/angular-switcher.min.js"></script>
+    <script type="text/javascript" src="/resource/bower_components/ngprogress/build/ngprogress.min.js"></script>
+    <script type="text/javascript" src="/resource/bower_components/angular-confirm/dist/angular-confirm.min.js"></script>
+    <script type="text/javascript" src="/resource/bower_components/angular-tooltips/dist/angular-tooltips.min.js"></script>
+    <script type="text/javascript" src="/resource/bower_components/v-tabs/dist/v-tabs.min.js"></script>
+    <script type="text/javascript" src="/resource/bower_components/moment/moment.js"></script>
+    <script type="text/javascript" src="/resource/bower_components/angular-money-directive/dist/angular-money-directive.min.js"></script>
+    <script type="text/javascript" src="/resource/bower_components/angular-rateit/dist/ng-rateit.min.js"></script>
+    <!--/util-->
+
+    <!--service-->
+    <script type="text/javascript" src="/admin/admin.service.js"></script>
+    <!--service-->
+
+    <script type="text/javascript" src="/index/index.controller.js"></script>
+
+    <!--components-->
+    <script type="text/javascript" src="/admin/admin-board/admin-board.component.js"></script>
+    <script type="text/javascript" src="/admin/add-product/add-product.component.js"></script>
+    <script type="text/javascript" src="/admin/all-product/all-products.component.js"></script>
+    <script type="text/javascript" src="/admin/edit-product/edit-product.component.js"></script>
+    <script type="text/javascript" src="/admin/users/all-users.component.js"></script>
+    <script type="text/javascript" src="/product/product.component.js"></script>
+    <script type="text/javascript" src="/details-product/details-product.component.js"></script>
+    <script type="text/javascript" src="/admin/orders-users/users-orders.component.js"></script>
+    <script type="text/javascript" src="/auth/login/login.component.js"></script>
+    <script type="text/javascript" src="/auth/sign-up/sign-up.component.js"></script>
+    <!--components-->
+</head>
+<body>
+    <header>
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-white" ng-controller="nav">
+            <div class="container">
+                <a class="navbar-brand font-bold text-dark" ng-href="#"><strong>E-SHOP</strong></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link dark-grey-text font-bold" ng-href="#!/cart">
+                                <span class="badge danger-color">{{cartSize}}</span>
+                                <i class="fa fa-shopping-cart blue-text"></i>
+                                <span class="clearfix d-none d-sm-inline-block">Cart</span>
+                            </a>
+                        </li>
+                        <!--Administration-->
+                        <li class="nav-item">
+                            <a class="nav-link dark-grey-text font-bold" ng-href="#!/admin"><i class="fa fa-cog blue-text"></i>Administration</a>
+                        </li>
+                        <!--/Administration-->
+                        <!--Profile button-->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle dark-grey-text font-bold" id="Profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-user blue-text" aria-hidden="true"></i>{{user.username}}
+                            </a>
+                            <div class="dropdown-menu dropdown-primary dropdown-menu-right" aria-labelledby="Profile">
+                                <a class="dropdown-item" ng-href="#!/users/orders">My Profile</a>
+                                <a class="dropdown-item" ng-href="" ng-click="logout()">Log out</a>
+                            </div>
+                        </li>
+                        <!--&lt;!&ndash;/Profile button&ndash;&gt;-->
+                        <!--<li ng-if="isAuthority('ROLE_ANONYMOUS')" class="nav-item">-->
+                            <!--<a class="nav-link dark-grey-text font-bold" ng-href="#!/login">Login</a>-->
+                        <!--</li>-->
+                        <!--<li ng-if="isAuthority('ROLE_ANONYMOUS')" class="nav-item">-->
+                            <!--<a class="nav-link dark-grey-text font-bold" ng-href="#!/sign-up">Sign Up</a>-->
+                        <!--</li>-->
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div ng-view></div>
+
+    <!--<footer class="panel-footer">-->
+        <!--<div class="footer-copyright">-->
+            <!--<div class="container-fluid">-->
+                <!--© 2017 Copyright: <a href="https://www.MDBootstrap.com"> OnlineShop.com </a>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</footer>-->
+</body>
+</html>
