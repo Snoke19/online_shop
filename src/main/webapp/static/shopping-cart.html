@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Cart</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="../resource/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../resource/css/mdb.min.css" rel="stylesheet">
+    <link href="../resource/css/style.css" rel="stylesheet">
+</head>
+<body>
+  	<header>
+      <nav class="navbar navbar-expand-lg navbar-dark unique-color ">
+        <a class="navbar-brand" href="../index/index.html">OnlineShop</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-expanded="false">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse likes" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link waves-effect waves-light btn btn-primary like-btn" href="#"><span class="badge badge-primary badge-pill">1</span> <i class="fa fa-heart-o"></i></a>
+            </li>
+            <li class="nav-item dropdown">
+              
+              <a id="shopCart" class="nav-link waves-effect waves-light btn btn-primary shopping-cart" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="badge badge-primary badge-pill">1</span> <i class="fa fa-shopping-cart"></i></a>
+
+              <div class="dropdown-menu dropdown-menu-right dropdown-cyan shopping-cart-desk" aria-labelledby="shopCart">
+                Total count: <span class="total-count">14</span><br>
+                Total cost: <span class="total-cost">0</span>
+                <a href="static/shopping-cart.html" class="btn btn-primary waves-effect btn-sm btn-block"><i class="fa fa-shopping-cart"></i> View cart</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link waves-effect waves-light" href="#"><i class="fa fa-gear"></i> Administration</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle waves-effect waves-light" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> Profile </a>
+              <div class="dropdown-menu dropdown-menu-right dropdown-cyan" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item waves-effect waves-light" href="#">My account</a>
+                <a class="dropdown-item waves-effect waves-light" href="#">Log out</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+  	</header>
+
+    <div class="container-fluid" style="background-color: rgba(96, 125, 139, 0.3);">
+      <div class="row">
+        <div class="col-lg-3"></div>
+          <div class="col-lg-6">
+            <!-- Search form -->
+            <form class="form-inline">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="input-group">
+                  <input type="text" class="form-control input-alternate searchInput" placeholder="Search">
+                  <span class="input-group-btn">
+                    <button class="btn btn-primary btns" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                  </span>
+                </div>
+              </div>
+            </form>
+            <!-- /Search Form -->
+          </div>
+        <div class="col-lg-3"></div>
+      </div>  
+    </div>
+    <div class="container-fluid" style="background-color: rgba(96, 125, 139, 0.1);">
+    	<div class="row">
+    		<main class="col-xs-12 col-sm-8 col-md-9 col-lg-12 mains">
+    			<div id="productList">
+    				<div class="row">
+    					<div class="col-lg-2"></div>
+    					<div class="col-lg-8">
+    						<table class="table table-hover">
+    							<thead>
+    								<tr>
+      									<th>Product</th>
+      									<th>Price</th>
+      									<th>Count</th>
+      									<th>Action</th>
+    								</tr>
+    							</thead>
+    							<tbody>
+                    <tr id="product278009" class="item">
+                      <td class="text-center">
+                        <img class="small" src="https://images.pexels.com/photos/461452/pexels-photo-461452.png?w=1260&h=750&auto=compress&cs=tinysrgb" alt="Prestigio SH398187">
+                        <br>Prestigio SH398187
+                      </td>
+                      <td class="price">$ 570.00</td>
+                      <td class="count">1</td>
+                      <td class="hidden-print">
+                        <a class="btn btn-danger btn-sm remove-product" data-id-product="278009" data-count="1">Remove</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" class="text-right"><strong>Total:</strong></td>
+                      <td colspan="2" class="total">$5990.00</td>
+                    </tr>
+                  </tbody>
+
+    						</table>
+                <button class="btn btn-success pull-right">Make Order</button>
+                <button class="btn btn-danger pull-right">Remove all products</button>
+    					</div>
+    					<div class="col-lg-2"></div>
+    				</div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <footer class="page-footer unique-color center-on-small-only pt-0">
+      <div class="footer-copyright">
+        <div class="container-fluid">
+          © 2017 Copyright: <a href="https://www.MDBootstrap.com"> OnlineShop.com </a>
+        </div>
+      </div>
+    </footer>
+                
+    <script type="text/javascript" src="../resource/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../resource/js/popper.min.js"></script>
+    <script type="text/javascript" src="../resource/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../resource/js/mdb.min.js"></script>
+</body>
+</html>
