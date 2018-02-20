@@ -1,0 +1,17 @@
+{
+  "name": "components_for_online_shop",
+  "homepage": "https://github.com/Snoke19/online_shop",
+  "authors": [
+    "Olexander"
+  ],
+  "description": "AngularJS libraries for a web project Online_Shop",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
