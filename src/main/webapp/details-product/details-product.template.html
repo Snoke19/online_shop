@@ -1,0 +1,87 @@
+<div class="container mt-5 pt-3">
+
+    <!-- Section: product details -->
+    <section id="productDetails" class="pb-5">
+
+        <!--News card-->
+        <div class="card border-primary mt-5 hoverable">
+            <div class="row mt-5" >
+                <div class="col-lg-6">
+
+                    <div class="row mx-2">
+                        <!--Carousel Wrapper-->
+                        <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails mb-5 pb-4" data-ride="carousel">
+
+                            <!--Slides-->
+                            <div class="carousel-inner center-on-small-only" role="listbox">
+                                <div class="carousel-item active">
+                                    <img ng-src="data:image/jpeg;base64,{{productDetails.image}}" alt="First slide" class="img-fluid">
+                                </div>
+                            </div>
+                            <!--/.Slides-->
+                        </div>
+                        <!--/.Carousel Wrapper-->
+                    </div>
+                </div>
+                <div class="col-lg-5 mr-3 center-on-small-only" >
+                    <h2 class="h2-responsive center-on-small-only product-name font-bold dark-grey-text mb-1">
+                        <strong>{{productDetails.name}} </strong>
+                    </h2>
+                    <h3 class="h3-responsive center-on-small-only mb-4 mt-4">
+                        <span class="font-bold">
+                            <strong>${{productDetails.price}}</strong>
+                        </span>
+                    </h3>
+
+                    <p ng-repeat="d in productDetails.description | limitTo: 1">
+                        <strong>{{d.nameDesc}}: </strong>{{d.dataDesc}}</p>
+
+                    <p>
+                        <strong>Code: </strong>{{productDetails.code}}</p>
+                    <p>
+                        <strong>Producer: </strong>{{productDetails.producer}}</p>
+                    <p>
+                        <strong>Availability: </strong>{{productDetails.status}}</p>
+
+                    <!-- Add to Cart -->
+                    <section class="color">
+                        <div class="mt-5">
+                            <div class="row mt-3 mb-r">
+                                <div class="col-md-12 center-on-small-only text-md-right">
+                                    <button class="btn btn-primary btn-rounded waves-effect waves-light">
+                                        <i class="fa fa-cart-plus mr-2" aria-hidden="true"></i> Add to cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- /.Add to Cart -->
+                </div>
+            </div>
+        </div>
+        <!--News card-->
+
+    </section>
+    <!-- Section: product details -->
+
+    <h4 class="h4-responsive dark-grey-text font-bold mb-5 text-center">
+        <strong>Description</strong>
+    </h4>
+
+    <!--Table-->
+    <div class="card mb-r">
+        <div class="card-body">
+
+            <table class="characteristic__product__table table table-striped">
+                <tbody>
+                    <tr ng-repeat="d in productDetails.description">
+                        <th>{{d.nameDesc}}</th>
+                        <td>{{d.dataDesc}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <!--Table-->
+
+</div>
