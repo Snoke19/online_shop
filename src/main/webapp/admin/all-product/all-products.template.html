@@ -1,0 +1,124 @@
+<head>
+    <link rel="stylesheet" href="/admin/admin.css">
+    <link rel="stylesheet" href="/admin/all-product/all-products.css">
+</head>
+
+<div class="container-fluid mt-5 pt-3">
+
+    <div class="row">
+        <!-- Section: product details -->
+        <div class="col-lg-5">
+
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-2">
+                    <button class="btn btn-danger" ng-click="deleteProduct(productForEdit.idProduct)"><i class="fa fa-trash"></i> Remove</button>
+                    <a class="btn btn-success" ng-href="#!/admin/edit/product/{{productForEdit.idProduct}}"><i class="fa fa-edit"></i> Edit</a>
+                </div>
+            </div>
+
+            <div class="scrollbar scrollbar-primary force-overflow">
+                <div class="card border">
+                    <div class="mt-4 ml-2">
+                        <div class="row">
+                            <div class="col ml-3">
+                                <p class="h5">{{productForEdit.name}}</p>
+                            </div>
+                        </div>
+                        <!--Carousel Wrapper-->
+                        <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails" data-ride="carousel">
+                            <!--Slides-->
+                            <div class="carousel-inner" role="listbox">
+                                <div class="carousel-item active">
+                                    <center>
+                                        <img style="width: 40%" ng-src="data:image/jpeg;base64,{{ productForEdit.listImages[0]}}" alt="First slide">
+                                    </center>
+                                </div>
+                                <div class="carousel-item" ng-repeat="im in productForEdit.listImages track by $index" ng-if="$index > 0">
+                                    <center>
+                                        <img style="width: 40%" ng-src="data:image/jpeg;base64,{{im}}" alt="Second slide">
+                                    </center>
+                                </div>
+                            </div>
+                            <!--/.Slides-->
+                            <ol class="carousel-indicators">
+                                <li data-target="#carousel-thumb" data-slide-to="{{key}}" class="" ng-repeat="(key, value) in productForEdit.listImages track by $index">
+                                    <img class="w-50" ng-src="data:image/jpeg;base64,{{value}}">
+                                </li>
+                            </ol>
+                        </div>
+                        <!--/.Carousel Wrapper-->
+
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col m-3 ml-3">
+                                    <strong>Code:</strong> {{productForEdit.code}}
+                                    <br>
+                                    <div ng-if="productForEdit.isActive"><strong>Active:</strong> Active</div>
+                                    <div ng-if="!productForEdit.isActive"><strong>Active:</strong> Not Active</div>
+                                </div>
+                                <div class="col m-3 ml-3">
+                                    Rating: <ng-rate-it ng-model="rating" min="0" max="5" step="1" read-only="true" resetable="false"></ng-rate-it>
+                                </div>
+                                <div class="col m-3">
+                                    <div ng-if="productForEdit.quantity != 0"><strong>Status:</strong> In Stock</div>
+                                    <div ng-if="productForEdit.quantity === 0"><strong>Status:</strong> Sold out</div>
+                                    <div><strong>Quantity of products:</strong> {{productForEdit.quantity}}</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col m-3">
+                                    <strong>Producer:</strong> {{productForEdit.producer}}
+                                </div>
+                                <div class="col m-3">
+                                    <strong>Category:</strong> {{productForEdit.category.name}}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col m-3">
+                                    <strong>Price</strong>: ${{productForEdit.price}}
+                                </div>
+                                <div class="col m-3">
+                                    <strong>Discount:</strong>
+                                    {{productForEdit.discount}}%
+                                    (<s>${{productForEdit.price}}</s> - <span class="green-text">${{productForEdit.price - productForEdit.price * (productForEdit.discount / 100) | number: 2}}</span>)
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <h4 class="font-bold text-center">Description</h4>
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr ng-repeat="d in productForEdit.description">
+                                    <th>{{d.nameDesc}}: </th>
+                                    <td>{{d.dataDesc}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <h3 class="text-center mt-3 mb-3">All products</h3>
+
+            <div id="grid2" ui-grid="gridOptions"
+                 ui-grid-pagination
+                 ui-grid-resize-columns
+                 ui-grid-move-columns
+                 ui-grid-selection
+                 class="grid"
+                 style="height: 600px;">
+            </div>
+
+            <button ng-show="disableButtonDeleteItems" ng-click="deleteProducts()" type="button" class="btn btn-danger">{{countArrayIdForDelete}}  Delete all</button>
+        </div>
+    </div>
+</div>
