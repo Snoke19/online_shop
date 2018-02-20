@@ -1,0 +1,106 @@
+<head>
+    <link rel="stylesheet" href="/admin/admin.css">
+    <link rel="stylesheet" href="/admin/users/users.css">
+</head>
+
+
+<div class="container mt-5 pt-3">
+
+    <div class="row">
+
+        <div class="col-md-4">
+
+            <div class="card">
+                <img ng-show="oneUser.avatar" class="card-img-top mt-3" ng-src="data:image/jpeg;base64,{{ oneUser.avatar }}" alt="Avatar">
+
+                <div class="card-body pt-2">
+                    <div class="text-center">
+                        <h3 class="mb-3 font-bold"><strong>{{oneUser.userName}} {{oneUser.surname}}</strong></h3>
+                    </div>
+
+                    <ul class="striped list-unstyled">
+                        <li class="m-1"><strong>E-mail: </strong>{{oneUser.email}}</li>
+
+                        <li class="m-1" ng-show="oneUser.phone" ><strong>Phone number: </strong>{{oneUser.phone}}</li>
+
+                        <li class="m-1" ng-show="oneUser.birthday"><strong>Birthday: </strong>{{oneUser.birthday}}</li>
+
+                        <li class="m-1" ng-show="oneUser.address"><strong>Address: </strong>{{oneUser.address}}</li>
+                    </ul>
+
+                    <div class="d-flex justify-content-between">
+                        <button type="button" ng-click="getUserHistory(oneUser.idUser)" ng-show="visibleHistoryOrders" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalUser">
+                            Orders History
+                        </button>
+
+                        <button ng-click="delUser(oneUser.idUser)" ng-show="visibleAccountDisableUser && !oneUser.enabled" class="btn btn-danger btn-sm" tooltips tooltip-template="You can remove this user!" tooltip-side="bottom" tooltip-class="w-100">Account disabled</button>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalUser" tabindex="-1" role="dialog" aria-labelledby="modalUser" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header pb-0">
+                                    <h5 class="modal-title" id="exampleModalLabel">
+                                        <img ng-src="data:image/jpeg;base64,{{ oneUser.avatar}}" class="rounded-circle rounded-circle-cust img-responsive">
+                                        <h5 class="mt-2 ml-2">{{oneUser.userName}} {{oneUser.surname}} - Orders History</h5>
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="grid1" ui-grid="userStory"
+                                         ui-grid-pagination
+                                         ui-grid-resize-columns
+                                         ui-grid-move-columns
+                                         class="grid"
+                                         style="height: 600px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-8 mt-2">
+
+            <div class="mb-1 mt-3 d-flex">
+
+                <label class="custom-control custom-radio">
+                    <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" checked ng-click="getUsers()">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Users</span>
+                </label>
+
+                <label class="custom-control custom-radio">
+                    <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" ng-click="getAdmins()">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Admins</span>
+                </label>
+
+
+                <div class="form-group ml-auto mb-0">
+                    <button class="btn btn-danger btn-sm mb-3" ng-show="visibleAccountDisableAdmin && !oneUser.enabled" ng-click="delAdmin(oneUser.idUser)" tooltips tooltip-template="You can remove this admin!" tooltip-side="bottom" tooltip-class="w-100">Account disabled</button>
+                    <button class="btn btn-primary btn-sm mb-3" ng-show="visibleAddAdmin" ng-click="addNewAdmin()"><i class="far fa-user"></i> Add new admin</button>
+                </div>
+            </div>
+
+            <div id="grid2" ui-grid="gridOptions"
+                 ui-grid-pagination
+                 ui-grid-resize-columns
+                 ui-grid-move-columns
+                 ui-grid-selection
+                 class="grid"
+                 style="height: 600px;">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
