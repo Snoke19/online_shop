@@ -1,0 +1,56 @@
+
+<div class="container-fluid mt-5 pt-3">
+
+    <div class="row">
+        <div class="col-md-4"></div>
+
+        <div class="col-md-4">
+            <section class="form-simple">
+
+                <!--Form with header-->
+                <div class="card" style="width: 28rem;">
+
+                    <!--Header-->
+                    <div class="header pt-3 grey lighten-2">
+
+                        <div class="row d-flex justify-content-start">
+                            <h3 class="deep-grey-text mt-3 mb-4 pb-1 mx-5">Log in</h3>
+                        </div>
+
+                    </div>
+                    <!--Header-->
+
+                    <div class="card-body mx-4 mt-4">
+                        <form method="post" ng-submit="logIn()">
+                            <!--Body-->
+                            <div class="md-form">
+                                <input type="text" ng-model="email" placeholder="Your email" class="form-control">
+                            </div>
+
+                            <div class="md-form pb-3">
+                                <input type="password" ng-model="password" placeholder="Your password" class="form-control">
+                                <p class="font-small grey-text d-flex justify-content-end">Forgot <a href="#" class="dark-grey-text font-bold ml-1"> Password?</a></p>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="checkbox" name="remember-me" class="filled-in" id="checkbox2">
+                                <label for="checkbox2">Remember me</label>
+                            </div>
+
+                            <div class="text-center mb-4">
+                                <input type="submit" class="btn btn-danger btn-block z-depth-2 waves-effect waves-light" value="Log in">
+                            </div>
+                            <p class="font-small grey-text d-flex justify-content-center">Don't have an account? <a href="#" class="dark-grey-text font-bold ml-1"> Sign up</a></p>
+                        </form>
+                    {{errorMessage}}
+                    </div>
+
+                </div>
+                <!--/Form with header-->
+
+            </section>
+        </div>
+
+        <div class="col-md-4"></div>
+    </div>
+</div>
