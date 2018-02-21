@@ -35,6 +35,7 @@
         $scope.progressbar.start();
         AdminService.getNewOrders().then(function (d) {
             $scope.allOrders = d;
+
             $scope.progressbar.complete();
 
             $scope.progressbar.start();
@@ -69,7 +70,7 @@
                 $scope.orderUser = d;
 
                 //total price
-                $scope.totalPrice = _.pluck($scope.orderUser, 'totalPrice');
+                $scope.totalPrice = _.pluck($scope.orderUser, 'pricePerQuantity');
                 $scope.total = 0.0;
                 angular.forEach($scope.totalPrice, function(value, key){
                     $scope.total += value;
@@ -157,46 +158,5 @@
             ],
             data: 'orderUser'
         };
-
-        // // AdminService.getInProcessOrders().then(function (d) {
-        // //     $scope.inProcessOrders = d;
-        // // });
-        //
-        // $scope.gridOptionsProcessingOrd = {
-        //
-        //     enableRowHashing: false,
-        //
-        //     enableRowSelection: true,
-        //
-        //     columnDefs: [
-        //         { field: 'product.code',
-        //             displayName: '#Code',
-        //             width: 90,
-        //             cellClass: 'pl-1'
-        //         },
-        //         { field: 'product',
-        //             displayName: 'Images',
-        //             width: 165,
-        //             cellTemplate: '/admin/orders-users/carouselImg.html'
-        //         },
-        //         { field: 'product.name',
-        //             displayName: 'Name Product',
-        //             width: 200
-        //         },
-        //         { field: 'product.price',
-        //             displayName: 'Price product',
-        //             width: 135
-        //         },
-        //         { field: 'quantityProducts',
-        //             displayName: 'Quantity',
-        //             width: 120
-        //         },
-        //         { field: 'pricePerQuantity',
-        //             displayName: 'Price',
-        //             width: 95
-        //         }
-        //     ],
-        //     data: 'inProcessOrders'
-        // };
     }
 })();

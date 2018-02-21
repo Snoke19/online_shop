@@ -30,7 +30,7 @@
                                             <small>{{dayAgo(order.date)}} days ago</small>
 
                                         </div>
-                                        <p class="mb-1">{{order.address}}</p><span class="badge badge-danger p-1">new</span>
+                                        <p class="mb-1">{{order.address}}</p><span class="badge badge-danger p-1">{{order.status}}</span>
                                     </a>
                                     <a ng-if="allOrders == 0">
                                         <h5 class="text-center mt-5 grey-text">Orders are missing.</h5>

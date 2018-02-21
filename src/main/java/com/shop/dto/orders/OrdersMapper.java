@@ -19,7 +19,6 @@ public interface OrdersMapper {
     @Named("newOrdersToDTO")
     @Mappings({
             @Mapping(target = "phone", ignore = true),
-            @Mapping(target = "status", ignore = true),
             @Mapping(target = "delivery", ignore = true),
             @Mapping(target = "user.address", ignore = true),
             @Mapping(target = "user.birthday", ignore = true),
