@@ -164,7 +164,7 @@
                     cellTemplate: '<div class="ml-1">{{grid.appScope.stockSold(row)}}</div>'
                 },
                 { field: 'Action',
-                    width: 110,
+                    width: 102,
                     enableSorting: false,
                     enableColumnMenu: false,
                     enableFiltering: false,

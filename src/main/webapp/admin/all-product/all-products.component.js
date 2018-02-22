@@ -13,7 +13,8 @@
         'ngProgress',
         'cgNotify',
         'cp.ngConfirm',
-        'ngRateIt'
+        'ngRateIt',
+        '720kb.tooltips'
     ]);
 
     angular.module('admin-board-all-products')
@@ -21,7 +22,7 @@
         .component('adminBoardAllProducts', {
             templateUrl: '/admin/all-product/all-products.template.html',
             controller: ['$scope', 'notify', '$ngConfirm', 'AdminService', 'ngProgressFactory', AdminBoardAllProductsController]
-        })  ;
+        });
     
     function AdminBoardAllProductsController($scope, notify, $ngConfirm, AdminService, ngProgressFactory) {
 
@@ -108,19 +109,34 @@
                     width: 200
                 },
                 { field: 'producer',
-                    width: 113
+                    width: 120
                 },
                 { field: 'category.name', displayName: 'Category',
-                    width: 100
+                    width: 120
                 },
                 { field: 'price',
                     displayName: 'Price($)',
                     width: 90
+                },
+                { field: 'quantity',
+                    displayName: 'Quantity',
+                    width: 90
+                },
+                { field: 'status',
+                    width: 85,
+                    cellTemplate: '<div class="ml-1">{{grid.appScope.stockSold(row)}}</div>'
+                },
+                { field: 'isActive',
+                    width: 95,
+                    cellTemplate: '<div class="ml-1">{{grid.appScope.isActive(row)}}</div>'
+                },
+                { field: 'discount',
+                    width: 134,
+                    displayName: 'Discount(%)'
                 }
             ],
             data: 'productsAllAdmin'
         };
-
 
         $scope.deleteProduct = function (idProduct) {
             $ngConfirm({
@@ -142,9 +158,10 @@
                             AdminService.deleteProductByIdService(idProduct).then(function () {
                                 AdminService.getAdminProductsService().then(function (d) {
                                     $scope.productsAllAdmin = d;
-                                });
-                                AdminService.getProductService($scope.productsAllAdmin[0].idProduct).then(function (d) {
-                                    $scope.productForEdit = d;
+
+                                    AdminService.getProductService($scope.productsAllAdmin[0].idProduct).then(function (d) {
+                                        $scope.productForEdit = d;
+                                    });
                                 });
                                 $scope.progressbar.complete();
                                 notify({message: 'Product is deleted!', position: 'right', classes: 'alert-success'});
