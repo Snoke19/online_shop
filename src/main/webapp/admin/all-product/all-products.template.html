@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="/admin/all-product/all-products.css">
 </head>
 
-<div class="container-fluid mt-5 pt-3">
+<div class="container mt-3">
 
     <div class="row">
         <!-- Section: product details -->
@@ -11,15 +11,15 @@
 
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-2">
-                    <button class="btn btn-danger" ng-click="deleteProduct(productForEdit.idProduct)"><i class="fa fa-trash"></i> Remove</button>
-                    <a class="btn btn-success" ng-href="#!/admin/edit/product/{{productForEdit.idProduct}}"><i class="fa fa-edit"></i> Edit</a>
+                    <button class="btn btn-danger btn-sm" ng-click="deleteProduct(productForEdit.idProduct)"><i class="fa fa-trash"></i> Remove</button>
+                    <a class="btn btn-success btn-sm" ng-href="#!/admin/edit/product/{{productForEdit.idProduct}}"><i class="fa fa-edit"></i> Edit</a>
                 </div>
             </div>
 
             <div class="scrollbar scrollbar-primary force-overflow">
                 <div class="card border">
-                    <div class="mt-4 ml-2">
-                        <div class="row">
+                    <div class="mt-2 ml-2">
+                        <div class="row mb-2">
                             <div class="col ml-3">
                                 <p class="h5">{{productForEdit.name}}</p>
                             </div>
@@ -29,14 +29,14 @@
                             <!--Slides-->
                             <div class="carousel-inner" role="listbox">
                                 <div class="carousel-item active">
-                                    <center>
+                                    <div style="text-align: center;">
                                         <img style="width: 40%" ng-src="data:image/jpeg;base64,{{ productForEdit.listImages[0]}}" alt="First slide">
-                                    </center>
+                                    </div>
                                 </div>
                                 <div class="carousel-item" ng-repeat="im in productForEdit.listImages track by $index" ng-if="$index > 0">
-                                    <center>
+                                    <div style="text-align: center;">
                                         <img style="width: 40%" ng-src="data:image/jpeg;base64,{{im}}" alt="Second slide">
-                                    </center>
+                                    </div>
                                 </div>
                             </div>
                             <!--/.Slides-->
@@ -51,39 +51,42 @@
                         <div class="card-body">
 
                             <div class="row">
-                                <div class="col m-3 ml-3">
+                                <div class="col-md-5 mt-2">
                                     <strong>Code:</strong> {{productForEdit.code}}
                                     <br>
-                                    <div ng-if="productForEdit.isActive"><strong>Active:</strong> Active</div>
-                                    <div ng-if="!productForEdit.isActive"><strong>Active:</strong> Not Active</div>
+                                    <div class="mt-2" ng-if="productForEdit.isActive"><strong>Active:</strong> Active</div>
+                                    <div class="mt-2" ng-if="!productForEdit.isActive"><strong>Active:</strong> Not Active</div>
                                 </div>
-                                <div class="col m-3 ml-3">
-                                    Rating: <ng-rate-it ng-model="rating" min="0" max="5" step="1" read-only="true" resetable="false"></ng-rate-it>
-                                </div>
-                                <div class="col m-3">
-                                    <div ng-if="productForEdit.quantity != 0"><strong>Status:</strong> In Stock</div>
-                                    <div ng-if="productForEdit.quantity === 0"><strong>Status:</strong> Sold out</div>
-                                    <div><strong>Quantity of products:</strong> {{productForEdit.quantity}}</div>
+
+                                <div class="col-md-7">
+                                    <div class="mt-2" ng-if="productForEdit.quantity != 0"><strong>Status:</strong> In Stock</div>
+                                    <div class="mt-2" ng-if="productForEdit.quantity === 0"><strong>Status:</strong> Sold out</div>
+                                    <div class="mt-2"><strong>Quantity of products:</strong> {{productForEdit.quantity}}</div>
                                 </div>
                             </div>
-
                             <div class="row">
-                                <div class="col m-3">
+                                <div class="col-md-5 mt-2">
                                     <strong>Producer:</strong> {{productForEdit.producer}}
                                 </div>
-                                <div class="col m-3">
+                                <div class="col-md-7 mt-2">
                                     <strong>Category:</strong> {{productForEdit.category.name}}
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col m-3">
+                                <div class="col-md-5 mt-2">
                                     <strong>Price</strong>: ${{productForEdit.price}}
                                 </div>
-                                <div class="col m-3">
+                                <div class="col-md-7 mt-2">
                                     <strong>Discount:</strong>
                                     {{productForEdit.discount}}%
                                     (<s>${{productForEdit.price}}</s> - <span class="green-text">${{productForEdit.price - productForEdit.price * (productForEdit.discount / 100) | number: 2}}</span>)
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col mt-2">
+                                    Rating: <ng-rate-it class="" ng-model="rating" min="0" max="5" step="1" read-only="true" resetable="false"></ng-rate-it>
                                 </div>
                             </div>
 
@@ -107,7 +110,18 @@
         </div>
 
         <div class="col-lg-7">
-            <h3 class="text-center mt-3 mb-3">All products</h3>
+            <h3 class="text-center mt-1 mb-3">All products</h3>
+
+            <form class="form-inline ">
+                <select class="custom-select mr-3">
+                    <option selected>Criteria</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+                <input class="form-control form-control-sm mr-3 w-75 b-1" type="text" placeholder="Search" aria-label="Search">
+                <a><i class="fa fa-search" aria-hidden="true"></i></a>
+            </form>
 
             <div id="grid2" ui-grid="gridOptions"
                  ui-grid-pagination

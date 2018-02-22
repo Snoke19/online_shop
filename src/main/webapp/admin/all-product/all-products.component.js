@@ -108,30 +108,14 @@
                     width: 200
                 },
                 { field: 'producer',
-                    width: 120
+                    width: 113
                 },
                 { field: 'category.name', displayName: 'Category',
-                    width: 120
+                    width: 100
                 },
                 { field: 'price',
                     displayName: 'Price($)',
                     width: 90
-                },
-                { field: 'quantity',
-                    displayName: 'Quantity',
-                    width: 90
-                },
-                { field: 'status',
-                    width: 85,
-                    cellTemplate: '<div class="ml-1">{{grid.appScope.stockSold(row)}}</div>'
-                },
-                { field: 'isActive',
-                    width: 95,
-                    cellTemplate: '<div class="ml-1">{{grid.appScope.isActive(row)}}</div>'
-                },
-                { field: 'discount',
-                    width: 139,
-                    displayName: 'Discount(%)'
                 }
             ],
             data: 'productsAllAdmin'

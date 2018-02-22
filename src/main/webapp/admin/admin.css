@@ -19,20 +19,20 @@ select {
     display: inline !important;
 }
 
-.ui-grid-viewport::-webkit-scrollbar-track {
-    width: 10px;
-    background-color: #F5F5F5;
-}
+/*!*.ui-grid-viewport::-webkit-scrollbar-track {*!*/
+    /*!*width: 10px;*!*/
+    /*!*background-color: #F5F5F5;*!*/
+/*!*}*!*/
 
-.ui-grid-viewport::-webkit-scrollbar {
-    width: 10px;
-    background-color: #F5F5F5;
-}
+/*.ui-grid-viewport::-webkit-scrollbar {*/
+    /*width: 10px;*/
+    /*background-color: #F5F5F5;*/
+/*}*/
 
-.ui-grid-viewport::-webkit-scrollbar-thumb {
-    width: 10px;
-    background-color: #4285F4;
-}
+/*!*.ui-grid-viewport::-webkit-scrollbar-thumb {*!*/
+    /*!*width: 10px;*!*/
+    /*!*background-color: #4285F4;*!*/
+/*!*}*!*/
 
 .scrollbar {
     height: 300px;
@@ -42,7 +42,7 @@ select {
 }
 
 .force-overflow {
-    min-height: 730px;
+    min-height: 671px;
 }
 
 .force-overflow2 {
