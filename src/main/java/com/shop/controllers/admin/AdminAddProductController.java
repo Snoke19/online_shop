@@ -17,7 +17,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @RestController
-public class AdminBoardAddProductController {
+public class AdminAddProductController {
 
     private ProductsService productsService;
     private ImageService imageService;

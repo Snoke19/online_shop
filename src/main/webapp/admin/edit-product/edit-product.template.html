@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="/admin/edit-product/edit.css">
 </head>
 
-<div class="container mt-5 pt-3">
+<div class="container mt-3">
     <h3 class="mt-3">Admin Board - Edit Product</h3>
     <div class="card">
         <div class="card-header">
@@ -136,7 +136,7 @@
                         <div class="row m-1">
                             <div ng-repeat="(key, value) in productForUpdate.listImages track by $index" class="col-lg-6">
                                 <div class="imagewrap">
-                                    <img class="d-block img-fluid border m-1 rounded" ng-src="data:image/jpeg;base64,{{value}}" height="250" width="300">
+                                    <img class="d-block img-fluid border m-1 rounded" ng-src="data:image/jpeg;base64,{{value}}" height="150" width="200">
                                     <span ng-click="deleteImageFromList(key)" class="counter remImageEdit border"><i class="fas fa-times"></i></span>
                                 </div>
                             </div>

@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-public class AdminBoardEditProductController {
+public class AdminEditProductController {
 
     private ProductsService productsService;
     private ImageService imageService;

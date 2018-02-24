@@ -100,13 +100,7 @@
                                 <a class="dropdown-item" ng-href="" ng-click="logout()">Log out</a>
                             </div>
                         </li>
-                        <!--&lt;!&ndash;/Profile button&ndash;&gt;-->
-                        <!--<li ng-if="isAuthority('ROLE_ANONYMOUS')" class="nav-item">-->
-                            <!--<a class="nav-link dark-grey-text font-bold" ng-href="#!/login">Login</a>-->
-                        <!--</li>-->
-                        <!--<li ng-if="isAuthority('ROLE_ANONYMOUS')" class="nav-item">-->
-                            <!--<a class="nav-link dark-grey-text font-bold" ng-href="#!/sign-up">Sign Up</a>-->
-                        <!--</li>-->
+
                     </ul>
                 </div>
             </div>
@@ -115,12 +109,15 @@
 
     <div ng-view></div>
 
-    <!--<footer class="panel-footer">-->
-        <!--<div class="footer-copyright">-->
-            <!--<div class="container-fluid">-->
-                <!--© 2017 Copyright: <a href="https://www.MDBootstrap.com"> OnlineShop.com </a>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</footer>-->
+    <footer class="page-footer font-small unique-color-dark mt-4">
+
+        <div class="footer-copyright py-3 text-center">
+            <div class="container-fluid">
+                © 2015 Copyright: <a href="https://mdbootstrap.com/material-design-for-bootstrap/"> MDBootstrap.com </a>
+
+            </div>
+        </div>
+
+    </footer>
 </body>
 </html>

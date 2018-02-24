@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class AdminBoardUsersController {
+public class AdminUsersController {
 
     private UserService userService;
     private OrdersService ordersService;

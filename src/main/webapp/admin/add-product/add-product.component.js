@@ -37,14 +37,14 @@
 
         $scope.addNewCategory = function () {
             $ngConfirm({
-                title: 'Add new category.',
+                title: 'Add a new category.',
                 contentUrl: '/admin/add-product/add-new-category.html',
                 scope: $scope,
                 type: 'blue',
                 icon: 'fa fa-plus',
                 closeIcon: true,
                 closeIconClass: 'fa fa-close',
-                closeAnimation: 'scale',
+                closeAnimation: 'top',
                 buttons: {
                     ok: {
                         text: "add",
@@ -59,7 +59,7 @@
                                     $scope.categories = d;
                                 });
 
-                                notify({message: 'New category is added!', position: 'right', classes: 'alert-success'});
+                                notify({message: 'A new category is added!', position: 'right', classes: 'alert-success'});
                                 $scope.progressbar.complete();
 
                             }).catch(
@@ -74,7 +74,7 @@
                         }
                     },
                     close: {
-                        text: "cancel",
+                        text: "Cancelled!",
                         btnClass: 'btn-danger'
                     }
                 }
@@ -97,6 +97,7 @@
             $scope.progressbar.complete();
         });
 
+
         //for cell in ui-grid
         $scope.stockSold = function (row) {
             if(row.entity.quantity !== 0){
@@ -113,6 +114,7 @@
             }
         };
 
+        //grid-ui table
         $scope.gridOptions = {
 
             showGridFooter: true,
@@ -141,26 +143,25 @@
                     width: 100
                 },
                 { field: 'name',
-                    width: 280
+                    width: 300
                 },
                 { field: 'producer',
                     width: 120
                 },
                 { field: 'category.name',
                     displayName: 'Category',
-                    width: 100
+                    width: 107
                 },
                 { field: 'price',
                     displayName: 'Price ($)',
                     width: 100
                 },
-                {
-                  field: 'quantity',
+                { field: 'quantity',
                     displayName: 'Quantity',
-                    width: 100
+                    width: 95
                 },
                 { field: 'status',
-                    width: 100,
+                    width: 110,
                     cellTemplate: '<div class="ml-1">{{grid.appScope.stockSold(row)}}</div>'
                 },
                 { field: 'Action',
@@ -172,7 +173,7 @@
                     '<a href="" class="text-primary ml-3" ng-click="grid.appScope.getAdminProduct(row.entity.idProduct)" data-toggle="modal" data-target="#infoModal"> ' +
                     '<i class="fas fa-info-circle"></i>' +
                     '</a> ' +
-                    '<a class="text-success ml-3" ng-href="#!/admin/edit/product/{{row.entity.idProduct}}"> ' +
+                    '<a class="text-success ml-2" ng-href="#!/admin/edit/product/{{row.entity.idProduct}}"> ' +
                     '<i class="fas fa-pencil-alt"></i>' +
                     '</a> ' +
                     '<a href="" class="text-danger" ng-click="grid.appScope.deleteProduct(row)" style="padding-left: 10px"> ' +
@@ -187,35 +188,38 @@
         $scope.deleteProduct = function (row) {
             $scope.name = row.entity.name;
             $ngConfirm({
-                title: 'Removing product.',
+                title: 'Removing a product.',
                 content: 'Do you really want to delete this product? <div class="mt-3">{{name}}</div>',
                 scope: $scope,
                 type: 'blue',
                 icon: 'fa fa-trash',
                 closeIcon: true,
                 closeIconClass: 'fa fa-close',
-                closeAnimation: 'scale',
+                closeAnimation: 'top',
                 buttons: {
                     ok: {
                         text: "ok",
                         btnClass: 'btn-primary',
                         keys: ['enter'],
                         action: function(){
+
                             $scope.progressbar.start();
                             AdminService.deleteProductByIdService(row.entity.idProduct).then(function () {
+
                                 AdminService.getAdminProductsService().then(function (d) {
                                     $scope.productsAddAdmin = d;
                                 });
+
                                 $scope.progressbar.complete();
-                                notify({message: 'Product is deleted!', position: 'right', classes: 'alert-success'});
+                                notify({message: 'The product is deleted!', position: 'right', classes: 'alert-success'});
                             });
                         }
                     },
                     close: {
-                        text: "cancel",
+                        text: "Cancelled!",
                         btnClass: 'btn-danger',
                         action: function () {
-                            notify({message: 'Canceled!', position: 'right', classes: 'alert-danger'});
+                            notify({message: 'Cancelled!', position: 'right', classes: 'alert-danger'});
                         }
                     }
                 }
@@ -225,14 +229,14 @@
             var arrayIdSelected = _.pluck($scope.arrayIdForDelete, 'idProduct');
             $scope.arrayNamesSelected = _.pluck($scope.arrayIdForDelete, 'name');
             $ngConfirm({
-                title: 'Removing product.',
+                title: 'Removing a product.',
                 content: 'Do you really want to delete these products? <div class="mt-2" ng-repeat="name in arrayNamesSelected track by $index">{{name}}</div>',
                 scope: $scope,
                 type: 'blue',
                 icon: 'fa fa-trash',
                 closeIcon: true,
                 closeIconClass: 'fa fa-close',
-                closeAnimation: 'scale',
+                closeAnimation: 'top',
                 buttons: {
                     ok: {
                         text: "ok",
@@ -246,7 +250,7 @@
                                 });
 
                                 $scope.progressbar.complete();
-                                notify({message: 'Product is deleted!', position: 'right', classes: 'alert-success'});
+                                notify({message: 'The product is deleted!', position: 'right', classes: 'alert-success'});
 
                                 $scope.gridApi.selection.clearSelectedRows();
                                 $scope.gridOptions.selectedItems = 0;
@@ -260,7 +264,7 @@
                         text: "cancel",
                         btnClass: 'btn-danger',
                         action: function () {
-                            notify({message: 'Canceled!', position: 'right', classes: 'alert-danger'});
+                            notify({message: 'Cancelled!!', position: 'right', classes: 'alert-danger'});
                             $scope.arrayNamesSelected = null;
                         }
                     }
@@ -284,7 +288,8 @@
         }];
         $scope.addNewDesc = function ($event) {
             counter++;
-            if (counter > 2){
+
+            if (counter > 1){
                 $scope.scrollDesc = 'scrollbar scrollbar-primary force-overflow2';
             }
 
@@ -330,20 +335,18 @@
             $scope.enableAddproduct = false;
             $scope.classDisabled = '';
             $scope.added = 'Added';
-            notify({message: 'All images is uploaded.', position: 'right', classes: 'alert-success'});
+            notify({message: 'All images are uploaded.', position: 'right', classes: 'alert-success'});
         };
 
 
         $scope.focusOnAddProduct = function () {
             if ($scope.enableAddproduct === true){
-                notify({message: 'First upload images!', position: 'left'});
+                notify({message: 'First, upload images!', position: 'left'});
             }
         };
 
 
         $scope.saveData = function () {
-
-            // var json = angular.toJson($scope.descriptionData);
 
             $scope.progressbar.start();
             $http({
@@ -365,7 +368,7 @@
                 });
 
                 $scope.progressbar.complete();
-                notify({message: 'Product is added!', position: 'right', classes: 'alert-success'});
+                notify({message: 'The product is added!', position: 'right', classes: 'alert-success'});
 
                 if ($scope.basic) {
                     $scope.product.quantity = null;

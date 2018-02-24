@@ -31,15 +31,15 @@ select {
 }
 
 .force-overflow2 {
-    min-height: 400px;
+    min-height: 300px;
 }
 
 .force-overflow1 {
-    min-height: 600px;
+    min-height: 460px;
 }
 
 .force-overflow3 {
-    min-height: 550px;
+    min-height: 500px;
 }
 
 .force-overflow-UserOrders {
