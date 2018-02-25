@@ -25,11 +25,11 @@
 
                         <div class="d-flex mb-3">
                             <div class="mr-3">
-                                <div class="mr-auto" ng-if="productForEdit.isActive" tooltips tooltip-template="The product is active!" tooltip-side="bottom">
+                                <div class="mr-auto" ng-if="productForEdit.isActive" tooltips tooltip-template="The product is active." tooltip-side="bottom">
                                     <strong>Active:</strong> <i class="fas fa-check green-text"></i>
                                 </div>
 
-                                <div class="mr-auto" ng-if="!productForEdit.isActive" tooltips tooltip-template="The product is not active!" tooltip-side="bottom">
+                                <div class="mr-auto" ng-if="!productForEdit.isActive" tooltips tooltip-template="The product is not active." tooltip-side="bottom">
                                     <strong>Active:</strong> <i class="fas fa-times red-text"></i>
                                 </div>
                             </div>
@@ -69,9 +69,8 @@
                             <div class="row">
 
                                 <div class="col-md-8">
-                                    <p class="h5 mr-3"
-                                       tooltips tooltip-size="medium" tooltip-template="Quantity of products:{{productForEdit.quantity}}" tooltip-side="bottom">
-                                        ({{productForEdit.code}}) {{productForEdit.name}}
+                                    <p class="h5 mr-3">
+                                        <span tooltips tooltip-template="Code" tooltip-side="bottom">({{productForEdit.code}})</span> {{productForEdit.name}}
                                     </p>
                                 </div>
 

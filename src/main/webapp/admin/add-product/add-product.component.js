@@ -349,20 +349,8 @@
         $scope.saveData = function () {
 
             $scope.progressbar.start();
-            $http({
-                url: '/admin/product/add',
-                method: 'POST',
-                data: {
-                    name: $scope.product.name,
-                    category: $scope.product,
-                    quantity: $scope.product.quantity,
-                    producer: $scope.product.producer,
-                    price: $scope.product.price,
-                    code: $scope.code,
-                    description: $scope.descriptionData,
-                    isActive: true
-                }
-            }).then(function () {
+            AdminService.addProductService($scope.product, $scope.descriptionData).then(function () {
+
                 AdminService.getAdminProductsService().then(function (d) {
                     $scope.productsAddAdmin = d;
                 });
@@ -377,7 +365,7 @@
                     $scope.product.price = null;
                     $scope.product.idCategory = null;
                     $scope.product.status = null;
-                    $scope.code = null;
+                    $scope.product.code = null;
                     $scope.descriptionData = [{
                         id: counter,
                         nameDesc: '',
@@ -399,7 +387,7 @@
                 var rnum = Math.floor(Math.random() * chars.length);
                 randomstring += chars.substring(rnum, rnum + 1);
             }
-            $scope.code = randomstring;
+            $scope.product.code = randomstring;
         };
 
 

@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.OK;
+
 @RestController
 public class AdminAddProductController {
 
@@ -33,40 +35,9 @@ public class AdminAddProductController {
     }
 
 
-    @GetMapping("/admin/products")
-    public ResponseEntity<List<ProductDTO>> allProducts() {
-
-        if (productsService.getAdminProducts().isEmpty()){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }else {
-            return ResponseEntity.status(HttpStatus.OK).body(productsService.getAdminProducts());
-        }
-    }
-
-
-    @DeleteMapping("/admin/product/delete")
-    public ResponseEntity<Void> deleteProduct(@RequestBody Long id) {
-        if(productsService.delete(id)){
-            return ResponseEntity.ok().build();
-        }else {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }
-    }
-
-
-    @DeleteMapping("/admin/products/delete")
-    public ResponseEntity<Void> deleteProducts(@RequestBody String idProducts) {
-        Gson gson = new Gson();
-        Type listId = new TypeToken<List<Long>>(){}.getType();
-        productsService.deleteProductSelected(gson.fromJson(idProducts, listId));
-
-        return ResponseEntity.ok().build();
-    }
-
-
-    @PostMapping("/admin/product/add")
-    public ResponseEntity<Void> addProduct(@RequestBody ProductDTO productDTO) throws IOException {
-
+    @PostMapping("/admin/product")
+    @ResponseStatus(HttpStatus.OK)
+    public void addProduct(@RequestBody ProductDTO productDTO) {
 
         CategoryDTO categoryDTO = new CategoryDTO();
         categoryDTO.setIdCategory(productDTO.getCategory().getIdCategory());
@@ -76,14 +47,34 @@ public class AdminAddProductController {
         productsService.add(productDTO);
 
         imageService.clearListImages();
+    }
 
-        return ResponseEntity.ok().build();
+
+    @GetMapping("/admin/products")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ProductDTO> allProducts() {
+        return productsService.getAdminProducts();
+    }
+
+
+    @DeleteMapping("/admin/product")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteProduct(@RequestBody Long id) {
+        productsService.delete(id);
+    }
+
+
+    @DeleteMapping("/admin/products")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteProducts(@RequestBody String idProducts) {
+        Type listId = new TypeToken<List<Long>>(){}.getType();
+        productsService.deleteProductSelected(new Gson().fromJson(idProducts, listId));
     }
 
 
     @PostMapping("/admin/upload/images")
-    public ResponseEntity<Void> uploadImages(@RequestParam("file") MultipartFile file) throws IOException {
+    @ResponseStatus(HttpStatus.OK)
+    public void uploadImages(@RequestParam("file") MultipartFile file) throws IOException {
         imageService.addImage(file.getBytes());
-        return ResponseEntity.ok().build();
     }
 }

@@ -43,9 +43,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public boolean delete(Long id) {
+    public void delete(Long id) {
         categoryDAO.delete(id);
-        return false;
     }
 
     @Override

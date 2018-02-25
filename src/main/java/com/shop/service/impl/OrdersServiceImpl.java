@@ -53,9 +53,8 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     @Transactional
-    public boolean delete(Long id) {
+    public void delete(Long id) {
         ordersDAO.delete(id);
-        return false;
     }
 
 

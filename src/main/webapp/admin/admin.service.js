@@ -4,20 +4,34 @@
 
     myApp.factory('AdminService', ['$http', function($http) {
         return {
-            getAdminProductService: function (id) {
-                return $http.get('/product/get/' + id).then(function (response) {
-                    return response.data;
-                });
+
+            addProductService: function (product, descriptionData) {
+                return $http({
+                    url: '/admin/product',
+                    method: 'POST',
+                    data: {
+                        name: product.name,
+                        category: product,
+                        quantity: product.quantity,
+                        producer: product.producer,
+                        price: product.price,
+                        code: product.code,
+                        description: descriptionData,
+                        isActive: true
+                    }
+                }).then(function () {})
             },
+
             getAdminProductsService: function () {
                 return $http.get('/admin/products').then(function (response) {
                     return response.data;
                 });
             },
+
             deleteProductByIdService: function (idProduct) {
                 return $http({
                     method: 'DELETE',
-                    url: '/admin/product/delete',
+                    url: '/admin/product',
                     data: idProduct,
                     headers: {'Content-Type': 'application/json; charset=utf8'}
                 }).then(function (response) {
@@ -26,7 +40,7 @@
             },
             deleteProductsByIdsService: function (arrayIdSelected) {
                 return $http({
-                    url: '/admin/products/delete',
+                    url: '/admin/products',
                     method: 'DELETE',
                     data: arrayIdSelected,
                     headers: {'Content-Type': 'application/json; charset=utf8'}
@@ -34,6 +48,14 @@
                     return response.data;
                 });
             },
+
+
+            getAdminProductService: function (id) {
+                return $http.get('/product/get/' + id).then(function (response) {
+                    return response.data;
+                });
+            },
+
             addNewCategory: function (category) {
                 return $http({
                     url: '/add/new/category',

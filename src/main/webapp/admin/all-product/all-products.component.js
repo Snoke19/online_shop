@@ -131,8 +131,11 @@
                     cellTemplate: '<div class="ml-1">{{grid.appScope.isActive(row)}}</div>'
                 },
                 { field: 'discount',
-                    width: 134,
+                    width: 124,
                     displayName: 'Discount(%)'
+                },
+                { field: 'ratings'
+
                 }
             ],
             data: 'productsAllAdmin'
@@ -164,7 +167,7 @@
                                     });
                                 });
                                 $scope.progressbar.complete();
-                                notify({message: 'Product is deleted!', position: 'right', classes: 'alert-success'});
+                                notify({message: 'The product is deleted!', position: 'right', classes: 'alert-success'});
                             });
                         }
                     },
@@ -172,7 +175,7 @@
                         text: "cancel",
                         btnClass: 'btn-danger',
                         action: function () {
-                            notify({message: 'Canceled!', position: 'right', classes: 'alert-danger'});
+                            notify({message: 'Cancelled!', position: 'right', classes: 'alert-danger'});
                         }
                     }
                 }

@@ -21,11 +21,11 @@ public interface ProductMapper {
     List<ProductDTO> productsAddAdminDTO(List<Product> productList);
 
     @Named("productsAddAdminDTO")
-    @Mappings({
-            @Mapping(target = "listImages", ignore = true),
-            @Mapping(target = "description", ignore = true)
-    })
-    ProductDTO productsAddAdminDTO(Product product);
+//    @Mappings({
+//            @Mapping(target = "listImages", ignore = true),
+//            @Mapping(target = "description", ignore = true)
+//    })
+    ProductDTO productAddAdminDTO(Product product);
 
 
     CategoryDTO categoryToCategoryDTO(Category category);

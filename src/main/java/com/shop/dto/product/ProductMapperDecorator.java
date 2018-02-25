@@ -1,16 +1,23 @@
 package com.shop.dto.product;
 
-
 import com.shop.entity.Product;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 @Component
 public abstract class ProductMapperDecorator implements ProductMapper {
 
-
+    @Qualifier("delegate")
     private ProductMapper delegate;
     private CountRating countRating;
+
+
+    @Autowired
+    public void setCountRating(CountRating countRating) {
+        this.countRating = countRating;
+    }
 
 
     @Autowired
@@ -18,9 +25,12 @@ public abstract class ProductMapperDecorator implements ProductMapper {
         this.delegate = delegate;
     }
 
-    @Autowired
-    public void setCountRating(CountRating countRating) {
-        this.countRating = countRating;
+
+    @Override
+    public ProductDTO productAddAdminDTO(Product product) {
+        ProductDTO productDTO = delegate.productAddAdminDTO(product);
+        productDTO.setRatings(countRating.getAverageRating(product.getRating()));
+        return productDTO;
     }
 
     @Override
