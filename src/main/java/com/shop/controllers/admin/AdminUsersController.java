@@ -102,26 +102,15 @@ public class AdminUsersController {
 
 
     @DeleteMapping("/delete/admin")
-    public ResponseEntity<Void> deleteAdmin(@RequestParam("idAdmin") Long id){
-        boolean d =  userService.delete(id);
-
-        if (d){
-            return ResponseEntity.ok().build();
-        }else {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }
-
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteAdmin(@RequestParam("idAdmin") Long id){
+        userService.delete(id);
     }
 
 
     @DeleteMapping("/delete/user")
-    public ResponseEntity<Void> deleteUser(@RequestParam("idUser") Long id){
-        boolean d =  userService.delete(id);
-
-        if (d){
-            return ResponseEntity.ok().build();
-        }else {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteUser(@RequestParam("idUser") Long id){
+        userService.delete(id);
     }
 }

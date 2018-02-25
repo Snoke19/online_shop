@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,11 +19,8 @@ public class AdminBoardController {
     }
 
     @GetMapping("/get/orders/amount")
-    public ResponseEntity<Integer> getOrdersAmount(){
-        if (ordersService.getNewOrders().isEmpty()){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }else {
-            return ResponseEntity.ok(ordersService.getNewOrders().size());
-        }
+    @ResponseStatus(HttpStatus.OK)
+    public Integer getOrdersAmount(){
+        return ordersService.getNewOrders().size();
     }
 }
