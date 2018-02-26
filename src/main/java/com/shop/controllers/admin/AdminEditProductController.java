@@ -96,7 +96,7 @@ public class AdminEditProductController {
     }
 
 
-    @PutMapping("/admin/{id}/images")
+    @PostMapping("/admin/{id}/images")
     @ResponseStatus(HttpStatus.CREATED)
     public void uploadImages(@PathVariable("id") Long id, @RequestParam("file") MultipartFile file) throws IOException {
         imageService.addImage(file.getBytes());

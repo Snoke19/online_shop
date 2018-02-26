@@ -96,21 +96,28 @@
                         <div class="col m-2">
                             <label>Description</label>
                             <div class="scrollbar scrollbar-primary force-overflow1">
-                                <fieldset  data-ng-repeat="desc in descriptionData">
-                                    <div class="input-group ">
-                                        <span class="input-group-addon" id="NameOfDesc">Name of desc</span>
-                                        <input class="form-control border-input mt-0 h-50 pl-2"
+                                <fieldset class="mb-3"  data-ng-repeat="desc in descriptionData">
+
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">Name of desc</div>
+                                        </div>
+                                        <input class="form-control py-0 pl-2"
                                                type="text"
                                                title="Name of desc"
                                                aria-label="NameOfDesc"
                                                ng-model="desc.nameDesc"
                                                name="nameDescription"
                                                ng-required="true">
+
+                                        <button class="btn btn-danger btn-sm mt-2 mb-2 px-2 py-1" ng-click="descriptionData.splice($index, 1)"><i class="fas fa-times"></i></button>
                                     </div>
 
                                     <div class="input-group">
-                                        <span class="input-group-addon" style="width: 124px;">Data of desc</span>
-                                        <textarea class="form-control border-input pl-2 mt-0"
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text" style="width: 125px">Data of desc</div>
+                                        </div>
+                                        <textarea class="form-control py-0 pl-2"
                                                   aria-label="DataOfDesc"
                                                   name="dataDescription"
                                                   title="Data of desc"
@@ -118,7 +125,7 @@
                                                   ng-required="true"></textarea>
                                     </div>
 
-                                    <button class="btn btn-danger btn-sm mt-2 mb-2" ng-click="descriptionData.splice($index, 1)"><i class="fas fa-times"></i></button>
+
                                 </fieldset>
                             </div>
                             <br>

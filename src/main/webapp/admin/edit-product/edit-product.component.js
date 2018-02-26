@@ -212,10 +212,7 @@
 
 
         var uploaderUpdate = $scope.uploader = new FileUploader({
-            url: '/admin/edit/upload/images',
-            formData: [{
-                id: $routeParams.idProduct
-            }]
+            url: '/admin/' +  $routeParams.idProduct + '/images'
         });
 
         uploaderUpdate.onProgressItem = function(){
