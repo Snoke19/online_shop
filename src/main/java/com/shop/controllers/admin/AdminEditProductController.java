@@ -7,6 +7,7 @@ import com.shop.dto.product.Description;
 import com.shop.service.ProductsService;
 import com.shop.service.impl.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,64 +33,72 @@ public class AdminEditProductController {
     }
 
 
-    @PostMapping(value = "/product/name/update")
-    public void updateNameProduct(@RequestBody String json){
-
-        JsonObject jos = new Gson().fromJson(json, JsonObject.class);
-        String nameUpdate = jos.get("name").getAsString();
-        long id = jos.get("idProduct").getAsLong();
-
-        productsService.updateNameProduct(nameUpdate, id);
+    @PutMapping("/product/{id}/name")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void updateNameProduct(@PathVariable("id") Long id, @RequestBody String name){
+        productsService.updateNameProduct(name, id);
     }
 
 
-    @PostMapping(value = "/product/producer/update")
-    public void updateProducer(@RequestBody String json){
-
-        JsonObject jos = new Gson().fromJson(json, JsonObject.class);
-        String producer = jos.get("producer").getAsString();
-        long id = jos.get("idProduct").getAsLong();
-
+    @PutMapping("/product/{id}/producer")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void updateProducer(@PathVariable("id") Long id, @RequestBody String producer){
         productsService.updateProducer(producer, id);
     }
 
 
-    @PostMapping(value = "/product/description/update")
-    public void updateDescription(@RequestBody String json){
-
-        JsonObject jos = new Gson().fromJson(json, JsonObject.class);
-        String desc = jos.get("json").getAsString();
-
-        Type type = new TypeToken<List<Description>>() {}.getType();
-
-        List<Description> description = new Gson().fromJson(desc, type);
-        long id = jos.get("idProduct").getAsLong();
-
-        productsService.updateDescription(description, id);
+    @PutMapping("/product/{id}/description")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void updateDescription(@PathVariable("id") Long id, @RequestBody List<Description> descriptionList){
+        productsService.updateDescription(descriptionList, id);
     }
 
 
-    @PostMapping(value = "/product/price/update")
-    public void updatePrice(@RequestBody String json){
-
-        JsonObject jos = new Gson().fromJson(json, JsonObject.class);
-        BigDecimal price = jos.get("price").getAsBigDecimal();
-        long id = jos.get("idProduct").getAsLong();
-
+    @PutMapping("/product/{id}/price")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void updatePrice(@PathVariable("id") Long id, @RequestBody BigDecimal price){
         productsService.updatePrice(price, id);
     }
 
 
-    @DeleteMapping(value = "/product/image/update")
-    public void deleteImageFromList(@RequestParam("index") String index,
-                            @RequestParam("idProduct") String id) throws IOException {
-
-        productsService.deleteOneImageProduct(Integer.parseInt(index), Long.parseLong(id));
+    @PutMapping("/product/{id}/quantity")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void updateQuantity(@PathVariable("id") Long id, @RequestBody Integer quantity){
+        productsService.updateQuantity(quantity, id);
     }
 
 
-    @PostMapping("/admin/edit/upload/images")
-    public void uploadImages(@RequestParam("file") MultipartFile file, @RequestParam("id") Long id) throws IOException {
+    @PutMapping("/product/{id}/active")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void updateActive(@PathVariable("id") Long id, @RequestBody boolean active){
+        productsService.updateActive(active, id);
+    }
+
+
+    @PutMapping("/product/{id}/category")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void updateCategory(@PathVariable("id") Long id, @RequestBody Long idCategory){
+        productsService.updateCategory(idCategory, id);
+    }
+
+
+    @PutMapping("/product/{id}/code")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void updateCode(@PathVariable("id") Long id, @RequestBody String code){
+        productsService.updateCode(code, id);
+    }
+
+
+    @DeleteMapping("/product/{id}/images/{index}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteImageFromList(@PathVariable Long id, @PathVariable("index") int index) throws IOException {
+        productsService.deleteOneImageProduct(index, id);
+    }
+
+
+    @PutMapping("/admin/{id}/images")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void uploadImages(@PathVariable("id") Long id, @RequestParam("file") MultipartFile file) throws IOException {
         imageService.addImage(file.getBytes());
 
         List<byte[]> imagesUploaded = imageService.getListImages();
@@ -98,49 +107,5 @@ public class AdminEditProductController {
 
         imageService.clearListImages(); //MUST CLEAR LIST
         productsService.updateImage(listImages, id);
-    }
-
-
-    @PostMapping("/product/quantity/update")
-    public void updateStatus(@RequestBody String json){
-
-        JsonObject jos = new Gson().fromJson(json, JsonObject.class);
-        Integer quantity = jos.get("quantity").getAsInt();
-        long id = jos.get("idProduct").getAsLong();
-
-        productsService.updateQuantity(quantity, id);
-    }
-
-
-    @PostMapping(value = "/product/active/update")
-    public void updateActive(@RequestBody String json){
-
-        JsonObject jos = new Gson().fromJson(json, JsonObject.class);
-        boolean active = jos.get("active").getAsBoolean();
-        long id = jos.get("idProduct").getAsLong();
-
-        productsService.updateActive(active, id);
-    }
-
-
-    @PostMapping(value = "/product/category/update")
-    public void updateCategory(@RequestBody String json){
-
-        JsonObject jos = new Gson().fromJson(json, JsonObject.class);
-        Long category = jos.get("category").getAsLong();
-        long id = jos.get("idProduct").getAsLong();
-
-        productsService.updateCategory(category, id);
-    }
-
-
-    @PostMapping(value = "/product/code/update")
-    public void updateCode(@RequestBody String json){
-
-        JsonObject jos = new Gson().fromJson(json, JsonObject.class);
-        String code = jos.get("code").getAsString();
-        long id = jos.get("idProduct").getAsLong();
-
-        productsService.updateCode(code, id);
     }
 }

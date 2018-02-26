@@ -36,7 +36,7 @@ public class AdminAddProductController {
 
 
     @PostMapping("/admin/product")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     public void addProduct(@RequestBody ProductDTO productDTO) {
 
         CategoryDTO categoryDTO = new CategoryDTO();
@@ -52,20 +52,20 @@ public class AdminAddProductController {
 
     @GetMapping("/admin/products")
     @ResponseStatus(HttpStatus.OK)
-    public List<ProductDTO> allProducts() {
+    public List<ProductDTO> getAllProducts() {
         return productsService.getAdminProducts();
     }
 
 
     @DeleteMapping("/admin/product")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProduct(@RequestBody Long id) {
         productsService.delete(id);
     }
 
 
     @DeleteMapping("/admin/products")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProducts(@RequestBody String idProducts) {
         Type listId = new TypeToken<List<Long>>(){}.getType();
         productsService.deleteProductSelected(new Gson().fromJson(idProducts, listId));
@@ -73,7 +73,7 @@ public class AdminAddProductController {
 
 
     @PostMapping("/admin/upload/images")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     public void uploadImages(@RequestParam("file") MultipartFile file) throws IOException {
         imageService.addImage(file.getBytes());
     }

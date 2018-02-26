@@ -50,6 +50,88 @@
             },
 
 
+            updateNameProductService: function (name, idProduct) {
+                return $http({
+                    url: '/product/' + idProduct + '/name',
+                    method: 'PUT',
+                    data: name
+                }).then(function (response) {
+                    return response.data;
+                });
+            },
+            updateProducerService: function (producer, idProduct) {
+                return $http({
+                    url: '/product/' + idProduct + '/producer',
+                    method: 'PUT',
+                    data: producer
+                }).then(function (response) {
+                    return response.data;
+                });
+            },
+            updateDescriptionService: function (jsonDesc, idProduct) {
+                return $http({
+                    url: '/product/' + idProduct + '/description',
+                    method: 'PUT',
+                    data: jsonDesc
+                }).then(function (response) {
+                    return response.data;
+                });
+            },
+            updatePriceService: function (price, idProduct) {
+                return $http({
+                    url: '/product/' + idProduct + '/price',
+                    method: 'PUT',
+                    data: price
+                }).then(function (response) {
+                    return response.data;
+                });
+            },
+            updateQuantityService: function (quantity, idProduct) {
+                return $http({
+                    url: '/product/' + idProduct + '/quantity',
+                    method: 'PUT',
+                    data: quantity
+                }).then(function (response) {
+                    return response.data;
+                });
+            },
+            updateActivityService: function (condition, idProduct) {
+                return $http({
+                    url: '/product/' + idProduct + '/active',
+                    method: 'PUT',
+                    data: condition
+                }).then(function (response) {
+                    return response.data;
+                });
+            },
+            updateCategoryService: function (idCategory, idProduct) {
+                return $http({
+                    url: '/product/' + idProduct + '/category',
+                    method: 'PUT',
+                    data: idCategory
+                }).then(function (response) {
+                    return response.data;
+                });
+            },
+            updateCodeService: function (code, idProduct) {
+                return $http({
+                    url: '/product/' + idProduct + '/code',
+                    method: 'PUT',
+                    data: code
+                }).then(function (response) {
+                    return response.data;
+                });
+            },
+            deleteImageFromList: function (indexImage, idProduct) {
+                return $http({
+                    url: '/product/' + idProduct + '/images/' + indexImage,
+                    method: 'DELETE'
+                }).then(function (response) {
+                    return response.data;
+                });
+            },
+
+
             getAdminProductService: function (id) {
                 return $http.get('/product/get/' + id).then(function (response) {
                     return response.data;
@@ -68,18 +150,7 @@
                     return response.data;
                 });
             },
-            deleteImageFromList: function (indexImage, idProduct) {
-                return $http({
-                    url: '/product/image/update',
-                    method: 'DELETE',
-                    params: {
-                        index: indexImage,
-                        idProduct: idProduct
-                    }
-                }).then(function (response) {
-                    return response.data;
-                });
-            },
+
             getCategoriesService: function () {
                 return  $http.get('/categories').then(function (response) {
                     return response.data;
@@ -90,102 +161,7 @@
                     return response.data;
                 });
             },
-            updateCodeService: function (code, idProduct) {
-                return $http({
-                    url: '/product/code/update',
-                    method: 'POST',
-                    data: {
-                        code: code,
-                        idProduct: idProduct
-                    }
-                }).then(function (response) {
-                    return response.data;
-                });
-            },
-            updateNameProductService: function (name, idProduct) {
-                return $http({
-                    url: '/product/name/update',
-                    method: 'POST',
-                    data: {
-                        name: name,
-                        idProduct: idProduct
-                    }
-                }).then(function (response) {
-                    return response.data;
-                });
-            },
-            updateProducerService: function (producer, idProduct) {
-                return $http({
-                    url: '/product/producer/update',
-                    method: 'POST',
-                    data: {
-                        producer: producer,
-                        idProduct: idProduct
-                    }
-                }).then(function (response) {
-                    return response.data;
-                });
-            },
-            updatePriceService: function (price, idProduct) {
-                return $http({
-                    url: '/product/price/update',
-                    method: 'POST',
-                    data: {
-                        price: price,
-                        idProduct: idProduct
-                    }
-                }).then(function (response) {
-                    return response.data;
-                });
-            },
-            updateCategoryService: function (idCategory, idProduct) {
-                return $http({
-                    url: '/product/category/update',
-                    method: 'POST',
-                    data: {
-                        category: idCategory,
-                        idProduct: idProduct
-                    }
-                }).then(function (response) {
-                    return response.data;
-                });
-            },
-            updateQuantityService: function (quantity, idProduct) {
-                return $http({
-                    url: '/product/quantity/update',
-                    method: 'POST',
-                    data: {
-                        quantity: quantity,
-                        idProduct: idProduct
-                    }
-                }).then(function (response) {
-                    return response.data;
-                });
-            },
-            updateDescriptionService: function (jsonDesc, idProduct) {
-                return $http({
-                    url: '/product/description/update',
-                    method: 'POST',
-                    data: {
-                        json: jsonDesc,
-                        idProduct: idProduct
-                    }
-                }).then(function (response) {
-                    return response.data;
-                });
-            },
-            updateActivityService: function (newValue, idProduct) {
-                return $http({
-                    url: '/product/active/update',
-                    method: 'POST',
-                    data: {
-                        active: newValue,
-                        idProduct: idProduct
-                    }
-                }).then(function (response) {
-                    return response.data;
-                });
-            },
+
 
             //users
             getAllUsersService: function () {

@@ -245,6 +245,7 @@
                         action: function(){
                             $scope.progressbar.start();
                             AdminService.deleteProductsByIdsService(arrayIdSelected).then(function () {
+
                                 AdminService.getAdminProductsService().then(function (d) {
                                     $scope.productsAddAdmin = d;
                                 });
