@@ -35,51 +35,14 @@
         $scope.progressbar = ngProgressFactory.createInstance();
         $scope.progressbar.setHeight('5px');
 
-        $scope.addNewCategory = function () {
-            $ngConfirm({
-                title: 'Add a new category.',
-                contentUrl: '/admin/add-product/add-new-category.html',
-                scope: $scope,
-                type: 'blue',
-                icon: 'fa fa-plus',
-                closeIcon: true,
-                closeIconClass: 'fa fa-close',
-                closeAnimation: 'top',
-                buttons: {
-                    ok: {
-                        text: "add",
-                        btnClass: 'btn-primary',
-                        keys: ['enter'],
-                        action: function(scope){
 
-                            $scope.progressbar.start();
-                            AdminService.addNewCategory(scope.newCategory).then(function () {
+        $scope.progressbar.start();
+        AdminService.getAdminProductsService().then(function (d) {
+            $scope.productsAddAdmin = d;
 
-                                AdminService.getCategoriesService().then(function (d) {
-                                    $scope.categories = d;
-                                });
+            $scope.progressbar.complete();
+        });
 
-                                notify({message: 'A new category is added!', position: 'right', classes: 'alert-success'});
-                                $scope.progressbar.complete();
-
-                            }).catch(
-                                function(response){
-                                    $ngConfirm({
-                                        title: 'Error',
-                                        type: 'red',
-                                        content: response.data
-                                    });
-                                    $scope.progressbar.reset();
-                                });
-                        }
-                    },
-                    close: {
-                        text: "Cancelled!",
-                        btnClass: 'btn-danger'
-                    }
-                }
-            });
-        };
 
         $scope.getAdminProduct = function (id) {
             $scope.progressbar.start();
@@ -88,14 +51,6 @@
                 $scope.progressbar.complete();
             });
         };
-
-
-        $scope.progressbar.start();
-        AdminService.getAdminProductsService().then(function (d) {
-            $scope.productsAddAdmin = d;
-
-            $scope.progressbar.complete();
-        });
 
 
         //for cell in ui-grid
@@ -113,6 +68,7 @@
                 return 'Not active';
             }
         };
+
 
         //grid-ui table
         $scope.gridOptions = {
@@ -143,7 +99,7 @@
                     width: 100
                 },
                 { field: 'name',
-                    width: 300
+                    width: 328
                 },
                 { field: 'producer',
                     width: 120
@@ -311,6 +267,17 @@
         };
         // description fields
 
+        $scope.disabledUploader = function (boolean) {
+            if(boolean === true){
+                $scope.useUploaderImages = boolean;
+                $scope.classDisabled = '';
+                $scope.enableAddproduct = false;
+            }else {
+                $scope.useUploaderImages = boolean;
+                $scope.classDisabled = 'overlay';
+                $scope.enableAddproduct = true;
+            }
+        };
 
         var uploader = $scope.uploader = new FileUploader({
             url: '/admin/upload/images'
@@ -346,7 +313,6 @@
             }
         };
 
-
         $scope.saveData = function () {
 
             $scope.progressbar.start();
@@ -378,6 +344,51 @@
         };
         //save data
 
+        $scope.addNewCategory = function () {
+            $ngConfirm({
+                title: 'Add a new category.',
+                contentUrl: '/admin/add-product/add-new-category.html',
+                scope: $scope,
+                type: 'blue',
+                icon: 'fa fa-plus',
+                closeIcon: true,
+                closeIconClass: 'fa fa-close',
+                closeAnimation: 'top',
+                buttons: {
+                    ok: {
+                        text: "add",
+                        btnClass: 'btn-primary',
+                        keys: ['enter'],
+                        action: function(scope){
+
+                            $scope.progressbar.start();
+                            AdminService.addNewCategory(scope.newCategory).then(function () {
+
+                                AdminService.getCategoriesService().then(function (d) {
+                                    $scope.categories = d;
+                                });
+
+                                notify({message: 'A new category is added!', position: 'right', classes: 'alert-success'});
+                                $scope.progressbar.complete();
+
+                            }).catch(
+                                function(response){
+                                    $ngConfirm({
+                                        title: 'Error',
+                                        type: 'red',
+                                        content: response.data
+                                    });
+                                    $scope.progressbar.reset();
+                                });
+                        }
+                    },
+                    close: {
+                        text: "Cancelled",
+                        btnClass: 'btn-danger'
+                    }
+                }
+            });
+        };
 
         $scope.magicNumberForCode = function () {
 
@@ -389,19 +400,6 @@
                 randomstring += chars.substring(rnum, rnum + 1);
             }
             $scope.product.code = randomstring;
-        };
-
-
-        $scope.disabledUploader = function (boolean) {
-            if(boolean === true){
-                $scope.useUploaderImages = boolean;
-                $scope.classDisabled = '';
-                $scope.enableAddproduct = false;
-            }else {
-                $scope.useUploaderImages = boolean;
-                $scope.classDisabled = 'overlay';
-                $scope.enableAddproduct = true;
-            }
         };
     }
 

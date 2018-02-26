@@ -3,214 +3,235 @@
     <link rel="stylesheet" href="/admin/add-product/add-product.css">
     <link rel="stylesheet" href="/admin/checkbox.css">
 </head>
-<div class="container-fluid mt-3">
+<div class="container mt-3">
 
     <div class="row">
 
-        <!--Form Add Product-->
-        <div class="col-md-12 col-lg-12 col-xl-5">
 
-            <h3 class="text-center">Add Product</h3>
-
-            <section class="px-4">
-                <div class="d-flex justify-content-between mb-2">
-
-                    <switcher ng-model="basic" true-label="clear all fields after add product"></switcher>
-
-                    <button class="btn btn-primary btn-sm" ng-click="addNewCategory()"
-                            tooltips tooltip-template="Add new category"
-                            tooltip-side="bottom">
-                        <i class="fa fa-plus"></i>
-                    </button>
-
-                </div>
-
-                <form name="formAddProduct" ng-submit="saveData()">
-
-                    <div class="input-group mb-3 mr-sm-2">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">Name Product</div>
-                        </div>
-                        <input type="text"
-                               class="form-control py-0 pl-2 w-50"
-                               title="Name Product"
-                               aria-label="idNameProduct"
-                               ng-model="product.name"
-                               ng-required="true">
-
-                        <select class="custom-select ml-1 mr-1"
-                                ng-model="product.idCategory"
-                                ng-required="true"
-                                title="Categories">
-
-                            <option value="" disabled selected>Category</option>
-                            <option ng-repeat="category in categories" value="{{category.idCategory}}">
-                                {{category.name}}
-                            </option>
-
-                        </select>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
+                    <div class="modal-body">
+                        <!--Form Add Product-->
+                        <section class="px-4">
+                            <div class="d-flex justify-content-between mb-2">
 
-                    <div class="input-group mb-3 mr-sm-2">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">Quantity</div>
-                        </div>
+                                <switcher ng-model="basic" true-label="clear all fields after add product"></switcher>
 
-                        <input type="number"
-                               class="form-control py-0 pl-2"
-                               title="Name Product"
-                               aria-label="quantity"
-                               ng-model="product.quantity"
-                               ng-required="true">
+                                <button class="btn btn-primary btn-sm" ng-click="addNewCategory()"
+                                        tooltips tooltip-template="Add new category"
+                                        tooltip-side="bottom">
+                                    <i class="fa fa-plus"></i>
+                                </button>
 
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">Producer</div>
-                        </div>
-                        <input type="text"
-                               class="form-control py-0 pl-2"
-                               title="Producer"
-                               aria-describedby="idProducer"
-                               ng-model="product.producer"
-                               ng-required="true">
-                    </div>
-
-                    <div class="input-group mb-3 mr-sm-2">
-
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">Price</div>
-                        </div>
-
-                        <input type="text"
-                               title="Price"
-                               min="0"
-                               class="form-control py-0 pl-2"
-                               aria-label="idPrice"
-                               ng-model="product.price"
-                               ng-required="true" money>
-
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">$</div>
-                        </div>
-
-                    </div>
-
-                    <div class="input-group mb-3 mr-sm-2">
-                        <div class="input-group-prepend" ng-click="magicNumberForCode()">
-                            <div class="input-group-text"><i class="fa fa-magic hm-red-strong"></i></div>
-                        </div>
-
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">Code</div>
-                        </div>
-                        <input type="text"
-                               title="Code"
-                               maxlength="5"
-                               class="form-control py-0 pl-2"
-                               aria-label="idCode"
-                               ng-model="product.code"
-                               ng-required="true">
-                    </div>
-
-                    <p class="mb-0 mt-3 text-center border border-bottom-0 rounded-top rgba-blue-slight">Description</p>
-                    <div ng-class="scrollDesc" class="border">
-
-                        <fieldset data-ng-repeat="desc in descriptionData" class="mb-2 mt-2">
-
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">Name of desc</div>
-                                </div>
-                                <input class="form-control py-0 pl-2 rounded-0" type="text" ng-model="desc.nameDesc" ng-required="true" title="NameDesc">
-                                <button class="btn btn-danger btn-sm mt-2 mb-2 px-2 py-1" ng-click="reduce($index)"><i class="fas fa-times"></i></button>
                             </div>
 
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text" style="width: 125px">Data of desc</div>
+                            <form name="formAddProduct" ng-submit="saveData()">
+
+                                <div class="input-group mb-3 mr-sm-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">Name Product</div>
+                                    </div>
+                                    <input type="text"
+                                           class="form-control py-0 pl-2 w-50"
+                                           title="Name Product"
+                                           aria-label="idNameProduct"
+                                           ng-model="product.name"
+                                           ng-required="true">
+
+                                    <select class="custom-select ml-1 mr-1"
+                                            ng-model="product.idCategory"
+                                            ng-required="true"
+                                            title="Categories">
+
+                                        <option value="" disabled selected>Category</option>
+                                        <option ng-repeat="category in categories" value="{{category.idCategory}}">
+                                            {{category.name}}
+                                        </option>
+
+                                    </select>
                                 </div>
-                                <textarea class="form-control py-0 pl-2 rounded-0" ng-model="desc.dataDesc" ng-required="true" title="data desc"></textarea>
-                            </div>
 
-                        </fieldset>
+                                <div class="input-group mb-3 mr-sm-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">Quantity</div>
+                                    </div>
 
-                    </div>
+                                    <input type="number"
+                                           class="form-control py-0 pl-2"
+                                           title="Name Product"
+                                           aria-label="quantity"
+                                           ng-model="product.quantity"
+                                           ng-required="true">
 
-                    <button class="btn btn-primary btn-sm mb-3" ng-click="addNewDesc($event)">Add describe fields</button>
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">Producer</div>
+                                    </div>
+                                    <input type="text"
+                                           class="form-control py-0 pl-2"
+                                           title="Producer"
+                                           aria-describedby="idProducer"
+                                           ng-model="product.producer"
+                                           ng-required="true">
+                                </div>
 
-                    <label class="control control-checkbox mt-2">
-                        Not use image uploader
-                        <input class="form-check-input" type="checkbox" ng-change="disabledUploader(disabled)" ng-model="disabled"/>
-                        <div class="control_indicator"></div>
-                    </label>
+                                <div class="input-group mb-3 mr-sm-2">
 
-                    <div class="border border-primary rounded mb-3" ng-class="{'disabled':useUploaderImages, 'disable':useUploaderImages}" style="margin-bottom: 40px">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">Price</div>
+                                    </div>
 
-                        <p>Queue length: {{ uploader.queue.length }}</p>
+                                    <input type="text"
+                                           title="Price"
+                                           min="0"
+                                           class="form-control py-0 pl-2"
+                                           aria-label="idPrice"
+                                           ng-model="product.price"
+                                           ng-required="true" money>
 
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th width="50%">Name</th>
-                                <th>Size</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr ng-repeat="item in uploader.queue">
-                                <td>
-                                    <strong>{{ item.file.name }}</strong>
-                                    <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
-                                </td>
-                                <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
-                                <td>{{added}}</td>
-                                <td nowrap>
-                                    <button type="button" class="btn btn-danger btn-sm" ng-click="item.remove()">
-                                        <span class="glyphicon glyphicon-trash"></span> Remove
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">$</div>
+                                    </div>
+
+                                </div>
+
+                                <div class="input-group mb-3 mr-sm-2">
+                                    <div class="input-group-prepend" ng-click="magicNumberForCode()">
+                                        <div class="input-group-text"><i class="fa fa-magic hm-red-strong"></i></div>
+                                    </div>
+
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">Code</div>
+                                    </div>
+                                    <input type="text"
+                                           title="Code"
+                                           maxlength="5"
+                                           class="form-control py-0 pl-2"
+                                           aria-label="idCode"
+                                           ng-model="product.code"
+                                           ng-required="true">
+                                </div>
+
+                                <p class="mb-0 mt-3 text-center border border-bottom-0 rounded-top rgba-blue-slight">Description</p>
+                                <div ng-class="scrollDesc" class="border">
+
+                                    <fieldset data-ng-repeat="desc in descriptionData" class="mb-2 mt-2">
+
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">Name of desc</div>
+                                            </div>
+                                            <input class="form-control py-0 pl-2 rounded-0" type="text" ng-model="desc.nameDesc" ng-required="true" title="NameDesc">
+                                            <button class="btn btn-danger btn-sm mt-2 mb-2 px-2 py-1" ng-click="reduce($index)"><i class="fas fa-times"></i></button>
+                                        </div>
+
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text" style="width: 125px">Data of desc</div>
+                                            </div>
+                                            <textarea class="form-control py-0 pl-2 rounded-0" ng-model="desc.dataDesc" ng-required="true" title="data desc"></textarea>
+                                        </div>
+
+                                    </fieldset>
+
+                                </div>
+
+                                <button class="btn btn-primary btn-sm mb-3" ng-click="addNewDesc($event)">Add describe fields</button>
+
+                                <label class="control control-checkbox mt-2">
+                                    Not use image uploader
+                                    <input class="form-check-input" type="checkbox" ng-change="disabledUploader(disabled)" ng-model="disabled"/>
+                                    <div class="control_indicator"></div>
+                                </label>
+
+                                <div class="border border-primary rounded mb-3" ng-class="{'disabled':useUploaderImages, 'disable':useUploaderImages}" style="margin-bottom: 40px">
+
+                                    <p>Queue length: {{ uploader.queue.length }}</p>
+
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th width="50%">Name</th>
+                                            <th>Size</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="item in uploader.queue">
+                                            <td>
+                                                <strong>{{ item.file.name }}</strong>
+                                                <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                            </td>
+                                            <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                            <td>{{added}}</td>
+                                            <td nowrap>
+                                                <button type="button" class="btn btn-danger btn-sm" ng-click="item.remove()">
+                                                    <span class="glyphicon glyphicon-trash"></span> Remove
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <input class="hide" id="image" type="file" ng-disabled="useUploaderImages" nv-file-select="" uploader="uploader" multiple
+                                           accept="image/png, image/jpeg, image/jpg, image/bmp, image/gif" />
+                                    <br/>
+                                    <label for="image" ng-class="{'disabled':useUploaderImages, 'disable':useUploaderImages}" class="btn btn-primary btn-sm mt-0 mb-0">
+                                        Choose image
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                    </label>
+
+                                    <button type="button" ng-class="{'disable':useUploaderImages}" class="btn btn-success btn-sm" ng-click="uploader.uploadAll()"
+                                            ng-disabled="!uploader.getNotUploadedItems().length">
+                                        Upload all
                                     </button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
 
-                        <input class="hide" id="image" type="file" ng-disabled="useUploaderImages" nv-file-select="" uploader="uploader" multiple
-                               accept="image/png, image/jpeg, image/jpg, image/bmp, image/gif" />
-                        <br/>
-                        <label for="image" ng-class="{'disabled':useUploaderImages, 'disable':useUploaderImages}" class="btn btn-primary btn-sm mt-0 mb-0">
-                            Choose image
-                            <i class="fas fa-cloud-upload-alt"></i>
-                        </label>
+                                    <button type="button" ng-class="{'disable':useUploaderImages}" class="btn btn-danger btn-sm" ng-click="uploader.clearQueue()"
+                                            ng-disabled="!uploader.queue.length">
+                                        Remove all
+                                    </button>
 
-                        <button type="button" ng-class="{'disable':useUploaderImages}" class="btn btn-success btn-sm" ng-click="uploader.uploadAll()"
-                                ng-disabled="!uploader.getNotUploadedItems().length">
-                            Upload all
-                        </button>
+                                </div>
 
-                        <button type="button" ng-class="{'disable':useUploaderImages}" class="btn btn-danger btn-sm" ng-click="uploader.clearQueue()"
-                                ng-disabled="!uploader.queue.length">
-                            Remove all
-                        </button>
+                                <div id="wrapper">
+                                    <div ng-class="classDisabled" ng-mouseover="focusOnAddProduct()"></div>
+                                    <button type="submit" class="btn btn-success ml-0" ng-disabled="enableAddproduct">
+                                        Add Product
+                                    </button>
+                                </div>
 
+                            </form>
+                        </section>
+                        <!--/Form Add Product-->
                     </div>
-
-                    <div id="wrapper">
-                        <div ng-class="classDisabled" ng-mouseover="focusOnAddProduct()"></div>
-                        <button type="submit" class="btn btn-success ml-0" ng-disabled="enableAddproduct">
-                            Add Product
-                        </button>
-                    </div>
-
-                </form>
-            </section>
-
-
+                </div>
+            </div>
         </div>
-        <!--/Form Add Product-->
 
         <!--Table-->
-        <div class="col-md-12 col-lg-12 col-xl-7 pl-0">
+        <div class="col-md-12 col-lg-12 col-xl-12">
 
-                <h3 class="text-center pb-1">All products</h3>
+            <div class="row">
+
+                <div class="col-2">
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal">
+                        Add product
+                    </button>
+                </div>
+
+                <div class="col-10">
+                    <h3 class="text-center pb-1">All products</h3>
+                </div>
+
+            </div>
 
                 <div id="grid2" ui-grid="gridOptions"
                      ui-grid-pagination
@@ -225,7 +246,7 @@
 
 
                 <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
-                    <div class="modal-dialog modal-lg modal-notify" ng-class="adminProduct.isActive == false ? 'modal-danger': ''" role="document">
+                    <div class="modal-dialog modal-lg" ng-class="adminProduct.isActive == false ? 'modal-danger': ''" role="document">
                         <!--Content-->
                         <div class="modal-content">
                             <!--Header-->
@@ -239,7 +260,7 @@
 
                             <!--Body-->
                             <div class="modal-body">
-
+                                <div class="mb-2"><strong>Quantity of products:</strong> {{adminProduct.quantity}}</div>
                                 <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails" data-ride="carousel">
                                     <!--Slides-->
                                     <div class="carousel-inner w-5" role="listbox">
@@ -262,41 +283,24 @@
                                     </ol>
                                 </div>
 
-
-                                <div class="row">
-                                    <div class="col m-3 ml-3">
-                                        <strong>Code:</strong> {{adminProduct.code}}
-                                        <br>
-                                        <div ng-if="adminProduct.isActive"><strong>Active:</strong> Active</div>
-                                        <div ng-if="!adminProduct.isActive"><strong>Active:</strong> Not Active</div>
-                                    </div>
-
-                                    <div class="col m-3">
-                                        <div ng-if="adminProduct.quantity != 0"><strong>Status:</strong> In Stock</div>
-                                        <div ng-if="adminProduct.quantity === 0"><strong>Status:</strong> Sold out</div>
-                                        <div><strong>Quantity of products:</strong> {{adminProduct.quantity}}</div>
-                                    </div>
+                                <div class="d-flex justify-content-between m-3">
+                                    <div><strong>Code:</strong> {{adminProduct.code}}</div>
+                                    <div ng-if="adminProduct.isActive"><strong>Active:</strong> Active</div>
+                                    <div ng-if="!adminProduct.isActive"><strong>Active:</strong> Not Active</div>
+                                    <div ng-if="adminProduct.quantity != 0"><strong>Status:</strong> In Stock</div>
+                                    <div ng-if="adminProduct.quantity === 0"><strong>Status:</strong> Sold out</div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col m-3">
-                                        <strong>Name:</strong> {{adminProduct.name}}
-                                    </div>
-                                    <div class="col m-3">
-                                        <strong>Category:</strong> {{adminProduct.category.name}}
-                                    </div>
-
+                                <div class="d-flex justify-content-between m-3">
+                                    <div><strong>Name:</strong> {{adminProduct.name}}</div>
+                                    <div><strong>Category:</strong> {{adminProduct.category.name}}</div>
+                                    <div><strong>Producer:</strong> {{adminProduct.producer}}</div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col m-3">
-                                        <strong>Producer:</strong> {{adminProduct.producer}}
-                                    </div>
-                                    <div class="col m-3">
-                                        <strong>Price</strong>: ${{adminProduct.price}}
-                                    </div>
+                                <div class="d-flex justify-content-between m-3">
+                                    <div><strong>Price</strong>: ${{adminProduct.price}}</div>
                                 </div>
-                                <hr>
+
                                 <h6 class="text-center mb-4 mb-3">Description</h6>
                                 <div class="table-responsive-lg">
                                     <table class="table table-hover">
