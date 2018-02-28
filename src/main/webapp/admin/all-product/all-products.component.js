@@ -14,17 +14,19 @@
         'cgNotify',
         'cp.ngConfirm',
         'ngRateIt',
-        '720kb.tooltips'
+        '720kb.tooltips',
     ]);
 
-    angular.module('admin-board-all-products')
-        
+    angular
+        .module('admin-board-all-products')
         .component('adminBoardAllProducts', {
             templateUrl: '/admin/all-product/all-products.template.html',
-            controller: ['$scope', 'notify', '$ngConfirm', 'AdminService', 'ngProgressFactory', AdminBoardAllProductsController]
+            controller: AdminBoardAllProductsController
         });
-    
-    function AdminBoardAllProductsController($scope, notify, $ngConfirm, AdminService, ngProgressFactory) {
+
+    AdminBoardAllProductsController.$inject = ['$scope', 'notify', '$ngConfirm', 'ngProgressFactory', 'AdminService'];
+
+    function AdminBoardAllProductsController($scope, notify, $ngConfirm, ngProgressFactory, AdminService) {
 
         //progress bar
         $scope.progressbar = ngProgressFactory.createInstance();
@@ -79,7 +81,7 @@
 
             onRegisterApi: function(gridApi){
                 $scope.gridApi = gridApi;
-                gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+                gridApi.selection.on.rowSelectionChanged($scope, function() {
 
                     $scope.countArrayIdForDelete = gridApi.selection.getSelectedCount();
                     $scope.arrayIdForDelete = gridApi.selection.getSelectedRows();
@@ -175,7 +177,7 @@
                         text: "cancel",
                         btnClass: 'btn-danger',
                         action: function () {
-                            notify({message: 'Cancelled!', position: 'right', classes: 'alert-danger'});
+                            notify({message: 'Cancelled.', position: 'right', classes: 'alert-danger'});
                         }
                     }
                 }
@@ -206,7 +208,7 @@
                                 });
 
                                 $scope.progressbar.complete();
-                                notify({message: 'Product is deleted!', position: 'right', classes: 'alert-success'});
+                                notify({message: 'The Product is deleted!', position: 'right', classes: 'alert-success'});
 
                                 $scope.gridApi.selection.clearSelectedRows();
                                 $scope.gridOptions.selectedItems = 0;
@@ -220,7 +222,7 @@
                         text: "cancel",
                         btnClass: 'btn-danger',
                         action: function () {
-                            notify({message: 'Canceled!', position: 'right', classes: 'alert-danger'});
+                            notify({message: 'Cancelled.', position: 'right', classes: 'alert-danger'});
                             $scope.arrayNamesSelected = null;
                         }
                     }

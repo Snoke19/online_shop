@@ -18,7 +18,7 @@ public class AdminBoardController {
         this.ordersService = ordersService;
     }
 
-    @GetMapping("/get/orders/amount")
+    @GetMapping("/admin/orders/amount")
     @ResponseStatus(HttpStatus.OK)
     public Integer getOrdersAmount(){
         return ordersService.getNewOrders().size();

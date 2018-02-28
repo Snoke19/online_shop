@@ -18,19 +18,20 @@
         'fiestah.money'
     ]);
 
-    angular.module('admin-board-add-product')
-
+    angular
+        .module('admin-board-add-product')
         .component('adminBoardAddProduct', {
             templateUrl: '/admin/add-product/add-product.template.html',
-            controller: ['$http', '$scope', 'notify', '$ngConfirm', 'AdminService', 'FileUploader', 'ngProgressFactory', AdminBoardAddProductController]
+            controller: AdminBoardAddProductController
         })
         .directive('ngThumb', ['$window', ngThumb])
         .directive('imageInput', ['$parse', imageInput]);
 
+    AdminBoardAddProductController.$inject = ['$scope', 'notify', '$ngConfirm', 'ngProgressFactory', 'FileUploader', 'AdminService'];
 
-    function AdminBoardAddProductController($http, $scope, notify, $ngConfirm, AdminService, FileUploader, ngProgressFactory) {
+    function AdminBoardAddProductController($scope, notify, $ngConfirm, ngProgressFactory, FileUploader, AdminService) {
 
-        $scope.basic = true;
+        $scope.switcher = true;
 
         $scope.progressbar = ngProgressFactory.createInstance();
         $scope.progressbar.setHeight('5px');
@@ -39,7 +40,6 @@
         $scope.progressbar.start();
         AdminService.getAdminProductsService().then(function (d) {
             $scope.productsAddAdmin = d;
-
             $scope.progressbar.complete();
         });
 
@@ -86,7 +86,7 @@
             onRegisterApi: function(gridApi){
                 $scope.gridApi = gridApi;
 
-                gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+                gridApi.selection.on.rowSelectionChanged($scope, function() {
                     $scope.countArrayIdForDelete = gridApi.selection.getSelectedCount();
                     $scope.arrayIdForDelete = gridApi.selection.getSelectedRows();
 
@@ -172,10 +172,10 @@
                         }
                     },
                     close: {
-                        text: "Cancelled!",
+                        text: "Cancelled.",
                         btnClass: 'btn-danger',
                         action: function () {
-                            notify({message: 'Cancelled!', position: 'right', classes: 'alert-danger'});
+                            notify({message: 'Cancelled.', position: 'right', classes: 'alert-danger'});
                         }
                     }
                 }
@@ -221,7 +221,7 @@
                         text: "cancel",
                         btnClass: 'btn-danger',
                         action: function () {
-                            notify({message: 'Cancelled!!', position: 'right', classes: 'alert-danger'});
+                            notify({message: 'Cancelled.', position: 'right', classes: 'alert-danger'});
                             $scope.arrayNamesSelected = null;
                         }
                     }
@@ -325,14 +325,8 @@
                 $scope.progressbar.complete();
                 notify({message: 'The product is added!', position: 'right', classes: 'alert-success'});
 
-                if ($scope.basic) {
-                    $scope.product.quantity = null;
-                    $scope.product.name = null;
-                    $scope.product.producer = null;
-                    $scope.product.price = null;
-                    $scope.product.idCategory = null;
-                    $scope.product.status = null;
-                    $scope.product.code = null;
+                if ($scope.switcher) {
+                    $scope.product = null;
                     $scope.descriptionData = [{
                         id: counter,
                         nameDesc: '',
@@ -383,7 +377,7 @@
                         }
                     },
                     close: {
-                        text: "Cancelled",
+                        text: "Cancelled.",
                         btnClass: 'btn-danger'
                     }
                 }

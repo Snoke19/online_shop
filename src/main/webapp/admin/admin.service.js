@@ -1,8 +1,13 @@
 (function () {
+    'use strict';
 
-    var myApp = angular.module('admin', []);
+    angular
+        .module('admin', [])
+        .factory('AdminService', AdminService);
 
-    myApp.factory('AdminService', ['$http', function($http) {
+    AdminService.$inject = ['$http'];
+
+    function AdminService($http){
         return {
 
             addProductService: function (product, descriptionData) {
@@ -242,7 +247,7 @@
                 })
             },
             getAmountOrders: function () {
-                return $http.get('/get/orders/amount').then(function (response) {
+                return $http.get('/admin/orders/amount').then(function (response) {
                     return response.data;
                 });
             },
@@ -259,5 +264,5 @@
                 })
             }
         }
-    }]);
+    }
 })();
