@@ -6,10 +6,12 @@ import com.shop.dto.category.CategoryDTO;
 import com.shop.dto.product.ProductDTO;
 import com.shop.service.ProductsService;
 import com.shop.service.impl.ImageService;
+import com.sun.org.apache.regexp.internal.RE;
 import io.swagger.annotations.ResponseHeader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.bind.annotation.*;
@@ -44,8 +46,7 @@ public class AdminAddProductController {
 
 
     @PostMapping("/admin/product")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void addProduct(@RequestBody ProductDTO productDTO) {
+    public ResponseEntity<String> addProduct(@RequestBody ProductDTO productDTO) {
 
         CategoryDTO categoryDTO = new CategoryDTO();
         categoryDTO.setIdCategory(productDTO.getCategory().getIdCategory());
@@ -54,35 +55,38 @@ public class AdminAddProductController {
 
         productsService.add(productDTO);
 
-        imageService.clearListImages();
+        imageService.clearListImages();//after setting images in listImages we must clear image service list
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(new Gson().toJson("The product is added!"));
     }
 
 
     @GetMapping("/admin/products")
     @ResponseStatus(HttpStatus.OK)
-    public List<ProductDTO> getAllProducts() {
-        return productsService.getAdminProducts();
+    public ResponseEntity<List<ProductDTO>> getAllProducts() {
+        return ResponseEntity.status(HttpStatus.OK).body(productsService.getAdminProducts());
     }
 
 
     @DeleteMapping("/admin/product")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteProduct(@RequestBody Long id) {
+    public ResponseEntity<String> deleteProduct(@RequestBody Long id) {
         productsService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).body(new Gson().toJson("The product is deleted!"));
     }
 
 
     @DeleteMapping("/admin/products")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteProducts(@RequestBody String idProducts) {
+    public ResponseEntity<String> deleteProducts(@RequestBody String idProducts) {
         Type listId = new TypeToken<List<Long>>(){}.getType();
         productsService.deleteProductSelected(new Gson().fromJson(idProducts, listId));
+
+        return ResponseEntity.status(HttpStatus.OK).body(new Gson().toJson("The products is deleted!"));
     }
 
 
     @PostMapping("/admin/upload/images")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void uploadImages(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<Void> uploadImages(@RequestParam("file") MultipartFile file) throws IOException {
         imageService.addImage(file.getBytes());
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

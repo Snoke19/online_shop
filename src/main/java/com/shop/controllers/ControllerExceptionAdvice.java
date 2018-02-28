@@ -1,5 +1,6 @@
 package com.shop.controllers;
 
+import com.google.gson.Gson;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +53,7 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleMissingServletRequestPart(MissingServletRequestPartException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body("The part of a \"multipart/form-data\" request identified by its name cannot be found.\n: " + ex.getMessage());
+                .body("(400) The part of a \"multipart/form-data\" request identified by its name cannot be found.\n: " + ex.getMessage());
     }
 
     @ExceptionHandler(NoSuchElementException.class)
@@ -73,6 +74,6 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
     ResponseEntity<String> acceptThrowable(final Throwable ex) {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ex.getMessage());
+                .body(new Gson().toJson(ex.getMessage()));
     }
 }

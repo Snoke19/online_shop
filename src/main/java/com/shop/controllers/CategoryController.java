@@ -38,7 +38,7 @@ public class CategoryController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(new Gson().toJson("This category exists already!"));
         }else {
             categoryService.add(categoryDTO);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body(new Gson().toJson("A new category is added!"));
         }
     }
 }

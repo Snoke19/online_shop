@@ -24,7 +24,9 @@
                         description: descriptionData,
                         isActive: true
                     }
-                }).then(function () {})
+                }).then(function (response) {
+                    return response.data;
+                })
             },
 
             getAdminProductsService: function () {

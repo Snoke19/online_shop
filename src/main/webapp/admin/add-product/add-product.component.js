@@ -160,15 +160,23 @@
                         action: function(){
 
                             $scope.progressbar.start();
-                            AdminService.deleteProductByIdService(row.entity.idProduct).then(function () {
+                            AdminService.deleteProductByIdService(row.entity.idProduct).then(function (d) {
 
                                 AdminService.getAdminProductsService().then(function (d) {
                                     $scope.productsAddAdmin = d;
                                 });
 
                                 $scope.progressbar.complete();
-                                notify({message: 'The product is deleted!', position: 'right', classes: 'alert-success'});
-                            });
+                                notify({message: d, position: 'right', classes: 'alert-success'});
+                            }).catch(
+                                function(response){
+                                    $ngConfirm({
+                                        title: 'Error',
+                                        type: 'red',
+                                        content: response.data
+                                    });
+                                    $scope.progressbar.reset();
+                                });
                         }
                     },
                     close: {
@@ -200,21 +208,29 @@
                         keys: ['enter'],
                         action: function(){
                             $scope.progressbar.start();
-                            AdminService.deleteProductsByIdsService(arrayIdSelected).then(function () {
+                            AdminService.deleteProductsByIdsService(arrayIdSelected).then(function (d) {
 
                                 AdminService.getAdminProductsService().then(function (d) {
                                     $scope.productsAddAdmin = d;
                                 });
 
                                 $scope.progressbar.complete();
-                                notify({message: 'The product is deleted!', position: 'right', classes: 'alert-success'});
+                                notify({message: d, position: 'right', classes: 'alert-success'});
 
                                 $scope.gridApi.selection.clearSelectedRows();
                                 $scope.gridOptions.selectedItems = 0;
                                 $scope.arrayIdForDelete = null;
                                 $scope.countArrayIdForDelete = null;
                                 $scope.disableButtonDeleteItems = false;
-                            });
+                            }).catch(
+                                function(response){
+                                    $ngConfirm({
+                                        title: 'Error',
+                                        type: 'red',
+                                        content: response.data
+                                    });
+                                    $scope.progressbar.reset();
+                                });
                         }
                     },
                     close: {
@@ -316,14 +332,14 @@
         $scope.saveData = function () {
 
             $scope.progressbar.start();
-            AdminService.addProductService($scope.product, $scope.descriptionData).then(function () {
+            AdminService.addProductService($scope.product, $scope.descriptionData).then(function (d) {
 
                 AdminService.getAdminProductsService().then(function (d) {
                     $scope.productsAddAdmin = d;
                 });
 
                 $scope.progressbar.complete();
-                notify({message: 'The product is added!', position: 'right', classes: 'alert-success'});
+                notify({message: d, position: 'right', classes: 'alert-success'});
 
                 if ($scope.switcher) {
                     $scope.product = null;
@@ -356,13 +372,13 @@
                         action: function(scope){
 
                             $scope.progressbar.start();
-                            AdminService.addNewCategory(scope.newCategory).then(function () {
+                            AdminService.addNewCategory(scope.newCategory).then(function (d) {
 
                                 AdminService.getCategoriesService().then(function (d) {
                                     $scope.categories = d;
                                 });
 
-                                notify({message: 'A new category is added!', position: 'right', classes: 'alert-success'});
+                                notify({message: d, position: 'right', classes: 'alert-success'});
                                 $scope.progressbar.complete();
 
                             }).catch(
