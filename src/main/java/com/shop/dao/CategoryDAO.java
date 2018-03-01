@@ -10,4 +10,5 @@ public interface CategoryDAO extends DAO<Category> {
 
     List<Object[]> getAllCategoriesWithCountProducts();
     Category getCategoryByName(String name);
+    //void editExistCategory(Long id, String newNameCategory);
 }

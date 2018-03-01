@@ -15,7 +15,8 @@
         'switcher',
         'cp.ngConfirm',
         '720kb.tooltips',
-        'fiestah.money'
+        'fiestah.money',
+        'xeditable'
     ]);
 
     angular
@@ -27,9 +28,15 @@
         .directive('ngThumb', ['$window', ngThumb])
         .directive('imageInput', ['$parse', imageInput]);
 
-    AdminBoardAddProductController.$inject = ['$scope', 'notify', '$ngConfirm', 'ngProgressFactory', 'FileUploader', 'AdminService'];
+    AdminBoardAddProductController.$inject = ['$scope', 'notify', '$ngConfirm', 'ngProgressFactory', 'editableOptions', 'editableThemes', 'FileUploader', 'AdminService'];
 
-    function AdminBoardAddProductController($scope, notify, $ngConfirm, ngProgressFactory, FileUploader, AdminService) {
+    function AdminBoardAddProductController($scope, notify, $ngConfirm, ngProgressFactory, editableOptions, editableThemes, FileUploader, AdminService) {
+
+        editableOptions.theme = 'default';
+
+        // overwrite submit button template
+        editableThemes['default'].submitTpl = '<button class="btn btn-primary btn-sm m-1" type="submit">save</button>';
+        editableThemes['default'].cancelTpl = '<button class="btn btn-danger btn-sm m-1" type="button" ng-click="$form.$cancel()">cancel</button>';
 
         $scope.switcher = true;
 
@@ -41,7 +48,15 @@
         AdminService.getAdminProductsService().then(function (d) {
             $scope.productsAddAdmin = d;
             $scope.progressbar.complete();
-        });
+        }).catch(
+            function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
+            });
 
 
         $scope.getAdminProduct = function (id) {
@@ -49,7 +64,15 @@
             AdminService.getAdminProductService(id).then(function (d) {
                 $scope.adminProduct = d;
                 $scope.progressbar.complete();
-            });
+            }).catch(
+                function(response){
+                    $ngConfirm({
+                        title: 'Error',
+                        type: 'red',
+                        content: response.data
+                    });
+                    $scope.progressbar.reset();
+                });
         };
 
 
@@ -248,7 +271,15 @@
 
         AdminService.getCategoriesService().then(function (d) {
             $scope.categories = d;
-        });
+        }).catch(
+            function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
+            });
 
 
         // save data
@@ -354,49 +385,27 @@
         };
         //save data
 
-        $scope.addNewCategory = function () {
-            $ngConfirm({
-                title: 'Add a new category.',
-                contentUrl: '/admin/add-product/add-new-category.html',
-                scope: $scope,
-                type: 'blue',
-                icon: 'fa fa-plus',
-                closeIcon: true,
-                closeIconClass: 'fa fa-close',
-                closeAnimation: 'top',
-                buttons: {
-                    ok: {
-                        text: "add",
-                        btnClass: 'btn-primary',
-                        keys: ['enter'],
-                        action: function(scope){
+        $scope.addNewCategories = function () {
 
-                            $scope.progressbar.start();
-                            AdminService.addNewCategory(scope.newCategory).then(function (d) {
+            $scope.progressbar.start();
 
-                                AdminService.getCategoriesService().then(function (d) {
-                                    $scope.categories = d;
-                                });
+            AdminService.addNewCategory($scope.newCategory).then(function (d) {
 
-                                notify({message: d, position: 'right', classes: 'alert-success'});
-                                $scope.progressbar.complete();
+                AdminService.getCategoriesService().then(function (d) {
+                    $scope.categories = d;
 
-                            }).catch(
-                                function(response){
-                                    $ngConfirm({
-                                        title: 'Error',
-                                        type: 'red',
-                                        content: response.data
-                                    });
-                                    $scope.progressbar.reset();
-                                });
-                        }
-                    },
-                    close: {
-                        text: "Cancelled.",
-                        btnClass: 'btn-danger'
-                    }
-                }
+                });
+
+                notify({message: d, position: 'right', classes: 'alert-success'});
+                $scope.progressbar.complete();
+
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
             });
         };
 
@@ -411,6 +420,10 @@
             }
             $scope.product.code = randomstring;
         };
+
+        $scope.editExistCategory = function (category) {
+
+        }
     }
 
     //directive

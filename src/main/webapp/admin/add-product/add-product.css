@@ -33,10 +33,32 @@
     border-color: #f5c6cb;
 }
 
-.modal-danger{
-    background-color: #dc676d;
+.editable-input.editable-has-buttons {
+    margin: .25rem !important;
+    border: 1px solid #e9ecef!important;
+    height: 31px;
 }
 
-.border-input {
-    border: 1px solid #ced4da!important;
+.popover-wrapper form {
+    top: -61px;
+}
+
+.editable-empty, a.editable-empty {
+    font-style: italic;
+    color: #212529;
+    text-decoration: none;
+}
+
+.remImageEdit {
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 10rem;
+    background-color: white;
+    color: #8a8a8a;
+}
+
+.remImageEdit:hover {
+    background-color: #ff4444;
+    color: white;
+    cursor: pointer;
 }

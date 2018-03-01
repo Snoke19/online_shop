@@ -5,11 +5,8 @@ import com.shop.service.CategoryService;
 import com.shop.dto.category.CategoryDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -30,7 +27,6 @@ public class CategoryController {
 
     @PostMapping("/add/new/category")
     public ResponseEntity<String> addNewCategory(@RequestBody CategoryDTO categoryDTO){
-        System.out.println(categoryDTO);
 
         CategoryDTO categoryByName = categoryService.getCategoryByName(categoryDTO.getName());
 
@@ -40,5 +36,14 @@ public class CategoryController {
             categoryService.add(categoryDTO);
             return ResponseEntity.ok().body(new Gson().toJson("A new category is added!"));
         }
+    }
+
+    @PutMapping("/category/{id}")
+    public ResponseEntity<CategoryDTO> editExistCategory(@PathVariable Long id, @RequestBody CategoryDTO categoryDTO){
+
+        categoryService.update(categoryDTO);
+        CategoryDTO categoryDTO1 = categoryService.get(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(categoryDTO1);
     }
 }

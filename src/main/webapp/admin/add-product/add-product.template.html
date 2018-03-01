@@ -7,12 +7,12 @@
 
     <div class="row">
 
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!-- Modal add product -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="addProduct" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
+                        <h5 class="modal-title" id="addProduct">Add Product</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -20,17 +20,8 @@
                     <div class="modal-body">
                         <!--Form Add Product-->
                         <section class="px-4">
-                            <div class="d-flex justify-content-between mb-2">
 
-                                <switcher ng-model="switcher" true-label="clear all fields after add product"></switcher>
-
-                                <button class="btn btn-primary btn-sm" ng-click="addNewCategory()"
-                                        tooltips tooltip-template="Add new category"
-                                        tooltip-side="bottom">
-                                    <i class="fa fa-plus"></i>
-                                </button>
-
-                            </div>
+                            <switcher ng-model="switcher" true-label="clear all fields after add product"></switcher>
 
                             <form name="formAddProduct" ng-submit="saveData()">
 
@@ -215,108 +206,152 @@
             </div>
         </div>
 
+        <!-- Modal add new category -->
+        <div class="modal fade" id="newCateory" tabindex="-1" role="dialog" aria-labelledby="addNewCategory" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addNewCategory">Add New Category</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="input-group mb-3 mr-sm-2" id="categoriesScroll">
+
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">New Category</div>
+                            </div>
+
+                            <input type="text"
+                                   class="form-control py-0 pl-2"
+                                   title="Name Product"
+                                   ng-model="newCategory">
+
+                            <button type="button" class="btn btn-success btn-sm p-2" ng-click="addNewCategories()">Add Category</button>
+                        </div>
+
+                        <hr class="mb-1">
+
+                        <h5>Edit Category</h5>
+
+                        <div class="popover-wrapper" ng-repeat="cat in categories">
+                            <a href="#"
+                               editable-text="cat.name"
+                               e-label="Category" onaftersave="editExistCategory(cat)"> {{ cat.name || 'empty' }}</a>
+                            <span ng-click="" class="counter remImageEdit border"><i class="fas fa-times"></i></span>
+                            <br>
+                            <br>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
         <!--Table-->
         <div class="col-md-12 col-lg-12 col-xl-12">
+            <h3 class="text-center mb-0">All products</h3>
+            <div class="row justify-content-start mb-1">
 
-            <div class="row">
-
-                <div class="col-2">
-                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal">
+                <div class="col-auto">
+                    <button type="button" class="btn btn-success btn-sm p-2" data-toggle="modal" data-target="#exampleModal">
                         Add product
                     </button>
+                    <button type="button" class="btn btn-success btn-sm p-2" ng-click="addNewCategory()" data-toggle="modal" data-target="#newCateory">
+                        Add New Category</button>
+                    <button type="button" class="btn btn-danger btn-sm p-2" ng-show="disableButtonDeleteItems" ng-click="deleteProducts()">
+                        {{countArrayIdForDelete}}  Delete all
+                    </button>
                 </div>
-
-                <div class="col-10">
-                    <h3 class="text-center pb-1">All products</h3>
-                </div>
-
             </div>
 
-                <div id="grid2" ui-grid="gridOptions"
-                     ui-grid-pagination
-                     ui-grid-resize-columns
-                     ui-grid-move-columns
-                     ui-grid-selection
-                     class="grid"
-                     style="height: 623px;">
-                </div>
 
-                <button ng-show="disableButtonDeleteItems" ng-click="deleteProducts()" type="button" class="btn btn-danger btn-sm mt-2">{{countArrayIdForDelete}}  Delete all</button>
+            <div id="grid2" ui-grid="gridOptions"
+                 ui-grid-pagination
+                 ui-grid-resize-columns
+                 ui-grid-move-columns
+                 ui-grid-selection
+                 class="grid"
+                 style="height: 623px;">
+            </div>
 
+            <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                <div class="modal-dialog modal-lg" ng-class="adminProduct.isActive == false ? 'modal-danger': ''" role="document">
+                    <!--Content-->
+                    <div class="modal-content">
+                        <!--Header-->
+                        <div class="modal-header" ng-class="adminProduct.isActive == false ? 'modal-danger': ''">
+                            <h5 class="modal-title" ng-if="adminProduct.isActive == true">Detailed information about product (product is active)</h5>
+                            <h5 class="modal-title" ng-if="adminProduct.isActive == false">Detailed information about product (product is not active)</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
 
-                <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" ng-class="adminProduct.isActive == false ? 'modal-danger': ''" role="document">
-                        <!--Content-->
-                        <div class="modal-content">
-                            <!--Header-->
-                            <div class="modal-header" ng-class="adminProduct.isActive == false ? 'modal-danger': ''">
-                                <h5 class="modal-title" ng-if="adminProduct.isActive == true">Detailed information about product (product is active)</h5>
-                                <h5 class="modal-title" ng-if="adminProduct.isActive == false">Detailed information about product (product is not active)</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-
-                            <!--Body-->
-                            <div class="modal-body">
-                                <div class="mb-2"><strong>Quantity of products:</strong> {{adminProduct.quantity}}</div>
-                                <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnailsx" data-ride="carousel">
-                                    <!--Slides-->
-                                    <div class="carousel-inner w-5" role="listbox">
-                                        <div class="carousel-item active">
-                                            <div style="text-align: center;">
-                                                <img class="w-50" ng-src="data:image/jpeg;base64,{{ adminProduct.listImages[0]}}" alt="First slide">
-                                            </div>
-                                        </div>
-                                        <div class="carousel-item" ng-repeat="im in adminProduct.listImages track by $index" ng-if="$index > 0">
-                                            <div style="text-align: center;">
-                                                <img style="text-align:center" class="w-50" ng-src="data:image/jpeg;base64,{{im}}" alt="Second slide">
-                                            </div>
+                        <!--Body-->
+                        <div class="modal-body">
+                            <div class="mb-2"><strong>Quantity of products:</strong> {{adminProduct.quantity}}</div>
+                            <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnailsx" data-ride="carousel">
+                                <!--Slides-->
+                                <div class="carousel-inner w-5" role="listbox">
+                                    <div class="carousel-item active">
+                                        <div style="text-align: center;">
+                                            <img class="w-50" ng-src="data:image/jpeg;base64,{{ adminProduct.listImages[0]}}" alt="First slide">
                                         </div>
                                     </div>
-                                    <!--/.Slides-->
-                                    <ol class="carousel-indicators">
-                                        <li data-target="#carousel-thumb" data-slide-to="{{key}}" class="" ng-repeat="(key, value) in adminProduct.listImages track by $index">
-                                            <img class="w-50" ng-src="data:image/jpeg;base64,{{value}}">
-                                        </li>
-                                    </ol>
+                                    <div class="carousel-item" ng-repeat="im in adminProduct.listImages track by $index" ng-if="$index > 0">
+                                        <div style="text-align: center;">
+                                            <img style="text-align:center" class="w-50" ng-src="data:image/jpeg;base64,{{im}}" alt="Second slide">
+                                        </div>
+                                    </div>
                                 </div>
+                                <!--/.Slides-->
+                                <ol class="carousel-indicators">
+                                    <li data-target="#carousel-thumb" data-slide-to="{{key}}" class="" ng-repeat="(key, value) in adminProduct.listImages track by $index">
+                                        <img class="w-50" ng-src="data:image/jpeg;base64,{{value}}">
+                                    </li>
+                                </ol>
+                            </div>
 
-                                <div class="d-flex justify-content-between m-3">
-                                    <div><strong>Code:</strong> {{adminProduct.code}}</div>
-                                    <div ng-if="adminProduct.isActive"><strong>Active:</strong> Active</div>
-                                    <div ng-if="!adminProduct.isActive"><strong>Active:</strong> Not Active</div>
-                                    <div ng-if="adminProduct.quantity != 0"><strong>Status:</strong> In Stock</div>
-                                    <div ng-if="adminProduct.quantity === 0"><strong>Status:</strong> Sold out</div>
-                                </div>
+                            <div class="d-flex justify-content-between m-3">
+                                <div><strong>Code:</strong> {{adminProduct.code}}</div>
+                                <div ng-if="adminProduct.isActive"><strong>Active:</strong> Active</div>
+                                <div ng-if="!adminProduct.isActive"><strong>Active:</strong> Not Active</div>
+                                <div ng-if="adminProduct.quantity != 0"><strong>Status:</strong> In Stock</div>
+                                <div ng-if="adminProduct.quantity === 0"><strong>Status:</strong> Sold out</div>
+                            </div>
 
-                                <div class="d-flex justify-content-between m-3">
-                                    <div><strong>Name:</strong> {{adminProduct.name}}</div>
-                                    <div><strong>Category:</strong> {{adminProduct.category.name}}</div>
-                                    <div><strong>Producer:</strong> {{adminProduct.producer}}</div>
-                                </div>
+                            <div class="d-flex justify-content-between m-3">
+                                <div><strong>Name:</strong> {{adminProduct.name}}</div>
+                                <div><strong>Category:</strong> {{adminProduct.category.name}}</div>
+                                <div><strong>Producer:</strong> {{adminProduct.producer}}</div>
+                            </div>
 
-                                <div class="d-flex justify-content-between m-3">
-                                    <div><strong>Price</strong>: ${{adminProduct.price}}</div>
-                                </div>
+                            <div class="d-flex justify-content-between m-3">
+                                <div><strong>Price</strong>: ${{adminProduct.price}}</div>
+                            </div>
 
-                                <h6 class="text-center mb-4 mb-3">Description</h6>
-                                <div class="table-responsive-lg">
-                                    <table class="table table-hover">
-                                        <tbody>
-                                        <tr ng-repeat="b in adminProduct.description">
-                                            <td><h6>{{b.nameDesc}}:</h6></td>
-                                            <td>{{b.dataDesc}}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <h6 class="text-center mb-4 mb-3">Description</h6>
+                            <div class="table-responsive-lg">
+                                <table class="table table-hover">
+                                    <tbody>
+                                    <tr ng-repeat="b in adminProduct.description">
+                                        <td><h6>{{b.nameDesc}}:</h6></td>
+                                        <td>{{b.dataDesc}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        <!--/.Content-->
                     </div>
+                    <!--/.Content-->
                 </div>
-                <!--/info-->
+            </div>
+            <!--/info-->
 
         </div>
         <!--/Table-->
