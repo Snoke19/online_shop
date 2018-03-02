@@ -34,7 +34,7 @@
 
         editableOptions.theme = 'default';
 
-        // overwrite submit button template
+        // overwrite submit button template for editable component category
         editableThemes['default'].submitTpl = '<button class="btn btn-primary btn-sm m-1" type="submit">save</button>';
         editableThemes['default'].cancelTpl = '<button class="btn btn-danger btn-sm m-1" type="button" ng-click="$form.$cancel()">cancel</button>';
 
@@ -48,8 +48,7 @@
         AdminService.getAdminProductsService().then(function (d) {
             $scope.productsAddAdmin = d;
             $scope.progressbar.complete();
-        }).catch(
-            function(response){
+        }).catch(function(response){
                 $ngConfirm({
                     title: 'Error',
                     type: 'red',
@@ -269,17 +268,7 @@
         };
 
 
-        AdminService.getCategoriesService().then(function (d) {
-            $scope.categories = d;
-        }).catch(
-            function(response){
-                $ngConfirm({
-                    title: 'Error',
-                    type: 'red',
-                    content: response.data
-                });
-                $scope.progressbar.reset();
-            });
+
 
 
         // save data
@@ -421,9 +410,95 @@
             $scope.product.code = randomstring;
         };
 
-        $scope.editExistCategory = function (category) {
+        AdminService.getCategoriesService().then(function (d) {
+            $scope.categories = d;
+        }).catch(function(response){
+            $ngConfirm({
+                title: 'Error',
+                type: 'red',
+                content: response.data
+            });
+            $scope.progressbar.reset();
+        });
+
+
+        $scope.editCategory = function (category) {
+            $scope.progressbar.start();
+            AdminService.editExistCategory(category.idCategory, category).then(function (d) {
+                $scope.categories = d;
+                $scope.progressbar.complete();
+            }).catch(
+                function(response){
+                    $ngConfirm({
+                        title: 'Error',
+                        type: 'red',
+                        content: response.data
+                    });
+                    $scope.progressbar.reset();
+                });
+        };
+
+        $scope.deleteOneCategory = function (category) {
+
+            $ngConfirm({
+                title: 'Removing a category.',
+                content: 'Do you really want to delete this category? <p>{{category.name}}</p>',
+                scope: $scope,
+                type: 'blue',
+                icon: 'fa fa-trash',
+                closeIcon: true,
+                closeIconClass: 'fa fa-close',
+                closeAnimation: 'top',
+                buttons: {
+                    ok: {
+                        text: "ok",
+                        btnClass: 'btn-primary',
+                        keys: ['enter'],
+                        action: function(){
+                            $scope.progressbar.start();
+
+                            AdminService.deleteCategory(category.idCategory).then(function (d) {
+
+                                AdminService.getCategoriesService().then(function (d) {
+                                    $scope.categories = d;
+                                }).catch(function(response){
+                                    $ngConfirm({
+                                        title: 'Error',
+                                        type: 'red',
+                                        content: response.data
+                                    });
+                                    $scope.progressbar.reset();
+                                });
+
+                                notify({message: d, position: 'right', classes: 'alert-success'});
+                                $scope.progressbar.complete();
+
+                            }).catch(
+                                function(response){
+                                    $ngConfirm({
+                                        title: 'Error',
+                                        type: 'red',
+                                        content: response.data
+                                    });
+                                    $scope.progressbar.reset();
+                                });
+                        }
+                    },
+                    close: {
+                        text: "cancel",
+                        btnClass: 'btn-danger',
+                        action: function () {
+                            notify({message: 'Cancelled.', position: 'right', classes: 'alert-danger'});
+                        }
+                    }
+                }
+            });
+
+
+
 
         }
+
     }
 
     //directive

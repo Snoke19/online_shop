@@ -39,11 +39,22 @@ public class CategoryController {
     }
 
     @PutMapping("/category/{id}")
-    public ResponseEntity<CategoryDTO> editExistCategory(@PathVariable Long id, @RequestBody CategoryDTO categoryDTO){
+    public ResponseEntity<String> editExistCategory(@PathVariable Long id, @RequestBody CategoryDTO categoryDTO){
+
+        if (categoryService.get(id).equals(categoryDTO)){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new Gson().toJson("This category exists already!"));
+        }
 
         categoryService.update(categoryDTO);
-        CategoryDTO categoryDTO1 = categoryService.get(id);
 
-        return ResponseEntity.status(HttpStatus.OK).body(categoryDTO1);
+        return ResponseEntity.status(HttpStatus.OK).body(new Gson().toJson(categoryService.getAll()));
+    }
+
+    @DeleteMapping("/category/{id}")
+    public ResponseEntity<String> deleteCategory(@PathVariable Long id){
+
+        categoryService.delete(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new Gson().toJson("This category is deleted"))     ;
     }
 }

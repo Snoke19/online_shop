@@ -56,6 +56,23 @@
                 });
             },
 
+            editExistCategory: function (id, category) {
+                return $http({
+                    url: '/category/' + id,
+                    method: 'PUT',
+                    data: category
+                }).then(function (response) {
+                    return response.data;
+                })
+            },
+            deleteCategory: function (id) {
+                return $http({
+                    url: '/category/' + id,
+                    method: 'DELETE'
+                }).then(function (response) {
+                    return response.data;
+                })
+            },
 
             updateNameProductService: function (name, idProduct) {
                 return $http({

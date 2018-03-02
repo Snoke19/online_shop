@@ -33,7 +33,7 @@ public class CategoryDAOImpl extends HibernateSessionDAO implements CategoryDAO 
         getSession()
                 .createQuery("delete from Category c where c.idCategory = :id")
                 .setParameter("id", id)
-                .list();
+                .executeUpdate();
     }
 
     @Override

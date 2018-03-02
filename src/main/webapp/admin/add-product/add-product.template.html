@@ -236,11 +236,11 @@
 
                         <h5>Edit Category</h5>
 
-                        <div class="popover-wrapper" ng-repeat="cat in categories">
+                        <div class="popover-wrapper" ng-repeat="category in categories">
                             <a href="#"
                                editable-text="cat.name"
-                               e-label="Category" onaftersave="editExistCategory(cat)"> {{ cat.name || 'empty' }}</a>
-                            <span ng-click="" class="counter remImageEdit border"><i class="fas fa-times"></i></span>
+                               e-label="Category" onaftersave="editCategory(cat)"> {{ category.name || 'empty' }}</a>
+                            <span ng-click="deleteOneCategory(category)" class="counter remImageEdit border"><i class="fas fa-times"></i></span>
                             <br>
                             <br>
                         </div>
