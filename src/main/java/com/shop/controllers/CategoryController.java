@@ -25,7 +25,7 @@ public class CategoryController {
         return categoryService.getAll();
     }
 
-    @PostMapping("/add/new/category")
+    @PostMapping("/category")
     public ResponseEntity<String> addNewCategory(@RequestBody CategoryDTO categoryDTO){
 
         CategoryDTO categoryByName = categoryService.getCategoryByName(categoryDTO.getName());
@@ -55,6 +55,6 @@ public class CategoryController {
 
         categoryService.delete(id);
 
-        return ResponseEntity.status(HttpStatus.OK).body(new Gson().toJson("This category is deleted"))     ;
+        return ResponseEntity.status(HttpStatus.OK).body(new Gson().toJson("This category is deleted"));
     }
 }

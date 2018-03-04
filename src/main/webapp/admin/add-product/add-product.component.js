@@ -268,9 +268,6 @@
         };
 
 
-
-
-
         // save data
         // description fields
         var counter = 0;
@@ -319,18 +316,15 @@
             url: '/admin/upload/images'
         });
 
-
         uploader.onProgressItem = function(){
             $scope.progressbar.start();
         };
-
 
         uploader.onErrorItem = function(){
             $scope.progressbar.reset();
             $scope.added = 'not Added';
             notify({message: 'Something happened wrong! These images don`t have uploaded!', position: 'right', classes: 'alert-danger'});
         };
-
 
         $scope.enableAddproduct = true;
         $scope.classDisabled = 'overlay';
@@ -341,7 +335,6 @@
             $scope.added = 'Added';
             notify({message: 'All images are uploaded.', position: 'right', classes: 'alert-success'});
         };
-
 
         $scope.focusOnAddProduct = function () {
             if ($scope.enableAddproduct === true){
@@ -363,6 +356,7 @@
 
                 if ($scope.switcher) {
                     $scope.product = null;
+                    uploader.clearQueue();
                     $scope.descriptionData = [{
                         id: counter,
                         nameDesc: '',
@@ -374,6 +368,22 @@
         };
         //save data
 
+
+        $scope.magicNumberForCode = function () {
+
+            var chars = "0123456789ABC";
+            var string_length = 5;
+            var randomstring = '';
+            for (var i = 0; i < string_length; i++) {
+                var rnum = Math.floor(Math.random() * chars.length);
+                randomstring += chars.substring(rnum, rnum + 1);
+            }
+            $scope.product.code = null;
+            $scope.product.code = randomstring;
+        };
+
+
+        //work with category
         $scope.addNewCategories = function () {
 
             $scope.progressbar.start();
@@ -398,18 +408,6 @@
             });
         };
 
-        $scope.magicNumberForCode = function () {
-
-            var chars = "0123456789ABC";
-            var string_length = 5;
-            var randomstring = '';
-            for (var i = 0; i < string_length; i++) {
-                var rnum = Math.floor(Math.random() * chars.length);
-                randomstring += chars.substring(rnum, rnum + 1);
-            }
-            $scope.product.code = randomstring;
-        };
-
         AdminService.getCategoriesService().then(function (d) {
             $scope.categories = d;
         }).catch(function(response){
@@ -420,7 +418,6 @@
             });
             $scope.progressbar.reset();
         });
-
 
         $scope.editCategory = function (category) {
             $scope.progressbar.start();
@@ -494,11 +491,8 @@
                 }
             });
 
-
-
-
         }
-
+        //work with category
     }
 
     //directive

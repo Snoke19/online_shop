@@ -29,6 +29,19 @@
                 })
             },
 
+            addNewCategory: function (category) {
+                return $http({
+                    url: '/category',
+                    method: 'POST',
+                    data: {
+                        idCategory: null,
+                        name: category
+                    }
+                }).then(function (response) {
+                    return response.data;
+                });
+            },
+
             getAdminProductsService: function () {
                 return $http.get('/admin/products').then(function (response) {
                     return response.data;
@@ -162,18 +175,7 @@
                 });
             },
 
-            addNewCategory: function (category) {
-                return $http({
-                    url: '/add/new/category',
-                    method: 'POST',
-                    data: {
-                        idCategory: null,
-                        name: category
-                    }
-                }).then(function (response) {
-                    return response.data;
-                });
-            },
+
 
             getCategoriesService: function () {
                 return  $http.get('/categories').then(function (response) {

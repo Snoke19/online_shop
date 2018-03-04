@@ -7,6 +7,172 @@
 
     <div class="row">
 
+        <!--Table-->
+        <div class="col-12">
+
+            <h3 class="text-center mb-0">All products</h3>
+            <div class="row justify-content-start mb-1">
+
+                <div class="col-auto">
+                    <button type="button" class="btn btn-success btn-sm p-2" data-toggle="modal" data-target="#exampleModal">
+                        Add product
+                    </button>
+                    <button type="button" class="btn btn-success btn-sm p-2" ng-click="addNewCategory()" data-toggle="modal" data-target="#newCateory">
+                        Add/Edit Category</button>
+                    <button type="button" class="btn btn-danger btn-sm p-2" ng-show="disableButtonDeleteItems" ng-click="deleteProducts()">
+                        {{countArrayIdForDelete}}  Delete all
+                    </button>
+                </div>
+            </div>
+
+
+            <div id="grid2" ui-grid="gridOptions"
+                 ui-grid-pagination
+                 ui-grid-resize-columns
+                 ui-grid-move-columns
+                 ui-grid-selection
+                 class="grid"
+                 style="height: 623px;">
+            </div>
+
+        </div>
+        <!--/Table-->
+
+        <!--Modal view product-->
+        <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+            <div class="modal-dialog modal-lg" ng-class="adminProduct.isActive == false ? 'modal-danger': ''" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header" ng-class="adminProduct.isActive == false ? 'modal-danger': ''">
+                        <h5 class="modal-title" ng-if="adminProduct.isActive == true">Detailed information about product (product is active)</h5>
+                        <h5 class="modal-title" ng-if="adminProduct.isActive == false">Detailed information about product (product is not active)</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <!--Body-->
+                    <div class="modal-body">
+
+                        <div class="row">
+
+                            <div class="col-sm-12 col-md-12 col-lg-7">
+
+                                <!--Carousel Wrapper-->
+                                <div id="carousel-example" class="carousel slide carousel-fade" data-ride="carousel">
+                                    <!--Indicators-->
+                                    <ol class="carousel-indicators">
+                                        <li data-target="#carousel-example" data-slide-to="{{key}}" ng-repeat="(key, value) in adminProduct.listImages track by $index"></li>
+                                    </ol>
+                                    <!--/.Indicators-->
+                                    <!--Slides-->
+                                    <div class="carousel-inner" role="listbox">
+                                        <!--First slide-->
+                                        <div class="carousel-item active">
+                                            <div style="text-align: center;">
+                                                <img class="w-50" ng-src="data:image/jpeg;base64,{{ adminProduct.listImages[0]}}">
+                                            </div>
+                                        </div>
+                                        <!--/First slide-->
+                                        <!--Second slide-->
+                                        <div class="carousel-item" ng-repeat="im in adminProduct.listImages track by $index" ng-if="$index > 0">
+                                            <div style="text-align: center;">
+                                                <img class="w-50" ng-src="data:image/jpeg;base64,{{im}}" alt="Second slide">
+                                            </div>
+                                        </div>
+                                        <!--/Second slide-->
+
+                                    </div>
+                                    <!--/.Slides-->
+                                    <!--Controls-->
+                                    <a class="carousel-control-prev" data-target="#carousel-example" role="button" data-slide="prev">
+                                        <span><i class="fas fa-angle-left fa-3x blue-text"></i></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" data-target="#carousel-example" role="button" data-slide="next">
+                                        <span><i class="fas fa-angle-right fa-3x blue-text"></i></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                    <!--/.Controls-->
+                                </div>
+                                <!--/.Carousel Wrapper-->
+
+                            </div>
+
+                            <div class="col-sm-12 col-md-12 col-lg-5">
+
+                                <div class="d-flex flex-column">
+
+                                    <div class="d-flex">
+                                        <div class="p-2">
+                                            <strong>Code:</strong> {{adminProduct.code}}
+                                        </div>
+
+                                        <div class="p-2" ng-if="adminProduct.isActive" tooltips tooltip-template="The product is active." tooltip-side="bottom">
+                                            <strong>Active:</strong> <i class="fas fa-check green-text"></i>
+                                        </div>
+
+                                        <div class="p-2" ng-if="!adminProduct.isActive" tooltips tooltip-template="The product is not active." tooltip-side="bottom">
+                                            <strong>Active:</strong> <i class="fas fa-times red-text"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="p-2">
+                                        <strong class="pr-2">Name:</strong> {{adminProduct.name}}
+                                    </div>
+
+                                    <div class="p-2">
+                                        <strong>Category:</strong> {{adminProduct.category.name}}
+                                    </div>
+
+                                    <div class="p-2">
+                                        <strong>Producer:</strong> {{adminProduct.producer}}
+                                    </div>
+
+                                    <div class="p-2">
+                                        <strong>Price</strong>: ${{adminProduct.price}}
+                                    </div>
+
+                                    <div class="p-2">
+                                        <strong>Quantity of products:</strong> {{adminProduct.quantity}}
+                                    </div>
+
+                                    <div class="p-2" ng-if="adminProduct.quantity != 0">
+                                        <strong>Status:</strong> In Stock
+                                    </div>
+
+                                    <div class="p-2" ng-if="adminProduct.quantity === 0">
+                                        <strong>Status:</strong> Sold out
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+
+                                <h6 class="text-center mb-4 mb-3">Description</h6>
+                                <div class="table-responsive-lg">
+                                    <table class="table table-hover">
+                                        <tbody>
+                                        <tr ng-repeat="b in adminProduct.description">
+                                            <td><h6>{{b.nameDesc}}:</h6></td>
+                                            <td>{{b.dataDesc}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+
         <!-- Modal add product -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="addProduct" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -32,7 +198,6 @@
                                     <input type="text"
                                            class="form-control py-0 pl-2 w-50"
                                            title="Name Product"
-                                           aria-label="idNameProduct"
                                            ng-model="product.name"
                                            ng-required="true">
 
@@ -57,7 +222,6 @@
                                     <input type="number"
                                            class="form-control py-0 pl-2"
                                            title="Name Product"
-                                           aria-label="quantity"
                                            ng-model="product.quantity"
                                            ng-required="true">
 
@@ -67,7 +231,6 @@
                                     <input type="text"
                                            class="form-control py-0 pl-2"
                                            title="Producer"
-                                           aria-describedby="idProducer"
                                            ng-model="product.producer"
                                            ng-required="true">
                                 </div>
@@ -82,7 +245,6 @@
                                            title="Price"
                                            min="0"
                                            class="form-control py-0 pl-2"
-                                           aria-label="idPrice"
                                            ng-model="product.price"
                                            ng-required="true" money>
 
@@ -104,7 +266,6 @@
                                            title="Code"
                                            maxlength="5"
                                            class="form-control py-0 pl-2"
-                                           aria-label="idCode"
                                            ng-model="product.code"
                                            ng-required="true">
                                 </div>
@@ -236,6 +397,8 @@
 
                         <h5>Edit Category</h5>
 
+                        <hr class="mb-2 mt-1">
+
                         <div class="popover-wrapper" ng-repeat="category in categories">
                             <a href="#"
                                editable-text="cat.name"
@@ -245,115 +408,10 @@
                             <br>
                         </div>
 
-
                     </div>
 
                 </div>
             </div>
         </div>
-
-        <!--Table-->
-        <div class="col-md-12 col-lg-12 col-xl-12">
-            <h3 class="text-center mb-0">All products</h3>
-            <div class="row justify-content-start mb-1">
-
-                <div class="col-auto">
-                    <button type="button" class="btn btn-success btn-sm p-2" data-toggle="modal" data-target="#exampleModal">
-                        Add product
-                    </button>
-                    <button type="button" class="btn btn-success btn-sm p-2" ng-click="addNewCategory()" data-toggle="modal" data-target="#newCateory">
-                        Add New Category</button>
-                    <button type="button" class="btn btn-danger btn-sm p-2" ng-show="disableButtonDeleteItems" ng-click="deleteProducts()">
-                        {{countArrayIdForDelete}}  Delete all
-                    </button>
-                </div>
-            </div>
-
-
-            <div id="grid2" ui-grid="gridOptions"
-                 ui-grid-pagination
-                 ui-grid-resize-columns
-                 ui-grid-move-columns
-                 ui-grid-selection
-                 class="grid"
-                 style="height: 623px;">
-            </div>
-
-            <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
-                <div class="modal-dialog modal-lg" ng-class="adminProduct.isActive == false ? 'modal-danger': ''" role="document">
-                    <!--Content-->
-                    <div class="modal-content">
-                        <!--Header-->
-                        <div class="modal-header" ng-class="adminProduct.isActive == false ? 'modal-danger': ''">
-                            <h5 class="modal-title" ng-if="adminProduct.isActive == true">Detailed information about product (product is active)</h5>
-                            <h5 class="modal-title" ng-if="adminProduct.isActive == false">Detailed information about product (product is not active)</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-
-                        <!--Body-->
-                        <div class="modal-body">
-                            <div class="mb-2"><strong>Quantity of products:</strong> {{adminProduct.quantity}}</div>
-                            <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnailsx" data-ride="carousel">
-                                <!--Slides-->
-                                <div class="carousel-inner w-5" role="listbox">
-                                    <div class="carousel-item active">
-                                        <div style="text-align: center;">
-                                            <img class="w-50" ng-src="data:image/jpeg;base64,{{ adminProduct.listImages[0]}}" alt="First slide">
-                                        </div>
-                                    </div>
-                                    <div class="carousel-item" ng-repeat="im in adminProduct.listImages track by $index" ng-if="$index > 0">
-                                        <div style="text-align: center;">
-                                            <img style="text-align:center" class="w-50" ng-src="data:image/jpeg;base64,{{im}}" alt="Second slide">
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--/.Slides-->
-                                <ol class="carousel-indicators">
-                                    <li data-target="#carousel-thumb" data-slide-to="{{key}}" class="" ng-repeat="(key, value) in adminProduct.listImages track by $index">
-                                        <img class="w-50" ng-src="data:image/jpeg;base64,{{value}}">
-                                    </li>
-                                </ol>
-                            </div>
-
-                            <div class="d-flex justify-content-between m-3">
-                                <div><strong>Code:</strong> {{adminProduct.code}}</div>
-                                <div ng-if="adminProduct.isActive"><strong>Active:</strong> Active</div>
-                                <div ng-if="!adminProduct.isActive"><strong>Active:</strong> Not Active</div>
-                                <div ng-if="adminProduct.quantity != 0"><strong>Status:</strong> In Stock</div>
-                                <div ng-if="adminProduct.quantity === 0"><strong>Status:</strong> Sold out</div>
-                            </div>
-
-                            <div class="d-flex justify-content-between m-3">
-                                <div><strong>Name:</strong> {{adminProduct.name}}</div>
-                                <div><strong>Category:</strong> {{adminProduct.category.name}}</div>
-                                <div><strong>Producer:</strong> {{adminProduct.producer}}</div>
-                            </div>
-
-                            <div class="d-flex justify-content-between m-3">
-                                <div><strong>Price</strong>: ${{adminProduct.price}}</div>
-                            </div>
-
-                            <h6 class="text-center mb-4 mb-3">Description</h6>
-                            <div class="table-responsive-lg">
-                                <table class="table table-hover">
-                                    <tbody>
-                                    <tr ng-repeat="b in adminProduct.description">
-                                        <td><h6>{{b.nameDesc}}:</h6></td>
-                                        <td>{{b.dataDesc}}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <!--/.Content-->
-                </div>
-            </div>
-            <!--/info-->
-
-        </div>
-        <!--/Table-->
     </div>
 </div>
