@@ -15,17 +15,10 @@
     angular.module('admin-board-edit-product')
         .component('adminBoardEditProduct', {
             templateUrl: '/admin/edit-product/edit-product.template.html',
-            controller: [
-                '$scope',
-                '$routeParams',
-                'notify',
-                '$ngConfirm',
-                'FileUploader',
-                'ngProgressFactory',
-                'AdminService',
-                'editableOptions',
-                'editableThemes', AdminBoardEditProduct]
+            controller: AdminBoardEditProduct
         });
+
+    AdminBoardEditProduct.$inject = ['$scope','$routeParams','notify','$ngConfirm','FileUploader','ngProgressFactory','AdminService','editableOptions','editableThemes'];
 
     function AdminBoardEditProduct($scope, $routeParams, notify, $ngConfirm, FileUploader, ngProgressFactory, AdminService, editableOptions, editableThemes) {
 
@@ -55,6 +48,13 @@
                 $scope.textActiveOrNotActive = 'Product is active';
                 $scope.textActiveOrNotActive1 = 'pl-2';
             }
+        }).catch(function(response){
+            $ngConfirm({
+                title: 'Error',
+                type: 'red',
+                content: response.data
+            });
+            $scope.progressbar.reset();
         });
 
         $scope.stockSold = function (quantity) {
@@ -65,98 +65,80 @@
             }
         };
 
+
         $scope.loadCategory = function () {
             $scope.progressbar.start();
             AdminService.getCategoriesService().then(function (d) {
                 $scope.allCategories = d;
                 $scope.progressbar.complete();
-            });
-        };
-
-        $scope.updateCode = function () {
-            $scope.progressbar.start();
-            AdminService.updateCodeService($scope.productUpdate.code, $scope.productForUpdate.idProduct).then(function () {
-
-                AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
-                    $scope.productForUpdate = d;
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
                 });
-
-                $scope.progressbar.complete();
-                notify({message: 'Code is updated!', position: 'right', classes: 'alert-success'});
+                $scope.progressbar.reset();
             });
         };
+
 
         $scope.updateNameProduct = function () {
             $scope.progressbar.start();
 
-            AdminService.updateNameProductService($scope.productUpdate.name, $scope.productForUpdate.idProduct).then(function () {
+            AdminService.updateNameProductService($scope.productUpdate.name, $scope.productForUpdate.idProduct).then(function (d) {
 
                 AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
                     $scope.productForUpdate = d;
+                }).catch(function(response){
+                    $ngConfirm({
+                        title: 'Error',
+                        type: 'red',
+                        content: response.data
+                    });
+                    $scope.progressbar.reset();
                 });
 
                 $scope.progressbar.complete();
-                notify({message: 'Name product is updated!', position: 'right', classes: 'alert-success'});
+                notify({message: d, position: 'right', classes: 'alert-success'});
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
             });
         };
+
 
         $scope.updateProducer = function () {
             $scope.progressbar.start();
 
-            AdminService.updateProducerService($scope.productUpdate.producer, $scope.productForUpdate.idProduct).then(function () {
+            AdminService.updateProducerService($scope.productUpdate.producer, $scope.productForUpdate.idProduct).then(function (d) {
 
                 AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
                     $scope.productForUpdate = d;
+                }).catch(function(response){
+                    $ngConfirm({
+                        title: 'Error',
+                        type: 'red',
+                        content: response.data
+                    });
+                    $scope.progressbar.reset();
                 });
 
                 $scope.progressbar.complete();
-                notify({message: 'Producer is updated!.', position: 'right', classes: 'alert-success'});
-            });
-        };
-
-        $scope.updatePrice = function () {
-            $scope.progressbar.start();
-            AdminService.updatePriceService($scope.productUpdate.price, $scope.productForUpdate.idProduct).then(function () {
-
-                AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
-                    $scope.productForUpdate = d;
+                notify({message: d, position: 'right', classes: 'alert-success'});
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
                 });
-
-                $scope.progressbar.complete();
-                notify({message: 'Price is updated!.', position: 'right', classes: 'alert-success'});
+                $scope.progressbar.reset();
             });
         };
 
-        $scope.updateCategory = function () {
-            $scope.progressbar.start();
-            AdminService.updateCategoryService($scope.productUpdate.category.idCategory, $scope.productForUpdate.idProduct).then(function () {
-
-                AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
-                    $scope.productForUpdate = d;
-                });
-
-                $scope.progressbar.complete();
-                notify({message: 'Category is updated!', position: 'right', classes: 'alert-success'});
-            });
-        };
-
-        $scope.statuses = [
-            {value: 'In stock', text: 'In stock'},
-            {value: 'Sold out', text: 'Sold out'}
-        ];
-        $scope.updateQuantity = function () {
-            $scope.progressbar.start();
-
-            AdminService.updateQuantityService($scope.productUpdate.quantity, $scope.productForUpdate.idProduct).then(function () {
-
-                AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
-                    $scope.productForUpdate = d;
-                });
-
-                $scope.progressbar.complete();
-                notify({message: 'Status is updated!', position: 'right', classes: 'alert-success'});
-            });
-        };
 
         var counter = 0;
         $scope.addNewChoice = function($event) {
@@ -174,14 +156,145 @@
             var jsonDesc = angular.toJson($scope.descriptionData);
             $scope.progressbar.start();
 
-            AdminService.updateDescriptionService(jsonDesc, $scope.productForUpdate.idProduct).then(function () {
+            AdminService.updateDescriptionService(jsonDesc, $scope.productForUpdate.idProduct).then(function (d) {
 
                 AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
                     $scope.productForUpdate = d;
+                }).catch(function(response){
+                    $ngConfirm({
+                        title: 'Error',
+                        type: 'red',
+                        content: response.data
+                    });
+                    $scope.progressbar.reset();
                 });
 
                 $scope.progressbar.complete();
-                notify({message: 'Description is updated!', position: 'right', classes: 'alert-success'});
+                notify({message: d, position: 'right', classes: 'alert-success'});
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
+            });
+        };
+
+
+        $scope.updatePrice = function () {
+            $scope.progressbar.start();
+            AdminService.updatePriceService($scope.productUpdate.price, $scope.productForUpdate.idProduct).then(function (d) {
+
+                AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
+                    $scope.productForUpdate = d;
+                }).catch(function(response){
+                    $ngConfirm({
+                        title: 'Error',
+                        type: 'red',
+                        content: response.data
+                    });
+                    $scope.progressbar.reset();
+                });
+
+                $scope.progressbar.complete();
+                notify({message: d, position: 'right', classes: 'alert-success'});
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
+            });
+        };
+
+
+        $scope.statuses = [
+            {value: 'In stock', text: 'In stock'},
+            {value: 'Sold out', text: 'Sold out'}
+        ];
+        $scope.updateQuantity = function () {
+            $scope.progressbar.start();
+
+            AdminService.updateQuantityService($scope.productUpdate.quantity, $scope.productForUpdate.idProduct).then(function (d) {
+
+                AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
+                    $scope.productForUpdate = d;
+                }).catch(function(response){
+                    $ngConfirm({
+                        title: 'Error',
+                        type: 'red',
+                        content: response.data
+                    });
+                    $scope.progressbar.reset();
+                });
+
+                $scope.progressbar.complete();
+                notify({message: d, position: 'right', classes: 'alert-success'});
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
+            });
+        };
+
+
+        $scope.updateCategory = function () {
+            $scope.progressbar.start();
+            AdminService.updateCategoryService($scope.productUpdate.category.idCategory, $scope.productForUpdate.idProduct).then(function (d) {
+
+                AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
+                    $scope.productForUpdate = d;
+                }).catch(function(response){
+                    $ngConfirm({
+                        title: 'Error',
+                        type: 'red',
+                        content: response.data
+                    });
+                    $scope.progressbar.reset();
+                });
+
+                $scope.progressbar.complete();
+                notify({message: d, position: 'right', classes: 'alert-success'});
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
+            });
+        };
+
+
+        $scope.updateCode = function () {
+            $scope.progressbar.start();
+            AdminService.updateCodeService($scope.productUpdate.code, $scope.productForUpdate.idProduct).then(function (d) {
+
+                AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
+                    $scope.productForUpdate = d;
+                }).catch(function(response){
+                    $ngConfirm({
+                        title: 'Error',
+                        type: 'red',
+                        content: response.data
+                    });
+                    $scope.progressbar.reset();
+                });
+
+                $scope.progressbar.complete();
+                notify({message: d, position: 'right', classes: 'alert-success'});
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
             });
         };
 
@@ -189,14 +302,21 @@
         //switcher
         $scope.onChange = function (newValue, oldValue) {
             $scope.progressbar.start();
-            AdminService.updateActivityService(newValue, $scope.productForUpdate.idProduct).then(function () {
+            AdminService.updateActivityService(newValue, $scope.productForUpdate.idProduct).then(function (d) {
 
                 AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
                     $scope.productForUpdate = d;
+                }).catch(function(response){
+                    $ngConfirm({
+                        title: 'Error',
+                        type: 'red',
+                        content: response.data
+                    });
+                    $scope.progressbar.reset();
                 });
 
                 $scope.progressbar.complete();
-                notify({message: 'Active is updated!', position: 'right', classes: 'alert-success'});
+                notify({message: d, position: 'right', classes: 'alert-success'});
 
                 if (!$scope.productForUpdate.isActive){
                     $scope.colorActiveOrNotActive = 'bg-danger text-white p-2 pl-3';
@@ -207,6 +327,13 @@
                     $scope.textActiveOrNotActive1 = 'pl-2';
                     $scope.textActiveOrNotActive = 'Product is active';
                 }
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
             });
         };
 
@@ -226,6 +353,13 @@
         uploaderUpdate.onCompleteAll = function(){
             AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
                 $scope.productForUpdate = d;
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
             });
             $scope.progressbar.complete();
             $scope.uploader = null;
@@ -251,14 +385,28 @@
                         keys: ['enter'],
                         action: function() {
                             $scope.progressbar.start();
-                            AdminService.deleteImageFromList(indexImage, $scope.productForUpdate.idProduct).then(function () {
+                            AdminService.deleteImageFromList(indexImage, $scope.productForUpdate.idProduct).then(function (d) {
 
                                 AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
                                     $scope.productForUpdate = d;
+                                }).catch(function(response){
+                                    $ngConfirm({
+                                        title: 'Error',
+                                        type: 'red',
+                                        content: response.data
+                                    });
+                                    $scope.progressbar.reset();
                                 });
 
                                 $scope.progressbar.complete();
-                                notify({message: 'The image is removed!', position: 'right', classes: 'alert-success'});
+                                notify({message: d, position: 'right', classes: 'alert-success'});
+                            }).catch(function(response){
+                                $ngConfirm({
+                                    title: 'Error',
+                                    type: 'red',
+                                    content: response.data
+                                });
+                                $scope.progressbar.reset();
                             });
                         }
                     },

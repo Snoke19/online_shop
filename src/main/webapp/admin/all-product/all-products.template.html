@@ -9,139 +9,117 @@
         <!-- Section: product details -->
         <div class="col-md-12 col-lg-4">
 
-            <div class="row">
-                <div class="col-sm-12 col-md-8 mb-2">
-                    <button class="btn btn-danger btn-sm" ng-click="deleteProduct(productForEdit.idProduct)"><i class="fa fa-trash"></i> Remove</button>
-                    <a class="btn btn-success btn-sm" ng-href="#!/admin/edit/product/{{productForEdit.idProduct}}"><i class="fa fa-edit"></i> Edit</a>
-                </div>
-                <div class="col-sm-12 col-md-4 mt-2">
-                    Quantity of products: {{productForEdit.quantity}}
-                </div>
+            <div class="d-flex flex-row">
+                <button class="btn btn-danger btn-sm" ng-click="deleteProduct(productForEdit.idProduct)">
+                    <i class="fa fa-trash"></i> Remove
+                </button>
+                <a class="btn btn-success btn-sm" ng-href="#!/admin/edit/product/{{productForEdit.idProduct}}">
+                    <i class="fa fa-edit"></i> Edit
+                </a>
             </div>
 
             <div class="scrollbar scrollbar-primary force-overflow mb-3">
                 <div class="card border">
-                    <div class="mt-3 ml-2">
 
-                        <div class="d-flex mb-3">
-                            <div class="mr-3">
-                                <div class="mr-auto" ng-if="productForEdit.isActive" tooltips tooltip-template="The product is active." tooltip-side="bottom">
-                                    <strong>Active:</strong> <i class="fas fa-check green-text"></i>
-                                </div>
+                    <div class="d-flex flex-row m-3">
 
-                                <div class="mr-auto" ng-if="!productForEdit.isActive" tooltips tooltip-template="The product is not active." tooltip-side="bottom">
-                                    <strong>Active:</strong> <i class="fas fa-times red-text"></i>
-                                </div>
-                            </div>
-
-                            <div class="mr-auto" ng-if="productForEdit.quantity != 0"><strong>Status:</strong> In Stock</div>
-                            <div class="mr-auto" ng-if="productForEdit.quantity === 0"><strong>Status:</strong> Sold out</div>
-
-                            <ng-rate-it class="mr-3 d-inline" ng-model="rating" min="0" max="5" step="1" read-only="true" resetable="false"></ng-rate-it>
+                        <div class="mr-3" ng-if="productForEdit.isActive" tooltips tooltip-template="The product is active." tooltip-side="bottom">
+                            <strong>Active:</strong> <i class="fas fa-check green-text"></i>
                         </div>
 
-                        <!--Carousel Wrapper-->
-                        <!--<div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails" data-ride="carousel">-->
-                            <!--&lt;!&ndash;Slides&ndash;&gt;-->
-                            <!--<div class="carousel-inner" role="listbox">-->
-                                <!--<div class="carousel-item active">-->
-                                    <!--<div style="text-align: center;">-->
-                                        <!--<img style="width: 40%" ng-src="data:image/jpeg;base64,{{ productForEdit.listImages[0]}}" alt="First slide">-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                                <!--<div class="carousel-item" ng-repeat="im in productForEdit.listImages track by $index" ng-if="$index > 0">-->
-                                    <!--<div style="text-align: center;">-->
-                                        <!--<img style="width: 40%" ng-src="data:image/jpeg;base64,{{im}}" alt="Second slide">-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--&lt;!&ndash;/.Slides&ndash;&gt;-->
-                            <!--<ol class="carousel-indicators">-->
-                                <!--<li data-target="#carousel-thumb" data-slide-to="{{key}}" class="" ng-repeat="(key, value) in productForEdit.listImages track by $index">-->
-                                    <!--<img class="w-50" ng-src="data:image/jpeg;base64,{{value}}">-->
-                                <!--</li>-->
-                            <!--</ol>-->
-                        <!--</div>-->
-                        <!--/.Carousel Wrapper-->
-
-
-                        <!--Carousel Wrapper-->
-                        <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails" data-ride="carousel">
-                            <!--Slides-->
-                            <div class="carousel-inner" role="listbox">
-                                <div class="carousel-item active">
-                                    <div style="text-align: center;">
-                                        <img style="width: 50%" ng-src="data:image/jpeg;base64,{{ productForEdit.listImages[0]}}" alt="First slide">
-                                    </div>
-                                </div>
-                                <div class="carousel-item" ng-repeat="im in productForEdit.listImages track by $index" ng-if="$index > 0">
-                                    <div style="text-align: center;">
-                                        <img style="width: 50%" ng-src="data:image/jpeg;base64,{{im}}" alt="Second slide">
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/.Slides-->
-                            <!--Controls-->
-                            <a class="carousel-control-prev" data-target="#carousel-thumb" role="button" data-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="carousel-control-next" data-target="#carousel-thumb" role="button" data-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                            <!--/.Controls-->
-                        </div>
-                        <!--/.Carousel Wrapper-->
-
-
-
-                        <div class="card-body">
-
-                            <div class="row">
-
-                                <div class="col-md-8">
-                                    <p class="h5 mr-3">
-                                        <span tooltips tooltip-template="Code" tooltip-side="bottom">({{productForEdit.code}})</span> {{productForEdit.name}}
-                                    </p>
-                                </div>
-
-                            </div>
-
-                            <div class="mt-2 mb-2">
-                                <strong>Category:</strong> {{productForEdit.category.name}}
-                            </div>
-
-                            <div class="mt-2 mb-2">
-                                <strong>Producer:</strong> {{productForEdit.producer}}
-                            </div>
-
-                            <div class="mt-2 mb-2">
-                                <strong>Price</strong>: ${{productForEdit.price}}
-                            </div>
-
-                            <div class="mt-2 mb-2">
-                                <strong>Discount:</strong>
-                                {{productForEdit.discount}}%
-                                (<s>${{productForEdit.price}}</s> - <span class="green-text">${{productForEdit.price - productForEdit.price * (productForEdit.discount / 100) | number: 2}}</span>)
-                            </div>
-
-
+                        <div class="mr-3" ng-if="!productForEdit.isActive" tooltips tooltip-template="The product is not active." tooltip-side="bottom">
+                            <strong>Active:</strong> <i class="fas fa-times red-text"></i>
                         </div>
 
-                        <div class="card-footer">
-                            <h4 class="font-bold text-center">Description</h4>
-                            <table class="table table-striped">
-                                <tbody>
-                                <tr ng-repeat="d in productForEdit.description">
-                                    <th>{{d.nameDesc}}: </th>
-                                    <td>{{d.dataDesc}}</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                        <div class="mr-3" ng-if="productForEdit.quantity != 0">
+                            <strong>Status:</strong> In Stock <span tooltips tooltip-template="Quantity of products." tooltip-side="bottom">({{productForEdit.quantity}})</span>
+                        </div>
+                        <div class="mr-3" ng-if="productForEdit.quantity === 0">
+                            <strong>Status:</strong> Sold out <span tooltips tooltip-template="Quantity of products." tooltip-side="bottom">({{productForEdit.quantity}})</span>
                         </div>
 
                     </div>
+
+                    <!--Carousel Wrapper-->
+                    <div id="carousel-example" class="carousel slide carousel-fade" data-ride="carousel">
+                        <!--Indicators-->
+                        <ol class="carousel-indicators">
+                            <li data-target="#carousel-example" data-slide-to="{{key}}" ng-repeat="(key, value) in productForEdit.listImages track by $index"></li>
+                        </ol>
+                        <!--/.Indicators-->
+                        <!--Slides-->
+                        <div class="carousel-inner" role="listbox">
+                            <!--First slide-->
+                            <div class="carousel-item active">
+                                <div style="text-align: center;">
+                                    <img class="w-50" ng-src="data:image/jpeg;base64,{{ productForEdit.listImages[0]}}">
+                                </div>
+                            </div>
+                            <!--/First slide-->
+                            <!--Second slide-->
+                            <div class="carousel-item" ng-repeat="im in productForEdit.listImages track by $index" ng-if="$index > 0">
+                                <div style="text-align: center;">
+                                    <img class="w-50" ng-src="data:image/jpeg;base64,{{im}}" alt="Second slide">
+                                </div>
+                            </div>
+                            <!--/Second slide-->
+
+                        </div>
+                        <!--/.Slides-->
+                        <!--Controls-->
+                        <a class="carousel-control-prev" data-target="#carousel-example" role="button" data-slide="prev">
+                            <span><i class="fas fa-angle-left fa-3x blue-text"></i></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" data-target="#carousel-example" role="button" data-slide="next">
+                            <span><i class="fas fa-angle-right fa-3x blue-text"></i></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                        <!--/.Controls-->
+                    </div>
+                    <!--/.Carousel Wrapper-->
+
+
+                    <div class="card-body">
+
+                        <p class="h5 mr-3"><span tooltips tooltip-template="Code" tooltip-side="bottom">({{productForEdit.code}})</span>
+                            {{productForEdit.name}}
+                        </p>
+
+                        <ng-rate-it class="mr-3 d-inline" ng-model="rating" min="0" max="5" step="1" read-only="true" resetable="false"></ng-rate-it>
+
+                        <div class="mt-2 mb-2">
+                            <strong>Category:</strong> {{productForEdit.category.name}}
+                        </div>
+
+                        <div class="mt-2 mb-2">
+                            <strong>Producer:</strong> {{productForEdit.producer}}
+                        </div>
+
+                        <div class="mt-2 mb-2">
+                            <strong>Price</strong>: ${{productForEdit.price}}
+                        </div>
+
+                        <div class="mt-2 mb-2">
+                            <strong>Discount:</strong>
+                            {{productForEdit.discount}}%
+                            (<s>${{productForEdit.price}}</s> - <span class="green-text">${{productForEdit.price - productForEdit.price * (productForEdit.discount / 100) | number: 2}}</span>)
+                        </div>
+
+                    </div>
+
+                    <div class="card-footer">
+                        <h4 class="font-bold text-center">Description</h4>
+                        <table class="table table-hover">
+                            <tbody>
+                            <tr ng-repeat="d in productForEdit.description">
+                                <th>{{d.nameDesc}}: </th>
+                                <td>{{d.dataDesc}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
             </div>
         </div>

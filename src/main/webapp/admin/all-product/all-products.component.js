@@ -15,6 +15,7 @@
         'cp.ngConfirm',
         'ngRateIt',
         '720kb.tooltips',
+        'ngRateIt'
     ]);
 
     angular
@@ -135,9 +136,6 @@
                 { field: 'discount',
                     width: 124,
                     displayName: 'Discount(%)'
-                },
-                { field: 'ratings'
-
                 }
             ],
             data: 'productsAllAdmin'

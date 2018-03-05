@@ -8,6 +8,7 @@ import com.shop.service.ProductsService;
 import com.shop.service.impl.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,65 +35,69 @@ public class AdminEditProductController {
 
 
     @PutMapping("/product/{id}/name")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void updateNameProduct(@PathVariable("id") Long id, @RequestBody String name){
+    public ResponseEntity<String> updateNameProduct(@PathVariable("id") Long id, @RequestBody String name){
         productsService.updateNameProduct(name, id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new Gson().toJson("Name of the product is updated!"));
     }
 
 
     @PutMapping("/product/{id}/producer")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void updateProducer(@PathVariable("id") Long id, @RequestBody String producer){
+    public ResponseEntity<String> updateProducer(@PathVariable("id") Long id, @RequestBody String producer){
         productsService.updateProducer(producer, id);
+        return ResponseEntity.status(HttpStatus.OK).body(new Gson().toJson("Producer of the product is updated!"));
     }
 
 
     @PutMapping("/product/{id}/description")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void updateDescription(@PathVariable("id") Long id, @RequestBody List<Description> descriptionList){
+    public  ResponseEntity<String> updateDescription(@PathVariable("id") Long id, @RequestBody List<Description> descriptionList){
         productsService.updateDescription(descriptionList, id);
+
+        return ResponseEntity.ok(new Gson().toJson("Description is updated!"));
     }
 
 
     @PutMapping("/product/{id}/price")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void updatePrice(@PathVariable("id") Long id, @RequestBody BigDecimal price){
+    public ResponseEntity<String> updatePrice(@PathVariable("id") Long id, @RequestBody BigDecimal price){
         productsService.updatePrice(price, id);
+        return ResponseEntity.ok(new Gson().toJson("Price of the product is updated"));
     }
 
 
     @PutMapping("/product/{id}/quantity")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void updateQuantity(@PathVariable("id") Long id, @RequestBody Integer quantity){
+    public ResponseEntity<String> updateQuantity(@PathVariable("id") Long id, @RequestBody Integer quantity){
         productsService.updateQuantity(quantity, id);
+        return ResponseEntity.ok(new Gson().toJson("Quantity of the product is updated!"));
     }
 
 
     @PutMapping("/product/{id}/active")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void updateActive(@PathVariable("id") Long id, @RequestBody boolean active){
+    public ResponseEntity<String> updateActive(@PathVariable("id") Long id, @RequestBody boolean active){
         productsService.updateActive(active, id);
+        return ResponseEntity.ok(new Gson().toJson("Status of the product is updated"));
     }
 
 
     @PutMapping("/product/{id}/category")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void updateCategory(@PathVariable("id") Long id, @RequestBody Long idCategory){
+    public ResponseEntity<String> updateCategory(@PathVariable("id") Long id, @RequestBody Long idCategory){
         productsService.updateCategory(idCategory, id);
+        return ResponseEntity.ok(new Gson().toJson("Category of the product is updated"));
     }
 
 
     @PutMapping("/product/{id}/code")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void updateCode(@PathVariable("id") Long id, @RequestBody String code){
+    public ResponseEntity<String> updateCode(@PathVariable("id") Long id, @RequestBody String code){
         productsService.updateCode(code, id);
+        return ResponseEntity.ok(new Gson().toJson("Code of the product is updated!"));
     }
 
 
     @DeleteMapping("/product/{id}/images/{index}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteImageFromList(@PathVariable Long id, @PathVariable("index") int index) throws IOException {
+    public ResponseEntity<String> deleteImageFromList(@PathVariable Long id, @PathVariable("index") int index) throws IOException {
         productsService.deleteOneImageProduct(index, id);
+
+        return ResponseEntity.ok(new Gson().toJson("The image is removed!'"));
     }
 
 
