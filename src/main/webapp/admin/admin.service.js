@@ -252,6 +252,11 @@
             },
 
             //orders
+            getAllOrders: function () {
+                return $http.get("/orders").then(function (response) {
+                    return response.data;
+                })
+            },
             getOrderItemsByIdUser: function (id) {
                 return $http.get('/get/user/orderitems/' + id).then(function (response) {
                     return response.data;

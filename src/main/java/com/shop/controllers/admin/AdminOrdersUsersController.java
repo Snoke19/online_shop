@@ -22,9 +22,9 @@ public class AdminOrdersUsersController {
         this.ordersService = ordersService;
     }
 
-    @GetMapping("/new/orders")
+    @GetMapping("/orders")
     public ResponseEntity<List<OrdersDTO>> getNewOrders(){
-        List<OrdersDTO> ordersDTOList = ordersService.getNewOrders();
+        List<OrdersDTO> ordersDTOList = ordersService.getAll();
         return ResponseEntity.status(HttpStatus.OK).body(ordersDTOList);
     }
 

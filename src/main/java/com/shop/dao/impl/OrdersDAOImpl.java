@@ -47,7 +47,7 @@ public class OrdersDAOImpl extends HibernateSessionDAO implements OrdersDAO {
     @SuppressWarnings("unchecked")
     public List<Orders> getNewAndProcessOrders() {
         return getSession()
-                .createQuery("from Orders o where o.status = 'new' or o.status = 'in_process'")
+                .createQuery("from Orders o where o.status = 'new' or o.status = 'new'")
                 .list();
     }
 

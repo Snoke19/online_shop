@@ -18,8 +18,10 @@
     angular.module('users-orders')
         .component('usersOrders', {
             templateUrl: '/admin/orders-users/users-orders.template.html',
-            controller: ['$scope', '$http', '$interval', '$timeout', 'notify', 'ngProgressFactory', 'uiGridTreeViewConstants', 'AdminService', AdminBoardUsersOrdersController]
+            controller: AdminBoardUsersOrdersController
         });
+
+    AdminBoardUsersOrdersController.$inject = ['$scope', '$http', '$interval', '$timeout', 'notify', 'ngProgressFactory', 'uiGridTreeViewConstants', 'AdminService'];
 
     function AdminBoardUsersOrdersController($scope, $http, $interval ,$timeout, notify, ngProgressFactory, uiGridTreeViewConstants, AdminService) {
 
@@ -33,7 +35,7 @@
         $scope.progressbar.setHeight('5px');
 
         $scope.progressbar.start();
-        AdminService.getNewOrders().then(function (d) {
+        AdminService.getAllOrders().then(function (d) {
             $scope.allOrders = d;
 
             $scope.progressbar.complete();
@@ -50,11 +52,24 @@
                 });
 
                 $scope.progressbar.complete();
-
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
             });
 
             //so that the scroll is visible
             $scope.forceOverflowUserOrder = 'scrollbar scrollbar-primary force-overflow-userOrder';
+        }).catch(function(response){
+            $ngConfirm({
+                title: 'Error',
+                type: 'red',
+                content: response.data
+            });
+            $scope.progressbar.reset();
         });
 
         $scope.progressbar.start();

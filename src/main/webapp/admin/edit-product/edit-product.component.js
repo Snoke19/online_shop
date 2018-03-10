@@ -362,7 +362,7 @@
                 $scope.progressbar.reset();
             });
             $scope.progressbar.complete();
-            $scope.uploader = null;
+            $scope.uploader.clear();
             $scope.added = 'Added';
             notify({message: 'All images is uploaded!', position: 'right', classes: 'alert-success'});
         };

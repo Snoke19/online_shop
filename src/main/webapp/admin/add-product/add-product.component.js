@@ -49,13 +49,13 @@
             $scope.productsAddAdmin = d;
             $scope.progressbar.complete();
         }).catch(function(response){
-                $ngConfirm({
-                    title: 'Error',
-                    type: 'red',
-                    content: response.data
-                });
-                $scope.progressbar.reset();
+            $ngConfirm({
+                title: 'Error',
+                type: 'red',
+                content: response.data
             });
+            $scope.progressbar.reset();
+        });
 
 
         $scope.getAdminProduct = function (id) {
@@ -63,15 +63,14 @@
             AdminService.getAdminProductService(id).then(function (d) {
                 $scope.adminProduct = d;
                 $scope.progressbar.complete();
-            }).catch(
-                function(response){
-                    $ngConfirm({
-                        title: 'Error',
-                        type: 'red',
-                        content: response.data
-                    });
-                    $scope.progressbar.reset();
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
                 });
+                $scope.progressbar.reset();
+            });
         };
 
 
@@ -180,18 +179,12 @@
                         btnClass: 'btn-primary',
                         keys: ['enter'],
                         action: function(){
-
                             $scope.progressbar.start();
                             AdminService.deleteProductByIdService(row.entity.idProduct).then(function (d) {
 
                                 AdminService.getAdminProductsService().then(function (d) {
                                     $scope.productsAddAdmin = d;
-                                });
-
-                                $scope.progressbar.complete();
-                                notify({message: d, position: 'right', classes: 'alert-success'});
-                            }).catch(
-                                function(response){
+                                }).catch(function(response){
                                     $ngConfirm({
                                         title: 'Error',
                                         type: 'red',
@@ -199,6 +192,17 @@
                                     });
                                     $scope.progressbar.reset();
                                 });
+
+                                $scope.progressbar.complete();
+                                notify({message: d, position: 'right', classes: 'alert-success'});
+                            }).catch(function(response){
+                                $ngConfirm({
+                                    title: 'Error',
+                                    type: 'red',
+                                    content: response.data
+                                });
+                                $scope.progressbar.reset();
+                            });
                         }
                     },
                     close: {
@@ -234,6 +238,13 @@
 
                                 AdminService.getAdminProductsService().then(function (d) {
                                     $scope.productsAddAdmin = d;
+                                }).catch(function(response){
+                                    $ngConfirm({
+                                        title: 'Error',
+                                        type: 'red',
+                                        content: response.data
+                                    });
+                                    $scope.progressbar.reset();
                                 });
 
                                 $scope.progressbar.complete();
@@ -244,8 +255,7 @@
                                 $scope.arrayIdForDelete = null;
                                 $scope.countArrayIdForDelete = null;
                                 $scope.disableButtonDeleteItems = false;
-                            }).catch(
-                                function(response){
+                            }).catch(function(response){
                                     $ngConfirm({
                                         title: 'Error',
                                         type: 'red',
@@ -266,9 +276,6 @@
                 }
             });
         };
-
-
-
 
 
         // save data
@@ -303,6 +310,7 @@
         };
         // description fields
 
+
         $scope.disabledUploader = function (boolean) {
             if(boolean === true){
                 $scope.useUploaderImages = boolean;
@@ -314,6 +322,7 @@
                 $scope.enableAddproduct = true;
             }
         };
+
 
         var uploader = $scope.uploader = new FileUploader({
             url: '/admin/upload/images'
@@ -349,13 +358,20 @@
             }
         };
 
-        $scope.saveData = function () {
 
+        $scope.saveData = function () {
             $scope.progressbar.start();
             AdminService.addProductService($scope.product, $scope.descriptionData).then(function (d) {
 
                 AdminService.getAdminProductsService().then(function (d) {
                     $scope.productsAddAdmin = d;
+                }).catch(function(response){
+                    $ngConfirm({
+                        title: 'Error',
+                        type: 'red',
+                        content: response.data
+                    });
+                    $scope.progressbar.reset();
                 });
 
                 $scope.progressbar.complete();
@@ -369,10 +385,29 @@
                         dataDesc: ''
                     }];
                 }
-            })
-
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
+            });
         };
         //save data
+
+
+        $scope.magicNumberForCode = function () {
+            var chars = "0123456789ABC";
+            var string_length = 5;
+            var randomstring = '';
+            for (var i = 0; i < string_length; i++) {
+                var rnum = Math.floor(Math.random() * chars.length);
+                randomstring += chars.substring(rnum, rnum + 1);
+            }
+            $scope.product.code = randomstring;
+        };
+
 
         $scope.addNewCategories = function () {
 
@@ -382,7 +417,13 @@
 
                 AdminService.getCategoriesService().then(function (d) {
                     $scope.categories = d;
-
+                }).catch(function(response){
+                    $ngConfirm({
+                        title: 'Error',
+                        type: 'red',
+                        content: response.data
+                    });
+                    $scope.progressbar.reset();
                 });
 
                 notify({message: d, position: 'right', classes: 'alert-success'});
@@ -398,17 +439,6 @@
             });
         };
 
-        $scope.magicNumberForCode = function () {
-
-            var chars = "0123456789ABC";
-            var string_length = 5;
-            var randomstring = '';
-            for (var i = 0; i < string_length; i++) {
-                var rnum = Math.floor(Math.random() * chars.length);
-                randomstring += chars.substring(rnum, rnum + 1);
-            }
-            $scope.product.code = randomstring;
-        };
 
         AdminService.getCategoriesService().then(function (d) {
             $scope.categories = d;
@@ -427,8 +457,7 @@
             AdminService.editExistCategory(category.idCategory, category).then(function (d) {
                 $scope.categories = d;
                 $scope.progressbar.complete();
-            }).catch(
-                function(response){
+            }).catch(function(response){
                     $ngConfirm({
                         title: 'Error',
                         type: 'red',
@@ -438,8 +467,8 @@
                 });
         };
 
-        $scope.deleteOneCategory = function (category) {
 
+        $scope.deleteOneCategory = function (category) {
             $ngConfirm({
                 title: 'Removing a category.',
                 content: 'Do you really want to delete this category? <p>{{category.name}}</p>',
@@ -473,8 +502,7 @@
                                 notify({message: d, position: 'right', classes: 'alert-success'});
                                 $scope.progressbar.complete();
 
-                            }).catch(
-                                function(response){
+                            }).catch(function(response){
                                     $ngConfirm({
                                         title: 'Error',
                                         type: 'red',
@@ -493,12 +521,7 @@
                     }
                 }
             });
-
-
-
-
         }
-
     }
 
     //directive

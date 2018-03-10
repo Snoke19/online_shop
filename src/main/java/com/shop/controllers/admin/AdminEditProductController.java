@@ -93,7 +93,6 @@ public class AdminEditProductController {
 
 
     @DeleteMapping("/product/{id}/images/{index}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<String> deleteImageFromList(@PathVariable Long id, @PathVariable("index") int index) throws IOException {
         productsService.deleteOneImageProduct(index, id);
 

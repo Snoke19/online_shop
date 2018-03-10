@@ -44,8 +44,22 @@
 
                 $scope.rating = $scope.productForEdit.ratings;
                 $scope.progressbar.complete();
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
             });
 
+        }).catch(function(response){
+            $ngConfirm({
+                title: 'Error',
+                type: 'red',
+                content: response.data
+            });
+            $scope.progressbar.reset();
         });
 
 
@@ -57,6 +71,7 @@
             }
         };
 
+
         $scope.isActive = function (row) {
             if (row.entity.isActive){
                 return 'Active';
@@ -64,6 +79,7 @@
                 return 'Not active';
             }
         };
+
 
         $scope.gridOptions = {
 
@@ -99,6 +115,13 @@
 
                             $scope.progressbar.complete();
                             $scope.arrayIdForDelete = null;
+                        }).catch(function(response){
+                            $ngConfirm({
+                                title: 'Error',
+                                type: 'red',
+                                content: response.data
+                            });
+                            $scope.progressbar.reset();
                         });
                     } else $scope.disableButtonDeleteItems = idProduct.length !== 1;
                 });
@@ -164,7 +187,21 @@
 
                                     AdminService.getProductService($scope.productsAllAdmin[0].idProduct).then(function (d) {
                                         $scope.productForEdit = d;
+                                    }).catch(function(response){
+                                        $ngConfirm({
+                                            title: 'Error',
+                                            type: 'red',
+                                            content: response.data
+                                        });
+                                        $scope.progressbar.reset();
                                     });
+                                }).catch(function(response){
+                                    $ngConfirm({
+                                        title: 'Error',
+                                        type: 'red',
+                                        content: response.data
+                                    });
+                                    $scope.progressbar.reset();
                                 });
                                 $scope.progressbar.complete();
                                 notify({message: 'The product is deleted!', position: 'right', classes: 'alert-success'});
@@ -203,6 +240,13 @@
                             AdminService.deleteProductsByIdsService(arrayIdSelected).then(function () {
                                 AdminService.getAdminProductsService().then(function (d) {
                                     $scope.productsAllAdmin = d;
+                                }).catch(function(response){
+                                    $ngConfirm({
+                                        title: 'Error',
+                                        type: 'red',
+                                        content: response.data
+                                    });
+                                    $scope.progressbar.reset();
                                 });
 
                                 $scope.progressbar.complete();
@@ -213,6 +257,13 @@
                                 $scope.arrayIdForDelete = null;
                                 $scope.countArrayIdForDelete = null;
                                 $scope.disableButtonDeleteItems = false;
+                            }).catch(function(response){
+                                $ngConfirm({
+                                    title: 'Error',
+                                    type: 'red',
+                                    content: response.data
+                                });
+                                $scope.progressbar.reset();
                             });
                         }
                     },

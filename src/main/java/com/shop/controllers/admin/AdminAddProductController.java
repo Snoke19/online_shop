@@ -62,7 +62,6 @@ public class AdminAddProductController {
 
 
     @GetMapping("/admin/products")
-    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
         return ResponseEntity.status(HttpStatus.OK).body(productsService.getAdminProducts());
     }
@@ -71,7 +70,7 @@ public class AdminAddProductController {
     @DeleteMapping("/admin/product")
     public ResponseEntity<String> deleteProduct(@RequestBody Long id) {
         productsService.delete(id);
-        return ResponseEntity.status(HttpStatus.OK).body(new Gson().toJson("The product is deleted!"));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new Gson().toJson("The product is deleted!"));
     }
 
 
@@ -80,7 +79,7 @@ public class AdminAddProductController {
         Type listId = new TypeToken<List<Long>>(){}.getType();
         productsService.deleteProductSelected(new Gson().fromJson(idProducts, listId));
 
-        return ResponseEntity.status(HttpStatus.OK).body(new Gson().toJson("The products is deleted!"));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new Gson().toJson("The products is deleted!"));
     }
 
 
