@@ -11,7 +11,7 @@ component('detailsProduct', {
     controller: ['$http', '$scope', '$routeParams',
         function ($http, $scope, $routeParams){
 
-            $http.get('/product/get/' + $routeParams.idProduct).then(function (response) {
+            $http.get('/product/' + $routeParams.idProduct).then(function (response) {
                 $scope.productDetails = response.data;
             });
 

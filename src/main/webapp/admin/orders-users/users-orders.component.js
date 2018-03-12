@@ -12,7 +12,8 @@
         'ui.grid.moveColumns',
         'ui.grid.selection',
         'ui.grid.treeView',
-        'cgNotify'
+        'cgNotify',
+        'admin-user-orders-service'
     ]);
 
     angular.module('users-orders')
@@ -21,9 +22,9 @@
             controller: AdminBoardUsersOrdersController
         });
 
-    AdminBoardUsersOrdersController.$inject = ['$scope', '$http', '$interval', '$timeout', 'notify', 'ngProgressFactory', 'uiGridTreeViewConstants', 'AdminService'];
+    AdminBoardUsersOrdersController.$inject = ['$scope', '$http', '$interval', '$timeout', 'notify', 'ngProgressFactory', 'uiGridTreeViewConstants', 'AdminUserOrdersService'];
 
-    function AdminBoardUsersOrdersController($scope, $http, $interval ,$timeout, notify, ngProgressFactory, uiGridTreeViewConstants, AdminService) {
+    function AdminBoardUsersOrdersController($scope, $http, $interval ,$timeout, notify, ngProgressFactory, uiGridTreeViewConstants, AdminUserOrdersService) {
 
         $scope.tabs = {
             active: 0
@@ -35,13 +36,13 @@
         $scope.progressbar.setHeight('5px');
 
         $scope.progressbar.start();
-        AdminService.getAllOrders().then(function (d) {
+        AdminUserOrdersService.getAllOrders().then(function (d) {
             $scope.allOrders = d;
 
             $scope.progressbar.complete();
 
             $scope.progressbar.start();
-            AdminService.getOrderItemsByIdUser($scope.allOrders[0].idOrders).then(function (d) {
+            AdminUserOrdersService.getOrderItemsByIdUser($scope.allOrders[0].idOrders).then(function (d) {
                 $scope.orderUser = d;
 
                 //total price
@@ -81,7 +82,7 @@
             //so that the scroll is visible
             $scope.forceOverflowUserOrder = 'scrollbar scrollbar-primary force-overflow-userOrder';
 
-            AdminService.getOrderItemsByIdUser(id).then(function (d) {
+            AdminUserOrdersService.getOrderItemsByIdUser(id).then(function (d) {
                 $scope.orderUser = d;
 
                 //total price
@@ -110,9 +111,9 @@
         $scope.progressbar.start();
         $scope.updateNewOrderStatus = function (id) {
 
-            AdminService.updateStatusOrder('in_process', id).then(function (d) {
+            AdminUserOrdersService.updateStatusOrder('in_process', id).then(function (d) {
 
-                AdminService.getNewOrders().then(function (d) {
+                AdminUserOrdersService.getNewOrders().then(function (d) {
                     $scope.allOrders = d;
                 });
 
@@ -124,9 +125,9 @@
         $scope.progressbar.start();
         $scope.cancelNewOrder = function (id) {
 
-            AdminService.updateStatusOrder('canceled', id).then(function (d) {
+            AdminUserOrdersService.updateStatusOrder('canceled', id).then(function (d) {
 
-                AdminService.getNewOrders().then(function (d) {
+                AdminUserOrdersService.getNewOrders().then(function (d) {
                     $scope.allOrders = d;
                 });
 

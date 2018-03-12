@@ -5,7 +5,8 @@
         'ngRoute',
         'ngProgress',
         'cp.ngConfirm',
-        'cgNotify'
+        'cgNotify',
+        'admin-border-service'
     ]);
 
     angular
@@ -15,15 +16,15 @@
             controller: AdminBoardController
         });
 
-    AdminBoardController.$inject = ['$scope', 'notify', '$ngConfirm', 'ngProgressFactory', 'AdminService'];
+    AdminBoardController.$inject = ['$scope', 'notify', '$ngConfirm', 'ngProgressFactory', 'AdminBorderService'];
 
-    function AdminBoardController ($scope, notify, $ngConfirm, ngProgressFactory ,AdminService) {
+    function AdminBoardController ($scope, notify, $ngConfirm, ngProgressFactory ,AdminBorderService) {
 
         $scope.progressbar = ngProgressFactory.createInstance();
         $scope.progressbar.setHeight('5px');
 
         $scope.progressbar.start();
-        AdminService.getAmountOrders().then(function (d) {
+        AdminBorderService.getAmountOrders().then(function (d) {
             $scope.amountOrders = d;
 
             $scope.progressbar.complete();

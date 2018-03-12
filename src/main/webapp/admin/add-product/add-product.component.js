@@ -503,13 +503,13 @@
                                 $scope.progressbar.complete();
 
                             }).catch(function(response){
-                                    $ngConfirm({
-                                        title: 'Error',
-                                        type: 'red',
-                                        content: response.data
-                                    });
-                                    $scope.progressbar.reset();
+                                $ngConfirm({
+                                    title: 'Error',
+                                    type: 'red',
+                                    content: response.data
                                 });
+                                $scope.progressbar.reset();
+                            });
                         }
                     },
                     close: {

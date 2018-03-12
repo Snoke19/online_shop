@@ -4,13 +4,13 @@
 </head>
 
 
-<div class="container mt-5 pt-3">
+<div class="container pt-3">
 
     <div class="row">
 
-        <div class="col-md-4">
+        <div class="col-md-12 col-lg-4">
 
-            <div class="card">
+            <div class="card mb-3">
                 <img ng-show="oneUser.avatar" class="card-img-top mt-3" ng-src="data:image/jpeg;base64,{{ oneUser.avatar }}" alt="Avatar">
 
                 <div class="card-body pt-2">
@@ -28,8 +28,8 @@
                         <li class="m-1" ng-show="oneUser.address"><strong>Address: </strong>{{oneUser.address}}</li>
                     </ul>
 
-                    <div class="d-flex justify-content-between">
-                        <button type="button" ng-click="getUserHistory(oneUser.idUser)" ng-show="visibleHistoryOrders" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalUser">
+                    <div class="d-flex">
+                        <button type="button" ng-click="getUserHistory(oneUser.idUser)" ng-show="visibleHistoryOrders" class="btn btn-success btn-sm mr-auto" data-toggle="modal" data-target="#modalUser">
                             Orders History
                         </button>
 
@@ -62,31 +62,27 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
 
-        <div class="col-md-8 mt-2">
+        <div class="col-md-12 col-lg-8">
 
-            <div class="mb-1 mt-3 d-flex">
+            <div class="mb-1 d-flex">
 
-                <label class="custom-control custom-radio">
-                    <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" checked ng-click="getUsers()">
-                    <span class="custom-control-indicator"></span>
-                    <span class="custom-control-description">Users</span>
-                </label>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input" checked ng-click="getUsers()">
+                    <label class="custom-control-label" for="customRadioInline1">Users</label>
+                </div>
 
-                <label class="custom-control custom-radio">
-                    <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" ng-click="getAdmins()">
-                    <span class="custom-control-indicator"></span>
-                    <span class="custom-control-description">Admins</span>
-                </label>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input" ng-click="getAdmins()">
+                    <label class="custom-control-label" for="customRadioInline2">Admins</label>
+                </div>
 
 
                 <div class="form-group ml-auto mb-0">
-                    <button class="btn btn-danger btn-sm mb-3" ng-show="visibleAccountDisableAdmin && !oneUser.enabled" ng-click="delAdmin(oneUser.idUser)" tooltips tooltip-template="You can remove this admin!" tooltip-side="bottom" tooltip-class="w-100">Account disabled</button>
-                    <button class="btn btn-primary btn-sm mb-3" ng-show="visibleAddAdmin" ng-click="addNewAdmin()"><i class="far fa-user"></i> Add new admin</button>
+                    <button class="btn btn-danger btn-sm" ng-show="visibleAccountDisableAdmin && !oneUser.enabled" ng-click="delAdmin(oneUser.idUser)" tooltips tooltip-template="You can remove this admin!" tooltip-side="bottom" tooltip-class="w-100">Account disabled</button>
+                    <button class="btn btn-primary btn-sm" ng-show="visibleAddAdmin" ng-click="addNewAdmin()"><i class="far fa-user"></i> Add new admin</button>
                 </div>
             </div>
 

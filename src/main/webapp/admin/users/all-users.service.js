@@ -11,24 +11,24 @@
         return {
 
             getAllUsersService: function () {
-                return $http.get('/get/users').then(function (response) {
+                return $http.get('/users').then(function (response) {
                     return response.data;
                 });
             },
             getAllAdminsService: function () {
-                return $http.get('/get/admins').then(function (response) {
+                return $http.get('/admins').then(function (response) {
                     return response.data;
                 });
             },
             getUserOrdersHistory: function (id) {
-                return $http.get('/get/user/'+ id + '/orders/history').then(function (response) {
+                return $http.get('/user/'+ id + '/orders/history').then(function (response) {
                     return response.data;
                 })
             },
             updateEnabled: function (data, idUser) {
                 return $http({
                     url: '/user/enabled/update',
-                    method: 'POST',
+                    method: 'PUT',
                     data: {
                         data: data,
                         idUser: idUser
@@ -39,7 +39,7 @@
             },
             addAdmin: function (username, surname, email, password) {
                 return $http({
-                    url: '/add/admin',
+                    url: '/admin',
                     method: 'POST',
                     data: {
                         userName: username,

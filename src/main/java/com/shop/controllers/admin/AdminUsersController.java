@@ -32,71 +32,53 @@ public class AdminUsersController {
     }
 
 
-    @GetMapping("/get/users")
+    @GetMapping("/users")
     public ResponseEntity<List<UserDTO>> getAllUsers(){
-        List<UserDTO> userDTOList = userService.getAllUsers();
-
-        if (userDTOList.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }else {
-            return ResponseEntity.status(HttpStatus.OK).body(userDTOList);
-        }
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUsers());
     }
 
 
-    @GetMapping("/get/admins")
+    @GetMapping("/admins")
     public ResponseEntity<List<AdminDTO>> getAllAdmins(){
-        List<AdminDTO> adminDTOList = userService.getAllAdmins();
-
-        if (adminDTOList.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }else {
-            return ResponseEntity.status(HttpStatus.OK).body(adminDTOList);
-        }
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getAllAdmins());
     }
 
 
-    @GetMapping("/get/user/{id}")
+    @GetMapping("/user/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable("id") Long id){
-        if (userService.get(id) == null){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }else {
-            return ResponseEntity.status(HttpStatus.OK).body(userService.get(id));
-        }
+        return ResponseEntity.status(HttpStatus.OK).body(userService.get(id));
     }
 
 
-    @GetMapping("/get/user/{id}/orders/history")
+    @GetMapping("/user/{id}/orders/history")
     public ResponseEntity<List<OrderItemsDTO>> getUserOrdersHistory(@PathVariable("id") Long id){
         List<OrderItemsDTO> orderItemsDTOList = ordersService.getOrdersHistoryByIdUser(id);
 
-        if (orderItemsDTOList.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }else {
-            return ResponseEntity.status(HttpStatus.OK).body(orderItemsDTOList);
-        }
+        return ResponseEntity.status(HttpStatus.OK).body(orderItemsDTOList);
     }
 
 
-    @PostMapping("/user/enabled/update")
-    public void updateEnabled(@RequestBody String json){
+    @PutMapping("/user/enabled/update")
+    public ResponseEntity<String> updateEnabled(@RequestBody String json){
 
         JsonObject jos = new Gson().fromJson(json, JsonObject.class);
         Boolean data = jos.get("data").getAsBoolean();
         long id = jos.get("idUser").getAsLong();
 
         userService.updateEnabled(data, id);
+
+        return ResponseEntity.ok(new Gson().toJson("Enabled is updated!"));
     }
 
 
-    @PostMapping(value = "/add/admin", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping("/admin")
     public ResponseEntity<String> addAdmin(@RequestBody AdminDTO adminDTO) {
 
         if (userService.emailExist(adminDTO.getEmail())){
             return ResponseEntity.status(HttpStatus.CONFLICT).body(new Gson().toJson("There is an account with that email address: " + adminDTO.getEmail()));
         }else {
             userService.addAdmin(adminDTO);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(new Gson().toJson("New admin is added!"));
         }
     }
 

@@ -51,9 +51,7 @@
             deleteProductByIdService: function (idProduct) {
                 return $http({
                     method: 'DELETE',
-                    url: '/admin/product',
-                    data: idProduct,
-                    headers: {'Content-Type': 'application/json; charset=utf8'}
+                    url: '/admin/product/' + idProduct
                 }).then(function (response) {
                     return response.data;
                 });
@@ -89,63 +87,16 @@
 
 
             getAdminProductService: function (id) {
-                return $http.get('/product/get/' + id).then(function (response) {
+                return $http.get('/product/' + id).then(function (response) {
                     return response.data;
                 });
             },
-
 
 
             getCategoriesService: function () {
                 return  $http.get('/categories').then(function (response) {
                     return response.data;
                 });
-            },
-            getProductService: function (idProduct) {
-                return $http.get('/product/get/' + idProduct).then(function (response) {
-                    return response.data;
-                });
-            },
-
-
-
-            //orders
-            getAllOrders: function () {
-                return $http.get("/orders").then(function (response) {
-                    return response.data;
-                })
-            },
-            getOrderItemsByIdUser: function (id) {
-                return $http.get('/get/user/orderitems/' + id).then(function (response) {
-                    return response.data;
-                });
-            },
-            getNewOrders: function () {
-                return $http.get('/new/orders').then(function (response) {
-                    return response.data;
-                });
-            },
-            getInProcessOrders: function () {
-                return $http.get('/inprocess/orders').then(function (response) {
-                    return response.data;
-                })
-            },
-            getAmountOrders: function () {
-                return $http.get('/admin/orders/amount').then(function (response) {
-                    return response.data;
-                });
-            },
-            updateStatusOrder: function (status, id) {
-                return $http({
-                    url: '/order/update/status',
-                    method: 'POST',
-                    data: {
-                        status: status,
-                        idOrder: id
-                    }
-                }).then(function (response) {
-                    return response.data;
-                })
             }
         }
     }

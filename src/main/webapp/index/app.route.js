@@ -3,7 +3,6 @@
 angular.module('shop', [
     'ngRoute',
 
-    'products',
     'details-product',
 
     'admin-board',

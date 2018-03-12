@@ -34,6 +34,13 @@
             $scope.visibleAccountDisableUser = !$scope.users[0].enabled;
 
             $scope.progressbar.complete();
+        }).catch(function(response){
+            $ngConfirm({
+                title: 'Error',
+                type: 'red',
+                content: response.data
+            });
+            $scope.progressbar.reset();
         });
 
 
@@ -45,14 +52,28 @@
         //switcher
         $scope.onChange = function (newValue, oldValue) {
             $scope.progressbar.start();
-            AdminAllUsersService.updateEnabled(newValue, oldValue).then(function () {
+            AdminAllUsersService.updateEnabled(newValue, oldValue).then(function (d) {
 
                 AdminAllUsersService.getAllAdminsService().then(function (d) {
                     $scope.users = d;
+                }).catch(function(response){
+                    $ngConfirm({
+                        title: 'Error',
+                        type: 'red',
+                        content: response.data
+                    });
+                    $scope.progressbar.reset();
                 });
 
-                notify({message: 'Enabled is updated!', position: 'right', classes: 'alert-success'});
+                notify({message: d, position: 'right', classes: 'alert-success'});
                 $scope.progressbar.complete();
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
             });
         };
 
@@ -67,6 +88,13 @@
                 $scope.visibleAccountDisableUser = !$scope.users[0].enabled;
 
                 $scope.progressbar.complete();
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
             });
 
 
@@ -102,6 +130,13 @@
                 $scope.oneUser = $scope.users[0];
 
                 $scope.progressbar.complete();
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
             });
 
 
@@ -141,6 +176,13 @@
             AdminAllUsersService.getUserOrdersHistory(id).then(function (d) {
                 $scope.userOrdersHistory = d;
                 $scope.progressbar.complete();
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
             });
         };
 
@@ -162,23 +204,33 @@
                         keys: ['enter'],
                         action: function(scope) {
                             $scope.progressbar.start();
-                            AdminAllUsersService.addAdmin(scope.username, scope.surname, scope.email, scope.password).then(
-                                function () {
-                                    AdminAllUsersService.getAllAdminsService().then(function (d) {
-                                        $scope.users = d;
+                            AdminAllUsersService.addAdmin(
+                                scope.username,
+                                scope.surname,
+                                scope.email,
+                                scope.password
+                            ).then(function (d) {
+                                AdminAllUsersService.getAllAdminsService().then(function (d) {
+                                    $scope.users = d;
+                                }).catch(function(response){
+                                    $ngConfirm({
+                                        title: 'Error',
+                                        type: 'red',
+                                        content: response.data
                                     });
+                                    $scope.progressbar.reset();
+                                });
 
-                                    notify({message: 'New admin is added!', position: 'right', classes: 'alert-success'});
-                                    $scope.progressbar.complete();
-                                }).catch(
-                                    function(response){
-                                        $ngConfirm({
-                                            title: 'Error',
-                                            type: 'red',
-                                            content: response.data
-                                        });
-                                        $scope.progressbar.reset();
-                                    });
+                                notify({message: d, position: 'right', classes: 'alert-success'});
+                                $scope.progressbar.complete();
+                            }).catch(function(response){
+                                $ngConfirm({
+                                    title: 'Error',
+                                    type: 'red',
+                                    content: response.data
+                                });
+                                $scope.progressbar.reset();
+                            });
                         }
                     },
                     close: function(){
@@ -207,14 +259,15 @@
                         action: function(){
                             $scope.progressbar.start();
                             AdminAllUsersService.deleteAdmin(id).then(function () {
+
                                 AdminAllUsersService.getAllAdminsService().then(function (d) {
                                     $scope.users = d;
                                 });
 
                                 $scope.visibleAccountDisableAdmin = false;
 
-                                $scope.progressbar.complete();
                                 notify({message: 'Admin is deleted!', position: 'right', classes: 'alert-success'});
+                                $scope.progressbar.complete();
                             });
                         }
                     },
@@ -243,12 +296,14 @@
                         keys: ['enter'],
                         action: function(){
                             $scope.progressbar.start();
+
                             AdminAllUsersService.deleteUser(id).then(function () {
-                                AdminAllUsersService.getAllUsersService().then(function (d) {
+
+                                AdminAllUsersService.getAllAdminsService().then(function (d) {
                                     $scope.users = d;
                                 });
 
-                                notify({message: 'Admin is deleted!', position: 'right', classes: 'alert-success'});
+                                notify({message: 'User is deleted!', position: 'right', classes: 'alert-success'});
                                 $scope.progressbar.complete();
                             });
                         }
@@ -281,12 +336,9 @@
 
                 gridApi.selection.on.rowSelectionChanged($scope, function(row) {
 
-                    $scope.progressbar.start();
-
                     $scope.oneUser = row.entity;
                     $scope.nameAdmin = row.entity.userName + ' ' + row.entity.surname;
-
-                    $scope.progressbar.complete();
+                    $scope.visibleAccountDisableAdmin = true;
                 });
             },
 

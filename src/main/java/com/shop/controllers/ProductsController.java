@@ -41,33 +41,8 @@ public class ProductsController {
 
     }
 
-    @GetMapping("/product/get/{idProduct}")
-    public ResponseEntity<ProductDTO> getProduct(@PathVariable("idProduct") Long idProduct){
-
-        if (productsService.get(idProduct) == null){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }else {
-            return ResponseEntity.status(HttpStatus.OK).body(productsService.get(idProduct));
-        }
-    }
-
-    @GetMapping("/producers")
-    public ResponseEntity<List<String>> allProducer(){
-
-        if (productsService.getAllProducer().isEmpty()){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }else {
-            return ResponseEntity.status(HttpStatus.OK).body(productsService.getAllProducer());
-        }
-    }
-
-    @GetMapping("/producers/{nameCategory}")
-    public ResponseEntity<List<String>> getAllProducersByCategory(@PathVariable("nameCategory") String nameCategory){
-
-        if (productsService.getAllProducerByCategory(nameCategory).isEmpty()){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }else {
-            return ResponseEntity.status(HttpStatus.OK).body(productsService.getAllProducerByCategory(nameCategory));
-        }
+    @GetMapping("/product/{id}")
+    public ResponseEntity<ProductDTO> getProduct(@PathVariable("id") Long idProduct){
+        return ResponseEntity.status(HttpStatus.OK).body(productsService.get(idProduct));
     }
 }

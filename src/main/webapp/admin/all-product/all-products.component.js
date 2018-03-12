@@ -39,7 +39,7 @@
             $scope.progressbar.complete();
 
             $scope.progressbar.start();
-            AdminService.getProductService($scope.productsAllAdmin[0].idProduct).then(function (d) {
+            AdminService.getAdminProductService($scope.productsAllAdmin[0].idProduct).then(function (d) {
                 $scope.productForEdit = d;
 
                 $scope.rating = $scope.productForEdit.ratings;
@@ -108,7 +108,7 @@
                     if (idProduct.length < 2){
                         $scope.disableButtonDeleteItems = false;
                         $scope.progressbar.start();
-                        AdminService.getProductService(idProduct).then(function (d) {
+                        AdminService.getAdminProductService(idProduct).then(function (d) {
                             $scope.productForEdit = d;
 
                             $scope.rating = $scope.productForEdit.ratings;
@@ -181,20 +181,13 @@
                         keys: ['enter'],
                         action: function(){
                             $scope.progressbar.start();
-                            AdminService.deleteProductByIdService(idProduct).then(function () {
+                            AdminService.deleteProductByIdService(idProduct).then(function (d) {
+
                                 AdminService.getAdminProductsService().then(function (d) {
                                     $scope.productsAllAdmin = d;
 
-                                    AdminService.getProductService($scope.productsAllAdmin[0].idProduct).then(function (d) {
-                                        $scope.productForEdit = d;
-                                    }).catch(function(response){
-                                        $ngConfirm({
-                                            title: 'Error',
-                                            type: 'red',
-                                            content: response.data
-                                        });
-                                        $scope.progressbar.reset();
-                                    });
+                                    $scope.productForEdit = $scope.productsAllAdmin[0];
+
                                 }).catch(function(response){
                                     $ngConfirm({
                                         title: 'Error',
@@ -204,7 +197,7 @@
                                     $scope.progressbar.reset();
                                 });
                                 $scope.progressbar.complete();
-                                notify({message: 'The product is deleted!', position: 'right', classes: 'alert-success'});
+                                notify({message: d, position: 'right', classes: 'alert-success'});
                             });
                         }
                     },
@@ -222,7 +215,7 @@
             var arrayIdSelected = _.pluck($scope.arrayIdForDelete, 'idProduct');
             $scope.arrayNamesSelected = _.pluck($scope.arrayIdForDelete, 'name');
             $ngConfirm({
-                title: 'Removing product.',
+                title: 'Removing products.',
                 content: 'Do you really want to delete these products? <div class="mt-2" ng-repeat="name in arrayNamesSelected track by $index">{{name}}</div>',
                 scope: $scope,
                 type: 'blue',
@@ -237,9 +230,11 @@
                         keys: ['enter'],
                         action: function(){
                             $scope.progressbar.start();
-                            AdminService.deleteProductsByIdsService(arrayIdSelected).then(function () {
+                            AdminService.deleteProductsByIdsService(arrayIdSelected).then(function (d) {
                                 AdminService.getAdminProductsService().then(function (d) {
                                     $scope.productsAllAdmin = d;
+
+                                    $scope.productForEdit = $scope.productsAllAdmin[0];
                                 }).catch(function(response){
                                     $ngConfirm({
                                         title: 'Error',
@@ -250,7 +245,7 @@
                                 });
 
                                 $scope.progressbar.complete();
-                                notify({message: 'The Product is deleted!', position: 'right', classes: 'alert-success'});
+                                notify({message: d, position: 'right', classes: 'alert-success'});
 
                                 $scope.gridApi.selection.clearSelectedRows();
                                 $scope.gridOptions.selectedItems = 0;
