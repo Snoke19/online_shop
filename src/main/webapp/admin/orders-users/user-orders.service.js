@@ -17,28 +17,14 @@
                 })
             },
             getOrderItemsByIdUser: function (id) {
-                return $http.get('/get/user/orderitems/' + id).then(function (response) {
+                return $http.get('/user/orderitems/' + id).then(function (response) {
                     return response.data;
                 });
-            },
-            getNewOrders: function () {
-                return $http.get('/new/orders').then(function (response) {
-                    return response.data;
-                });
-            },
-            getInProcessOrders: function () {
-                return $http.get('/inprocess/orders').then(function (response) {
-                    return response.data;
-                })
             },
             updateStatusOrder: function (status, id) {
                 return $http({
-                    url: '/order/update/status',
-                    method: 'POST',
-                    data: {
-                        status: status,
-                        idOrder: id
-                    }
+                    url: '/order/' + id + '/update/' + status,
+                    method: 'PUT'
                 }).then(function (response) {
                     return response.data;
                 })

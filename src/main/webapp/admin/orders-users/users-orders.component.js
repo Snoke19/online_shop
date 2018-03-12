@@ -39,9 +39,6 @@
         AdminUserOrdersService.getAllOrders().then(function (d) {
             $scope.allOrders = d;
 
-            $scope.progressbar.complete();
-
-            $scope.progressbar.start();
             AdminUserOrdersService.getOrderItemsByIdUser($scope.allOrders[0].idOrders).then(function (d) {
                 $scope.orderUser = d;
 
@@ -73,8 +70,10 @@
             $scope.progressbar.reset();
         });
 
-        $scope.progressbar.start();
+
         $scope.getOrder = function (id, index) {
+
+            $scope.progressbar.start();
 
             //active item list
             $scope.selectedIndex = index;
@@ -96,6 +95,7 @@
             });
         };
 
+
         $scope.dayAgo = function (date) {
 
             var d = new Date();
@@ -108,12 +108,14 @@
             return yy.diff(tt, 'days');
         };
 
-        $scope.progressbar.start();
-        $scope.updateNewOrderStatus = function (id) {
+
+        $scope.updateOrderStatus = function (id) {
+
+            $scope.progressbar.start();
 
             AdminUserOrdersService.updateStatusOrder('in_process', id).then(function (d) {
 
-                AdminUserOrdersService.getNewOrders().then(function (d) {
+                AdminUserOrdersService.getAllOrders().then(function (d) {
                     $scope.allOrders = d;
                 });
 
@@ -122,12 +124,15 @@
             })
         };
 
-        $scope.progressbar.start();
+
+
         $scope.cancelNewOrder = function (id) {
+
+            $scope.progressbar.start();
 
             AdminUserOrdersService.updateStatusOrder('canceled', id).then(function (d) {
 
-                AdminUserOrdersService.getNewOrders().then(function (d) {
+                AdminUserOrdersService.getAllOrders().then(function (d) {
                     $scope.allOrders = d;
                 });
 
@@ -135,6 +140,7 @@
                 $scope.progressbar.complete();
             })
         };
+
 
         $scope.gridOptionsOrderSItems = {
 

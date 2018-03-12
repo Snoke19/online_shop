@@ -28,21 +28,15 @@ public class AdminOrdersUsersController {
         return ResponseEntity.status(HttpStatus.OK).body(ordersDTOList);
     }
 
-    @GetMapping("/get/user/orderitems/{id}")
+    @GetMapping("/user/orderitems/{id}")
     public ResponseEntity<List<OrderItemsDTO>> getOrderByIdUser(@PathVariable("id") Long id) {
         List<OrderItemsDTO> orderItemsDTO = ordersService.getOrderItemsByIdUser(id);
         return ResponseEntity.status(HttpStatus.OK).body(orderItemsDTO);
     }
 
-    @PostMapping("/order/update/status")
-    public ResponseEntity<Void> updateStatusOrder(@RequestBody String json){
-
-        JsonObject jos = new Gson().fromJson(json, JsonObject.class);
-        String status = jos.get("status").getAsString();
-        long id = jos.get("idOrder").getAsLong();
-
+    @PutMapping("/order/{id}/update/{status}")
+    public ResponseEntity<Void> updateStatusOrder(@PathVariable("id") Long id, @PathVariable("status") String status){
         ordersService.updateStatusOrder(status, id);
-
         return ResponseEntity.ok().build();
     }
 }
