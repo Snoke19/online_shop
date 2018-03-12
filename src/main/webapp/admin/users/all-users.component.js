@@ -11,22 +11,23 @@
         'switcher',
         'cgNotify',
         'cp.ngConfirm',
-        '720kb.tooltips'
+        '720kb.tooltips',
+        'admin-all-users-service'
     ]);
 
     angular.module('admin-board-all-users')
         .component('adminBoardAllUsers', {
             templateUrl: '/admin/users/all-users.template.html',
-            controller: ['$scope', 'ngProgressFactory', 'notify', '$ngConfirm', 'AdminService', AdminBoardAllUsersController]
+            controller: ['$scope', 'ngProgressFactory', 'notify', '$ngConfirm', 'AdminAllUsersService', AdminBoardAllUsersController]
         });
 
-    function AdminBoardAllUsersController($scope, ngProgressFactory, notify, $ngConfirm, AdminService) {
+    function AdminBoardAllUsersController($scope, ngProgressFactory, notify, $ngConfirm, AdminAllUsersService) {
 
         $scope.progressbar = ngProgressFactory.createInstance();
         $scope.progressbar.setHeight('5px');
 
         $scope.progressbar.start();
-        AdminService.getAllUsersService().then(function (d) {
+        AdminAllUsersService.getAllUsersService().then(function (d) {
             $scope.users = d;
 
             $scope.oneUser = $scope.users[0];
@@ -44,9 +45,9 @@
         //switcher
         $scope.onChange = function (newValue, oldValue) {
             $scope.progressbar.start();
-            AdminService.updateEnabled(newValue, oldValue).then(function () {
+            AdminAllUsersService.updateEnabled(newValue, oldValue).then(function () {
 
-                AdminService.getAllAdminsService().then(function (d) {
+                AdminAllUsersService.getAllAdminsService().then(function (d) {
                     $scope.users = d;
                 });
 
@@ -58,7 +59,7 @@
 
         $scope.getUsers = function () {
             $scope.progressbar.start();
-            AdminService.getAllUsersService().then(function (d) {
+            AdminAllUsersService.getAllUsersService().then(function (d) {
                 $scope.users = d;
 
                 $scope.oneUser = $scope.users[0];
@@ -95,7 +96,7 @@
 
             $scope.progressbar.start();
 
-            AdminService.getAllAdminsService().then(function (d) {
+            AdminAllUsersService.getAllAdminsService().then(function (d) {
                 $scope.users = d;
 
                 $scope.oneUser = $scope.users[0];
@@ -137,7 +138,7 @@
 
         $scope.getUserHistory = function (id) {
             $scope.progressbar.start();
-            AdminService.getUserOrdersHistory(id).then(function (d) {
+            AdminAllUsersService.getUserOrdersHistory(id).then(function (d) {
                 $scope.userOrdersHistory = d;
                 $scope.progressbar.complete();
             });
@@ -161,9 +162,9 @@
                         keys: ['enter'],
                         action: function(scope) {
                             $scope.progressbar.start();
-                            AdminService.addAdmin(scope.username, scope.surname, scope.email, scope.password).then(
+                            AdminAllUsersService.addAdmin(scope.username, scope.surname, scope.email, scope.password).then(
                                 function () {
-                                    AdminService.getAllAdminsService().then(function (d) {
+                                    AdminAllUsersService.getAllAdminsService().then(function (d) {
                                         $scope.users = d;
                                     });
 
@@ -205,8 +206,8 @@
                         keys: ['enter'],
                         action: function(){
                             $scope.progressbar.start();
-                            AdminService.deleteAdmin(id).then(function () {
-                                AdminService.getAllAdminsService().then(function (d) {
+                            AdminAllUsersService.deleteAdmin(id).then(function () {
+                                AdminAllUsersService.getAllAdminsService().then(function (d) {
                                     $scope.users = d;
                                 });
 
@@ -242,8 +243,8 @@
                         keys: ['enter'],
                         action: function(){
                             $scope.progressbar.start();
-                            AdminService.deleteUser(id).then(function () {
-                                AdminService.getAllUsersService().then(function (d) {
+                            AdminAllUsersService.deleteUser(id).then(function () {
+                                AdminAllUsersService.getAllUsersService().then(function (d) {
                                     $scope.users = d;
                                 });
 

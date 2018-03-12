@@ -9,7 +9,8 @@
         'angularFileUpload',
         'ngProgress',
         'cgNotify',
-        'cp.ngConfirm'
+        'cp.ngConfirm',
+        'admin-edit-product-service'
     ]);
 
     angular.module('admin-board-edit-product')
@@ -18,9 +19,9 @@
             controller: AdminBoardEditProduct
         });
 
-    AdminBoardEditProduct.$inject = ['$scope','$routeParams','notify','$ngConfirm','FileUploader','ngProgressFactory','AdminService','editableOptions','editableThemes'];
+    AdminBoardEditProduct.$inject = ['$scope','$routeParams','notify','$ngConfirm','FileUploader','ngProgressFactory', 'AdminEditProductService', 'AdminService','editableOptions','editableThemes'];
 
-    function AdminBoardEditProduct($scope, $routeParams, notify, $ngConfirm, FileUploader, ngProgressFactory, AdminService, editableOptions, editableThemes) {
+    function AdminBoardEditProduct($scope, $routeParams, notify, $ngConfirm, FileUploader, ngProgressFactory, AdminEditProductService, AdminService, editableOptions, editableThemes) {
 
         editableOptions.theme = 'default';
 
@@ -85,7 +86,7 @@
         $scope.updateNameProduct = function () {
             $scope.progressbar.start();
 
-            AdminService.updateNameProductService($scope.productUpdate.name, $scope.productForUpdate.idProduct).then(function (d) {
+            AdminEditProductService.updateNameProductService($scope.productUpdate.name, $scope.productForUpdate.idProduct).then(function (d) {
 
                 AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
                     $scope.productForUpdate = d;
@@ -114,7 +115,7 @@
         $scope.updateProducer = function () {
             $scope.progressbar.start();
 
-            AdminService.updateProducerService($scope.productUpdate.producer, $scope.productForUpdate.idProduct).then(function (d) {
+            AdminEditProductService.updateProducerService($scope.productUpdate.producer, $scope.productForUpdate.idProduct).then(function (d) {
 
                 AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
                     $scope.productForUpdate = d;
@@ -156,7 +157,7 @@
             var jsonDesc = angular.toJson($scope.descriptionData);
             $scope.progressbar.start();
 
-            AdminService.updateDescriptionService(jsonDesc, $scope.productForUpdate.idProduct).then(function (d) {
+            AdminEditProductService.updateDescriptionService(jsonDesc, $scope.productForUpdate.idProduct).then(function (d) {
 
                 AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
                     $scope.productForUpdate = d;
@@ -184,7 +185,7 @@
 
         $scope.updatePrice = function () {
             $scope.progressbar.start();
-            AdminService.updatePriceService($scope.productUpdate.price, $scope.productForUpdate.idProduct).then(function (d) {
+            AdminEditProductService.updatePriceService($scope.productUpdate.price, $scope.productForUpdate.idProduct).then(function (d) {
 
                 AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
                     $scope.productForUpdate = d;
@@ -217,7 +218,7 @@
         $scope.updateQuantity = function () {
             $scope.progressbar.start();
 
-            AdminService.updateQuantityService($scope.productUpdate.quantity, $scope.productForUpdate.idProduct).then(function (d) {
+            AdminEditProductService.updateQuantityService($scope.productUpdate.quantity, $scope.productForUpdate.idProduct).then(function (d) {
 
                 AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
                     $scope.productForUpdate = d;
@@ -245,7 +246,7 @@
 
         $scope.updateCategory = function () {
             $scope.progressbar.start();
-            AdminService.updateCategoryService($scope.productUpdate.category.idCategory, $scope.productForUpdate.idProduct).then(function (d) {
+            AdminEditProductService.updateCategoryService($scope.productUpdate.category.idCategory, $scope.productForUpdate.idProduct).then(function (d) {
 
                 AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
                     $scope.productForUpdate = d;
@@ -273,7 +274,7 @@
 
         $scope.updateCode = function () {
             $scope.progressbar.start();
-            AdminService.updateCodeService($scope.productUpdate.code, $scope.productForUpdate.idProduct).then(function (d) {
+            AdminEditProductService.updateCodeService($scope.productUpdate.code, $scope.productForUpdate.idProduct).then(function (d) {
 
                 AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
                     $scope.productForUpdate = d;
@@ -302,7 +303,7 @@
         //switcher
         $scope.onChange = function (newValue, oldValue) {
             $scope.progressbar.start();
-            AdminService.updateActivityService(newValue, $scope.productForUpdate.idProduct).then(function (d) {
+            AdminEditProductService.updateActivityService(newValue, $scope.productForUpdate.idProduct).then(function (d) {
 
                 AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
                     $scope.productForUpdate = d;
@@ -385,7 +386,7 @@
                         keys: ['enter'],
                         action: function() {
                             $scope.progressbar.start();
-                            AdminService.deleteImageFromList(indexImage, $scope.productForUpdate.idProduct).then(function (d) {
+                            AdminEditProductService.deleteImageFromList(indexImage, $scope.productForUpdate.idProduct).then(function (d) {
 
                                 AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
                                     $scope.productForUpdate = d;
