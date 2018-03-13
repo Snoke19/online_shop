@@ -14,6 +14,13 @@
         <v-page class="border">
             <div class="row mr-0">
                 <div class="col-sm-12 col-md-4 col-lg-3 pr-0">
+                    <select class="custom-select" ng-model="statusOrder" ng-change="filterOrders(statusOrder)">
+                        <option style="display:none" value="" selected>Open this select menu</option>
+                        <option value="all">All orders</option>
+                        <option value="new">New orders </option>
+                        <option value="in process">Orders in process</option>
+                        <option value="in sent">Orders are in sent</option>
+                    </select>
                     <div class="scrollbar scrollbar-primary force-overflow-UserOrders">
                         <div class="list-group">
                             <a ng-if="allOrders != 0" ng-repeat="order in allOrders" ng-click="getOrder(order.idOrders, $index)"
@@ -26,10 +33,10 @@
                                     <small>{{dayAgo(order.date)}} days ago</small>
 
                                 </div>
-                                <p class="mb-1">{{order.address}}</p><span class="badge badge-danger p-1">{{order.status}}</span>
+                                <p class="mb-1">{{order.address}}</p><span ng-class="{'badge-primary' : order.status === 'in process', 'badge-danger' : order.status === 'new', 'badge-warning' : order.status === 'in sent'}" class="badge p-1">{{order.status}}</span>
                             </a>
                             <a ng-if="allOrders == 0">
-                                <h5 class="text-center mt-5 grey-text">Orders are missing.</h5>
+                                <h5 class="text-center mt-5 grey-text">No orders.</h5>
                             </a>
                         </div>
 
@@ -65,7 +72,7 @@
                     <div class="row">
                         <div class="col">
                             <div class="m-4">
-                                <strong>Address:</strong> {{orderUser[0].orders.address}}
+                                <strong>Shipping address:</strong> {{orderUser[0].orders.address}}
                             </div>
 
                             <div class="m-4">
@@ -74,7 +81,7 @@
                         </div>
                         <div class="col">
                             <div class="m-4">
-                                <strong>Date:</strong> {{orderUser[0].orders.date}}
+                                <strong>Date of the made order:</strong> {{orderUser[0].orders.date}}
                             </div>
                         </div>
                     </div>
@@ -90,7 +97,17 @@
                         </div>
                         <div class="col-md-5">
                             <div class="d-inline">
-                                <button class="btn btn-primary btn-sm" ng-click="updateOrderStatus(orderUser[0].orders.idOrders)">Admit Order</button>
+                                <button class="btn btn-default btn-sm"
+                                        ng-show="orderUser[0].orders.status == 'in process'"
+                                        ng-click="sendOrder(orderUser[0].orders.idOrders)">
+                                    <i class="fa fa-send"></i>Send Order
+                                </button>
+                            </div>
+                            <div class="d-inline">
+                                <button class="btn btn-primary btn-sm"
+                                        ng-show="orderUser[0].orders.status == 'new' || orderUser[0].orders.status == 'canceled'"
+                                        ng-click="admitNewOrder(orderUser[0].orders.idOrders)">Admit Order</button>
+
                             </div>
                             <div class="d-inline">
                                 <button class="btn btn-danger btn-sm" ng-click="cancelNewOrder(orderUser[0].orders.idOrders)">Cancel Order</button>
@@ -99,24 +116,9 @@
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-8 col-lg-9 pl-0 border" ng-if="allOrders == 0">
-                    <h5 class="text-center mt-5 grey-text">Order are missing.</h5>
+                        <h5 class="text-center mt-5 grey-text">No orders.</h5>
                 </div>
             </div>
-
-        </v-page>
-
-        <v-page class="border">
-
-            <div id="grid2" ui-grid="gridOptionsProcessingOrd"
-                 ui-grid-pagination
-                 ui-grid-resize-columns
-                 ui-grid-move-columns
-                 ui-grid-selection
-                 ui-grid-tree-view
-                 class="grid"
-                 style="height: 750px;">
-            </div>
-
 
         </v-page>
 

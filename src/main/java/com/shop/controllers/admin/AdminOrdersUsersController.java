@@ -28,11 +28,25 @@ public class AdminOrdersUsersController {
         return ResponseEntity.status(HttpStatus.OK).body(ordersDTOList);
     }
 
-    @GetMapping("/user/orderitems/{id}")
+
+    @GetMapping("/orders/{status}")
+    public ResponseEntity<List<OrdersDTO>> getOrdersByStatus(@PathVariable("status") String status){
+
+        if (ordersService.getOrdersByStatus(status).isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body(ordersService.getAll());
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(ordersService.getOrdersByStatus(status));
+    }
+
+
+    @GetMapping("/user/order/{id}/orderitems")
     public ResponseEntity<List<OrderItemsDTO>> getOrderByIdUser(@PathVariable("id") Long id) {
         List<OrderItemsDTO> orderItemsDTO = ordersService.getOrderItemsByIdUser(id);
         return ResponseEntity.status(HttpStatus.OK).body(orderItemsDTO);
     }
+
+
 
     @PutMapping("/order/{id}/update/{status}")
     public ResponseEntity<Void> updateStatusOrder(@PathVariable("id") Long id, @PathVariable("status") String status){

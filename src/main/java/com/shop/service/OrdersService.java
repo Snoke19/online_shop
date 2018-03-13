@@ -17,5 +17,7 @@ public interface OrdersService extends Service<OrdersDTO> {
 
     List<OrdersDTO> getNewOrders();
 
+    List<OrdersDTO> getOrdersByStatus(String status);
+
     void updateStatusOrder(String status, Long id);
 }

@@ -13,10 +13,10 @@ public interface OrdersMapper {
 
     List<OrdersDTO> ordersToOrdersDTO(List<Orders> ordersList);
 
-    @IterableMapping(qualifiedByName="newOrdersToDTO")
+    @IterableMapping(qualifiedByName="ordersToDTO")
     List<OrdersDTO> newOrdersToDTO(List<Orders> ordersList);
 
-    @Named("newOrdersToDTO")
+    @Named("ordersToDTO")
     @Mappings({
             @Mapping(target = "phone", ignore = true),
             @Mapping(target = "delivery", ignore = true),
@@ -26,24 +26,8 @@ public interface OrdersMapper {
             @Mapping(target = "user.enabled", ignore = true),
             @Mapping(target = "user.avatar", ignore = true)
     })
-    OrdersDTO newOrderToDTO(Orders orders);
+    OrdersDTO orderToDTO(Orders orders);
 
-
-    @IterableMapping(qualifiedByName="inProcessOrdersToDTO")
-    List<OrdersDTO> inProcessOrdersToDTO(List<Orders> ordersList);
-
-    @Named("inProcessOrdersToDTO")
-    @Mappings({
-            @Mapping(target = "phone", ignore = true),
-            @Mapping(target = "status", ignore = true),
-            @Mapping(target = "delivery", ignore = true),
-            @Mapping(target = "user.address", ignore = true),
-            @Mapping(target = "user.birthday", ignore = true),
-            @Mapping(target = "user.phone", ignore = true),
-            @Mapping(target = "user.enabled", ignore = true),
-            @Mapping(target = "user.avatar", ignore = true)
-    })
-    OrdersDTO inProcessOrdersToDTO(Orders orders);
 
     OrdersDTO ordersToOrdersDTO(Orders orders);
 

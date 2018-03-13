@@ -82,9 +82,15 @@ public class OrdersServiceImpl implements OrdersService {
     @Override
     @Transactional
     public List<OrdersDTO> getNewOrders() {
-        return OrdersMapper.mapper.newOrdersToDTO(ordersDAO.getNewAndProcessOrders());
+        return OrdersMapper.mapper.newOrdersToDTO(ordersDAO.getNewOrders());
     }
 
+
+    @Override
+    @Transactional
+    public List<OrdersDTO> getOrdersByStatus(String status) {
+        return OrdersMapper.mapper.newOrdersToDTO(ordersDAO.getOrdersByStatus(status));
+    }
 
     @Override
     @Transactional

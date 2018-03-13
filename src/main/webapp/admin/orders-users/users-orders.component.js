@@ -35,11 +35,13 @@
         $scope.progressbar = ngProgressFactory.createInstance();
         $scope.progressbar.setHeight('5px');
 
+
         $scope.progressbar.start();
         AdminUserOrdersService.getAllOrders().then(function (d) {
-            $scope.allOrders = d;
+            $scope.allOrders =  _.where(d, {status: "new"});
 
             AdminUserOrdersService.getOrderItemsByIdUser($scope.allOrders[0].idOrders).then(function (d) {
+
                 $scope.orderUser = d;
 
                 //total price
@@ -92,6 +94,13 @@
                 });
 
                 $scope.progressbar.complete();
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
             });
         };
 
@@ -109,36 +118,108 @@
         };
 
 
-        $scope.updateOrderStatus = function (id) {
+        $scope.sendOrder = function (id) {
 
             $scope.progressbar.start();
-
-            AdminUserOrdersService.updateStatusOrder('in_process', id).then(function (d) {
+            AdminUserOrdersService.updateStatusOrder('in sent', id).then(function (d) {
 
                 AdminUserOrdersService.getAllOrders().then(function (d) {
                     $scope.allOrders = d;
+                }).catch(function(response){
+                    $ngConfirm({
+                        title: 'Error',
+                        type: 'red',
+                        content: response.data
+                    });
+                    $scope.progressbar.reset();
                 });
 
                 notify({message: 'Order is admitted!', position: 'right', classes: 'alert-success'});
                 $scope.progressbar.complete();
-            })
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
+            });
         };
 
+
+        $scope.admitNewOrder = function (id) {
+
+            $scope.progressbar.start();
+            AdminUserOrdersService.updateStatusOrder('in process', id).then(function (d) {
+
+                AdminUserOrdersService.getAllOrders().then(function (d) {
+                    $scope.allOrders = d;
+                }).catch(function(response){
+                    $ngConfirm({
+                        title: 'Error',
+                        type: 'red',
+                        content: response.data
+                    });
+                    $scope.progressbar.reset();
+                });
+
+                notify({message: 'Order is admitted!', position: 'right', classes: 'alert-success'});
+                $scope.progressbar.complete();
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
+            });
+        };
 
 
         $scope.cancelNewOrder = function (id) {
 
             $scope.progressbar.start();
-
             AdminUserOrdersService.updateStatusOrder('canceled', id).then(function (d) {
 
                 AdminUserOrdersService.getAllOrders().then(function (d) {
                     $scope.allOrders = d;
+                }).catch(function(response){
+                    $ngConfirm({
+                        title: 'Error',
+                        type: 'red',
+                        content: response.data
+                    });
+                    $scope.progressbar.reset();
                 });
 
                 notify({message: 'Order is canceled!', position: 'right', classes: 'alert-success'});
                 $scope.progressbar.complete();
-            })
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
+            });
+        };
+
+
+        $scope.filterOrders = function (statusOrder) {
+
+            $scope.progressbar.start();
+            AdminUserOrdersService.getOrdersByStatus(statusOrder).then(function (d) {
+                $scope.allOrders = d;
+
+                $scope.progressbar.complete();
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
+            });
         };
 
 

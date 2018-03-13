@@ -2,6 +2,7 @@ package com.shop.dao.impl;
 
 import com.shop.dao.OrdersDAO;
 import com.shop.dto.orderItems.OrderItemsDTO;
+import com.shop.dto.orders.OrdersDTO;
 import com.shop.entity.OrderItems;
 import com.shop.entity.Orders;
 import com.shop.utils.HibernateSessionDAO;
@@ -43,13 +44,25 @@ public class OrdersDAOImpl extends HibernateSessionDAO implements OrdersDAO {
         getSession().update(entity);
     }
 
+
     @Override
     @SuppressWarnings("unchecked")
-    public List<Orders> getNewAndProcessOrders() {
+    public List<Orders> getNewOrders() {
         return getSession()
-                .createQuery("from Orders o where o.status = 'new' or o.status = 'new'")
+                .createQuery("from Orders o where o.status = 'new'")
                 .list();
     }
+
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Orders> getOrdersByStatus(String status) {
+        return getSession()
+                .createQuery("from Orders o where o.status = :status ")
+                .setParameter("status", status)
+                .list();
+    }
+
 
     @Override
     public void updateStatusOrder(String status, Long id) {

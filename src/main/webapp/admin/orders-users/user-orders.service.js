@@ -16,8 +16,13 @@
                     return response.data;
                 })
             },
+            getOrdersByStatus: function (status) {
+                return $http.get('/orders/' + status).then(function (response) {
+                    return response.data;
+                })
+            },
             getOrderItemsByIdUser: function (id) {
-                return $http.get('/user/orderitems/' + id).then(function (response) {
+                return $http.get('/user/order/' + id + '/orderitems').then(function (response) {
                     return response.data;
                 });
             },
