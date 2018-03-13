@@ -32,7 +32,7 @@ public class AdminOrdersUsersController {
     @GetMapping("/orders/{status}")
     public ResponseEntity<List<OrdersDTO>> getOrdersByStatus(@PathVariable("status") String status){
 
-        if (ordersService.getOrdersByStatus(status).isEmpty()){
+        if (status.equals("all")){
             return ResponseEntity.status(HttpStatus.OK).body(ordersService.getAll());
         }
 

@@ -5,7 +5,6 @@
         'ngRoute',
         'ngAnimate',
         'ngTouch',
-        'vTabs',
         'ui.grid',
         'ui.grid.pagination',
         'ui.grid.resizeColumns',
