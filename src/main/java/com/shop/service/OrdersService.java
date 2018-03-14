@@ -8,6 +8,7 @@ import com.shop.utils.layers.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OrdersService extends Service<OrdersDTO> {
 
@@ -20,4 +21,6 @@ public interface OrdersService extends Service<OrdersDTO> {
     List<OrdersDTO> getOrdersByStatus(String status);
 
     void updateStatusOrder(String status, Long id);
+
+    Map<String, Integer> getNumberStatus();
 }

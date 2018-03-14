@@ -26,6 +26,11 @@
                     return response.data;
                 });
             },
+            getCountStatusOrder: function () {
+                return $http.get("/count/status/orders").then(function (response) {
+                    return response.data;
+                })
+            },
             updateStatusOrder: function (status, id) {
                 return $http({
                     url: '/order/' + id + '/update/' + status,

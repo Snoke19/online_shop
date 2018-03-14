@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class AdminOrdersUsersController {
@@ -46,6 +47,11 @@ public class AdminOrdersUsersController {
         return ResponseEntity.status(HttpStatus.OK).body(orderItemsDTO);
     }
 
+
+    @GetMapping("/count/status/orders")
+    public ResponseEntity<Map<String, Integer>> getCountStatusOrders(){
+        return ResponseEntity.ok(ordersService.getNumberStatus());
+    }
 
 
     @PutMapping("/order/{id}/update/{status}")

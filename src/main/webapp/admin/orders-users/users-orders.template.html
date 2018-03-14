@@ -5,15 +5,19 @@
 <div class="container mt-4">
     <div class="row mr-0">
         <div class="col-sm-12 col-md-4 col-lg-3 pr-0">
-            <select class="custom-select" ng-model="statusOrder" ng-change="filterOrders(statusOrder)">
-                <option style="display:none" value="" selected>A filter of a status of orders</option>
-                <option value="all">All orders</option>
-                <option value="new">New orders </option>
-                <option value="in process">Orders in process</option>
-                <option value="in sent">Orders are in sent</option>
-                <option value="canceled">Canceled</option>
-                <option value="completed">Completed</option>
-            </select>
+            <div class="dropdown">
+                <button class="btn btn-secondary btn-sm dropdown-toggle ml-0 w-100 mr-4" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    A filter of a status of orders
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" ng-click="filterOrders('all')">All orders <span class="badge badge-danger">{{allOrders.length}}</span></a>
+                    <a class="dropdown-item" ng-click="filterOrders('new')">New orders <span class="badge badge-danger">{{newOrders}}</span></a>
+                    <a class="dropdown-item" ng-click="filterOrders('in process')">Orders in process <span class="badge badge-danger">{{inProcess}}</span></a>
+                    <a class="dropdown-item" ng-click="filterOrders('in sent')">Orders are in sent <span class="badge badge-danger">{{inSent}}</span></a>
+                    <a class="dropdown-item" ng-click="filterOrders('canceled')">Canceled <span class="badge badge-danger">{{canceled}}</span></a>
+                    <a class="dropdown-item" ng-click="filterOrders('completed')">Completed <span class="badge badge-danger">{{completed}}</span></a>
+                </div>
+            </div>
             <div class="scrollbar scrollbar-primary force-overflow-UserOrders">
                 <div class="list-group">
                     <a ng-if="allOrders != 0" ng-repeat="order in allOrders" ng-click="getOrder(order.idOrders, $index)"

@@ -6,12 +6,15 @@ import com.shop.dto.orderItems.OrderItemsDTO;
 import com.shop.dto.orderItems.OrderItemsMapper;
 import com.shop.dto.orders.OrdersDTO;
 import com.shop.dto.orders.OrdersMapper;
+import com.shop.entity.Orders;
 import com.shop.service.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 
 @Service("ordersService")
@@ -92,9 +95,26 @@ public class OrdersServiceImpl implements OrdersService {
         return OrdersMapper.mapper.newOrdersToDTO(ordersDAO.getOrdersByStatus(status));
     }
 
+
     @Override
     @Transactional
     public void updateStatusOrder(String status, Long id) {
         ordersDAO.updateStatusOrder(status, id);
+    }
+
+
+    @Override
+    @Transactional
+    public Map<String, Integer> getNumberStatus() {
+        List<Orders> ordersList = ordersDAO.getAll();
+        List<String> status = ordersList.stream().map(Orders::getStatus).collect(Collectors.toList());
+
+        Map<String, Integer> mapNumberStatus = new HashMap<>();
+
+        for(String  s: status){
+            mapNumberStatus.put(s, Collections.frequency(status, s));
+        }
+
+        return mapNumberStatus;
     }
 }

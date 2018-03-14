@@ -37,7 +37,12 @@
 
         $scope.progressbar.start();
         AdminUserOrdersService.getAllOrders().then(function (d) {
-            $scope.allOrders =  _.where(d, {status: "new"});
+
+            if (d == null || d === "") {
+                $scope.allOrders = _.where(d, {status: "new"});
+            }else {
+                $scope.allOrders = d;
+            }
 
             AdminUserOrdersService.getOrderItemsByIdUser($scope.allOrders[0].idOrders).then(function (d) {
 
@@ -62,6 +67,7 @@
 
             //so that the scroll is visible
             $scope.forceOverflowUserOrder = 'scrollbar scrollbar-primary force-overflow-userOrder';
+            $scope.progressbar.complete();
         }).catch(function(response){
             $ngConfirm({
                 title: 'Error',
@@ -69,6 +75,17 @@
                 content: response.data
             });
             $scope.progressbar.reset();
+        });
+
+
+        AdminUserOrdersService.getCountStatusOrder().then(function (value) {
+            var countStatus = value;
+
+            $scope.newOrders = countStatus.new;
+            $scope.inProcess = countStatus['in process'];
+            $scope.inSent = countStatus['in sent'];
+            $scope.canceled = countStatus.canceled;
+            $scope.completed = countStatus.completed;
         });
 
 
