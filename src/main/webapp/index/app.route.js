@@ -12,6 +12,7 @@ angular.module('shop', [
     'admin-board-all-users',
 
     'users-orders',
+    'user-profile',
 
     'login',
     'sign-up'
@@ -45,6 +46,8 @@ config(['$locationProvider' ,'$routeProvider', '$qProvider',
 
         }).when('/users/orders', {
             template: '<users-orders></users-orders>'
+        }).when('/user/profile', {
+            template: '<user-profile></user-profile>'
 
         }).when('/login', {
             template: '<login></login>'
