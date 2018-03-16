@@ -1,58 +1,59 @@
-'use strict';
+(function () {
 
-angular.module('shop', [
-    'ngRoute',
+    'use strict';
 
-    'details-product',
+    angular.module('shop', [
+        'ngRoute',
 
-    'admin-board',
-    'admin-board-add-product',
-    'admin-board-all-products',
-    'admin-board-edit-product',
-    'admin-board-all-users',
+        'details-product',
 
-    'users-orders',
-    'user-profile',
+        'admin-board',
+        'admin-board-add-product',
+        'admin-board-all-products',
+        'admin-board-edit-product',
+        'admin-board-all-users',
 
-    'login',
-    'sign-up'
-]);
+        'users-orders',
 
-angular.
-module('shop').
-config(['$locationProvider' ,'$routeProvider', '$qProvider',
-    function config($locationProvider, $routeProvider, $qProvider) {
+        'login',
+        'sign-up'
+    ]);
 
-        $locationProvider.hashPrefix('!');
-        $qProvider.errorOnUnhandledRejections(false);
+    angular.
+    module('shop').
+    config(['$locationProvider' ,'$routeProvider', '$qProvider',
+        function config($locationProvider, $routeProvider, $qProvider) {
 
-        $routeProvider.when('/products',{
-            template: '<products></products>'
-        }).when('/cart', {
-            template: '<shopping-cart></shopping-cart>'
-        }).when('/product/details/:idProduct', {
-            template: '<details-product></details-product>'
+            $locationProvider.hashPrefix('!');
+            $qProvider.errorOnUnhandledRejections(false);
 
-        }).when('/admin', {
-            template: '<admin-board></admin-board>'
-        }).when('/admin/add/product', {
-            template: '<admin-board-add-product></admin-board-add-product>'
-        }).when('/admin/all/products', {
-            template: '<admin-board-all-products></admin-board-all-products>'
-        }).when('/admin/edit/product/:idProduct', {
-            template: '<admin-board-edit-product></admin-board-edit-product>'
-        }).when('/admin/users', {
-            template: '<admin-board-all-users></admin-board-all-users>'
+            $routeProvider.when('/products',{
+                template: '<products></products>'
+            }).when('/cart', {
+                template: '<shopping-cart></shopping-cart>'
+            }).when('/product/details/:idProduct', {
+                template: '<details-product></details-product>'
 
-        }).when('/users/orders', {
-            template: '<users-orders></users-orders>'
-        }).when('/user/profile', {
-            template: '<user-profile></user-profile>'
+            }).when('/admin', {
+                template: '<admin-board></admin-board>'
+            }).when('/admin/add/product', {
+                template: '<admin-board-add-product></admin-board-add-product>'
+            }).when('/admin/all/products', {
+                template: '<admin-board-all-products></admin-board-all-products>'
+            }).when('/admin/edit/product/:idProduct', {
+                template: '<admin-board-edit-product></admin-board-edit-product>'
+            }).when('/admin/users', {
+                template: '<admin-board-all-users></admin-board-all-users>'
 
-        }).when('/login', {
-            template: '<login></login>'
-        }).when('/sign-up', {
-            template: '<sign-up></sign-up>'
-        }).otherwise('/products');
-    }
-]);
+            }).when('/users/orders', {
+                template: '<users-orders></users-orders>'
+
+            }).when('/login', {
+                template: '<login></login>'
+            }).when('/sign-up', {
+                template: '<sign-up></sign-up>'
+            }).otherwise('/products');
+        }
+    ]);
+
+})();

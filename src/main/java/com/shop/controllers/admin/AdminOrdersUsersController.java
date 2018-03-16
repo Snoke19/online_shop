@@ -1,6 +1,7 @@
 package com.shop.controllers.admin;
 
 
+import com.google.gson.Gson;
 import com.shop.dto.orderItems.OrderItemsDTO;
 import com.shop.dto.orders.OrdersDTO;
 import com.shop.service.OrdersService;
@@ -54,8 +55,18 @@ public class AdminOrdersUsersController {
 
 
     @PutMapping("/order/{id}/update/{status}")
-    public ResponseEntity<Void> updateStatusOrder(@PathVariable("id") Long id, @PathVariable("status") String status){
+    public ResponseEntity<String> updateStatusOrder(@PathVariable("id") Long id, @PathVariable("status") String status){
         ordersService.updateStatusOrder(status, id);
+
+        switch (status) {
+            case "in process":
+                return ResponseEntity.ok(new Gson().toJson("Order is admitted!"));
+            case "in sent":
+                return ResponseEntity.ok(new Gson().toJson("Order is sended!"));
+            case "canceled":
+                return ResponseEntity.ok(new Gson().toJson("Order is canceled!"));
+        }
+
         return ResponseEntity.ok().build();
     }
 }

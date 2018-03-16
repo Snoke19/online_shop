@@ -19,9 +19,10 @@
                     <a class="dropdown-item" ng-click="filterOrders('completed')">Completed <span class="badge badge-danger">{{completed}}</span></a>
                 </div>
             </div>
+            <input class="form-control mt-2 mb-2" ng-model="search.$" type="text" placeholder="Search">
             <div class="scrollbar scrollbar-primary force-overflow-UserOrders">
                 <div class="list-group">
-                    <a ng-if="allOrders != 0" ng-repeat="order in allOrders" ng-click="getOrder(order.idOrders, $index)"
+                    <a ng-if="allOrders != 0" ng-repeat="order in allOrders | orderBy:'-date' | filter:search" ng-click="getOrder(order.idOrders, $index)"
                        ng-class="{'light-blue lighten-3': $index === selectedIndex}"
                        class="list-group-item list-group-item-action flex-column align-items-start">
 
@@ -112,11 +113,19 @@
                                 ng-click="admitNewOrder(orderUser[0].orders.idOrders)">Admit Order</button>
 
                     </div>
+
+                    <div class="d-inline">
+                        <button class="btn btn-success btn-sm"
+                                ng-show="orderUser[0].orders.status == 'in sent'"
+                                ng-click="cancelNewOrder(orderUser[0].orders.idOrders, orderUser[0].orders.status)">Completed</button>
+                    </div>
+
                     <div class="d-inline">
                         <button class="btn btn-danger btn-sm"
                                 ng-hide="orderUser[0].orders.status == 'completed' || orderUser[0].orders.status == 'canceled'"
                                 ng-click="cancelNewOrder(orderUser[0].orders.idOrders, orderUser[0].orders.status)">Cancel Order</button>
                     </div>
+
                     <div class="mt-3 ml-3 mb-3" ng-show="orderUser[0].orders.status == 'completed'">
                         <h4><strong><i class="far fa-check-circle" style="color: #00C851"></i> Orders was delivered!</strong></h4>
                     </div>

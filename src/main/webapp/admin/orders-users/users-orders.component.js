@@ -137,6 +137,68 @@
         };
 
 
+        $scope.admitNewOrder = function (id) {
+
+            $scope.progressbar.start();
+            AdminUserOrdersService.updateStatusOrder('in process', id).then(function (d) {
+
+                AdminUserOrdersService.getAllOrders().then(function (d) {
+                    $scope.allOrders = d;
+
+                    if (!angular.equals([], $scope.allOrders)) {
+                        AdminUserOrdersService.getOrderItemsByIdUser($scope.allOrders[0].idOrders).then(function (d) {
+
+                            $scope.orderUser = d;
+
+                            //total price
+                            $scope.pricePerQuantity = _.pluck($scope.orderUser, 'pricePerQuantity');
+                            $scope.total = null;
+                            angular.forEach($scope.pricePerQuantity, function (value, key) {
+                                $scope.total += value;
+                            });
+
+                            $scope.progressbar.complete();
+                        }).catch(function (response) {
+                            $ngConfirm({
+                                title: 'Error',
+                                type: 'red',
+                                content: response.data
+                            });
+                            $scope.progressbar.reset();
+                        });
+                    }
+                }).catch(function(response){
+                    $ngConfirm({
+                        title: 'Error',
+                        type: 'red',
+                        content: response.data
+                    });
+                    $scope.progressbar.reset();
+                });
+
+                AdminUserOrdersService.getCountStatusOrder().then(function (value) {
+                    var countStatus = value;
+
+                    $scope.newOrders = countStatus.new;
+                    $scope.inProcess = countStatus['in process'];
+                    $scope.inSent = countStatus['in sent'];
+                    $scope.canceled = countStatus.canceled;
+                    $scope.completed = countStatus.completed;
+                });
+
+                notify({message: d, position: 'right', classes: 'alert-success'});
+                $scope.progressbar.complete();
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
+            });
+        };
+
+
         $scope.sendOrder = function (id) {
 
             $scope.progressbar.start();
@@ -191,7 +253,7 @@
                     $scope.completed = countStatus.completed;
                 });
 
-                notify({message: 'Order is admitted!', position: 'right', classes: 'alert-success'});
+                notify({message: d, position: 'right', classes: 'alert-success'});
                 $scope.progressbar.complete();
             }).catch(function(response){
                 $ngConfirm({
@@ -201,70 +263,6 @@
                 });
                 $scope.progressbar.reset();
             });
-        };
-
-
-        $scope.admitNewOrder = function (id) {
-
-            $scope.progressbar.start();
-            AdminUserOrdersService.updateStatusOrder('in process', id).then(function (d) {
-
-                AdminUserOrdersService.getAllOrders().then(function (d) {
-                    $scope.allOrders = d;
-
-                    if (!angular.equals([], $scope.allOrders)) {
-                        AdminUserOrdersService.getOrderItemsByIdUser($scope.allOrders[0].idOrders).then(function (d) {
-
-                            $scope.orderUser = d;
-
-                            //total price
-                            $scope.pricePerQuantity = _.pluck($scope.orderUser, 'pricePerQuantity');
-                            $scope.total = null;
-                            angular.forEach($scope.pricePerQuantity, function (value, key) {
-                                $scope.total += value;
-                            });
-
-                            $scope.progressbar.complete();
-                        }).catch(function (response) {
-                            $ngConfirm({
-                                title: 'Error',
-                                type: 'red',
-                                content: response.data
-                            });
-                            $scope.progressbar.reset();
-                        });
-                    }
-                }).catch(function(response){
-                    $ngConfirm({
-                        title: 'Error',
-                        type: 'red',
-                        content: response.data
-                    });
-                    $scope.progressbar.reset();
-                });
-
-                AdminUserOrdersService.getCountStatusOrder().then(function (value) {
-                    var countStatus = value;
-
-                    $scope.newOrders = countStatus.new;
-                    $scope.inProcess = countStatus['in process'];
-                    $scope.inSent = countStatus['in sent'];
-                    $scope.canceled = countStatus.canceled;
-                    $scope.completed = countStatus.completed;
-                });
-
-                notify({message: 'Order is admitted!', position: 'right', classes: 'alert-success'});
-                $scope.progressbar.complete();
-            }).catch(function(response){
-                $ngConfirm({
-                    title: 'Error',
-                    type: 'red',
-                    content: response.data
-                });
-                $scope.progressbar.reset();
-            });
-
-
         };
 
 
@@ -323,7 +321,7 @@
                     $scope.completed = countStatus.completed;
                 });
 
-                notify({message: 'Order is canceled!', position: 'right', classes: 'alert-success'});
+                notify({message: d, position: 'right', classes: 'alert-success'});
                 $scope.progressbar.complete();
             }).catch(function(response){
                 $ngConfirm({
