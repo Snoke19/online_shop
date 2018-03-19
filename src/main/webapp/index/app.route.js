@@ -12,6 +12,7 @@
         'admin-board-all-products',
         'admin-board-edit-product',
         'admin-board-all-users',
+        'admin-board-discount-product',
 
         'users-orders',
 
@@ -19,9 +20,7 @@
         'sign-up'
     ]);
 
-    angular.
-    module('shop').
-    config(['$locationProvider' ,'$routeProvider', '$qProvider',
+    angular.module('shop').config(['$locationProvider' ,'$routeProvider', '$qProvider',
         function config($locationProvider, $routeProvider, $qProvider) {
 
             $locationProvider.hashPrefix('!');
@@ -44,7 +43,8 @@
                 template: '<admin-board-edit-product></admin-board-edit-product>'
             }).when('/admin/users', {
                 template: '<admin-board-all-users></admin-board-all-users>'
-
+            }).when('/admin/discount', {
+                template: '<admin-board-discount-product></admin-board-discount-product>'
             }).when('/users/orders', {
                 template: '<users-orders></users-orders>'
 

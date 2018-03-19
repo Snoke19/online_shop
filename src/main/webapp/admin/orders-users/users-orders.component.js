@@ -21,9 +21,9 @@
             controller: AdminBoardUsersOrdersController
         });
 
-    AdminBoardUsersOrdersController.$inject = ['$scope', '$http', '$interval', '$timeout', 'notify', 'ngProgressFactory', 'uiGridTreeViewConstants', 'AdminUserOrdersService'];
+    AdminBoardUsersOrdersController.$inject = ['$scope', 'notify', 'ngProgressFactory', 'AdminUserOrdersService'];
 
-    function AdminBoardUsersOrdersController($scope, $http, $interval ,$timeout, notify, ngProgressFactory, uiGridTreeViewConstants, AdminUserOrdersService) {
+    function AdminBoardUsersOrdersController($scope, notify, ngProgressFactory, AdminUserOrdersService) {
 
         $scope.tabs = {
             active: 0
@@ -137,139 +137,10 @@
         };
 
 
-        $scope.admitNewOrder = function (id) {
+        $scope.updateStatus = function (id, status) {
 
             $scope.progressbar.start();
-            AdminUserOrdersService.updateStatusOrder('in process', id).then(function (d) {
-
-                AdminUserOrdersService.getAllOrders().then(function (d) {
-                    $scope.allOrders = d;
-
-                    if (!angular.equals([], $scope.allOrders)) {
-                        AdminUserOrdersService.getOrderItemsByIdUser($scope.allOrders[0].idOrders).then(function (d) {
-
-                            $scope.orderUser = d;
-
-                            //total price
-                            $scope.pricePerQuantity = _.pluck($scope.orderUser, 'pricePerQuantity');
-                            $scope.total = null;
-                            angular.forEach($scope.pricePerQuantity, function (value, key) {
-                                $scope.total += value;
-                            });
-
-                            $scope.progressbar.complete();
-                        }).catch(function (response) {
-                            $ngConfirm({
-                                title: 'Error',
-                                type: 'red',
-                                content: response.data
-                            });
-                            $scope.progressbar.reset();
-                        });
-                    }
-                }).catch(function(response){
-                    $ngConfirm({
-                        title: 'Error',
-                        type: 'red',
-                        content: response.data
-                    });
-                    $scope.progressbar.reset();
-                });
-
-                AdminUserOrdersService.getCountStatusOrder().then(function (value) {
-                    var countStatus = value;
-
-                    $scope.newOrders = countStatus.new;
-                    $scope.inProcess = countStatus['in process'];
-                    $scope.inSent = countStatus['in sent'];
-                    $scope.canceled = countStatus.canceled;
-                    $scope.completed = countStatus.completed;
-                });
-
-                notify({message: d, position: 'right', classes: 'alert-success'});
-                $scope.progressbar.complete();
-            }).catch(function(response){
-                $ngConfirm({
-                    title: 'Error',
-                    type: 'red',
-                    content: response.data
-                });
-                $scope.progressbar.reset();
-            });
-        };
-
-
-        $scope.sendOrder = function (id) {
-
-            $scope.progressbar.start();
-            AdminUserOrdersService.updateStatusOrder('in sent', id).then(function (d) {
-
-                AdminUserOrdersService.getAllOrders().then(function (d) {
-                    if (!angular.equals([], _.where(d, {status: "in process"}))) {
-                        $scope.allOrders = _.where(d, {status: "in process"});
-                    }else {
-                        $scope.allOrders = d;
-                    }
-
-                    if (!angular.equals([], $scope.allOrders)) {
-                        AdminUserOrdersService.getOrderItemsByIdUser($scope.allOrders[0].idOrders).then(function (d) {
-
-                            $scope.orderUser = d;
-
-                            //total price
-                            $scope.pricePerQuantity = _.pluck($scope.orderUser, 'pricePerQuantity');
-                            $scope.total = null;
-                            angular.forEach($scope.pricePerQuantity, function (value, key) {
-                                $scope.total += value;
-                            });
-
-                            $scope.progressbar.complete();
-                        }).catch(function (response) {
-                            $ngConfirm({
-                                title: 'Error',
-                                type: 'red',
-                                content: response.data
-                            });
-                            $scope.progressbar.reset();
-                        });
-                    }
-
-                }).catch(function(response){
-                    $ngConfirm({
-                        title: 'Error',
-                        type: 'red',
-                        content: response.data
-                    });
-                    $scope.progressbar.reset();
-                });
-
-                AdminUserOrdersService.getCountStatusOrder().then(function (value) {
-                    var countStatus = value;
-
-                    $scope.newOrders = countStatus.new;
-                    $scope.inProcess = countStatus['in process'];
-                    $scope.inSent = countStatus['in sent'];
-                    $scope.canceled = countStatus.canceled;
-                    $scope.completed = countStatus.completed;
-                });
-
-                notify({message: d, position: 'right', classes: 'alert-success'});
-                $scope.progressbar.complete();
-            }).catch(function(response){
-                $ngConfirm({
-                    title: 'Error',
-                    type: 'red',
-                    content: response.data
-                });
-                $scope.progressbar.reset();
-            });
-        };
-
-
-        $scope.cancelNewOrder = function (id, status) {
-
-            $scope.progressbar.start();
-            AdminUserOrdersService.updateStatusOrder('canceled', id).then(function (d) {
+            AdminUserOrdersService.updateStatusOrder(status, id).then(function (d) {
 
                 AdminUserOrdersService.getAllOrders().then(function (d) {
 
@@ -279,6 +150,8 @@
                         $scope.allOrders = d;
                     }
 
+                    $scope.showNameButtonFilter = status + " orders " + $scope.allOrders.length;
+
                     if (!angular.equals([], $scope.allOrders)) {
                         AdminUserOrdersService.getOrderItemsByIdUser($scope.allOrders[0].idOrders).then(function (d) {
 
@@ -301,7 +174,6 @@
                             $scope.progressbar.reset();
                         });
                     }
-
                 }).catch(function(response){
                     $ngConfirm({
                         title: 'Error',

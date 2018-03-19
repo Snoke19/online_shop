@@ -103,27 +103,27 @@
                     <div class="d-inline">
                         <button class="btn btn-default btn-sm"
                                 ng-show="orderUser[0].orders.status == 'in process'"
-                                ng-click="sendOrder(orderUser[0].orders.idOrders)">
+                                ng-click="updateStatus(orderUser[0].orders.idOrders, 'in sent')">
                             <i class="fa fa-send"></i>Send Order
                         </button>
                     </div>
                     <div class="d-inline">
                         <button class="btn btn-primary btn-sm"
                                 ng-show="orderUser[0].orders.status == 'new' || orderUser[0].orders.status == 'canceled'"
-                                ng-click="admitNewOrder(orderUser[0].orders.idOrders)">Admit Order</button>
+                                ng-click="updateStatus(orderUser[0].orders.idOrders, 'in process')">Admit Order</button>
 
                     </div>
 
                     <div class="d-inline">
                         <button class="btn btn-success btn-sm"
                                 ng-show="orderUser[0].orders.status == 'in sent'"
-                                ng-click="cancelNewOrder(orderUser[0].orders.idOrders, orderUser[0].orders.status)">Completed</button>
+                                ng-click="updateStatus(orderUser[0].orders.idOrders, 'completed')">Completed</button>
                     </div>
 
                     <div class="d-inline">
                         <button class="btn btn-danger btn-sm"
                                 ng-hide="orderUser[0].orders.status == 'completed' || orderUser[0].orders.status == 'canceled'"
-                                ng-click="cancelNewOrder(orderUser[0].orders.idOrders, orderUser[0].orders.status)">Cancel Order</button>
+                                ng-click="updateStatus(orderUser[0].orders.idOrders, 'canceled')">Cancel Order</button>
                     </div>
 
                     <div class="mt-3 ml-3 mb-3" ng-show="orderUser[0].orders.status == 'completed'">
