@@ -9,7 +9,6 @@
 
     function AdminService($http){
         return {
-
             addProductService: function (product, descriptionData) {
                 return $http({
                     url: '/admin/product',

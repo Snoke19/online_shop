@@ -65,19 +65,19 @@
                     <div class="mt-3">
 
                         <div class="card" >
-                            <div class="imagewrap">
-                                <img class="img-fluid" ng-src="data:image/jpeg;base64,{{product.listImages[0]}}" alt="Card image cap">
-                                <span ng-click="addToDiscountsProduct(product)" class="counter addDiscount border"><i class="fa fa-plus"></i></span>
-                                <span ng-click="deleteDiscountsProduct(product)" class="counter remImageEdit border"><i class="fas fa-times"></i></span>
 
-                            </div>
+                            <img class="img-fluid" ng-src="data:image/jpeg;base64,{{product.listImages[0]}}" alt="Card image cap">
+
                             <div class="card-body">
                                 <h4 class="card-title">{{product.name}} (-{{product.discount}}%)</h4>
                                 <p class="card-text"><strong>Category:</strong> {{product.category.name}}</p>
                                 <p class="card-text"><strong>Price:</strong> ${{product.price}}</p>
-                                <p class="card-text">
+                                <p class="card-text mb-3">
                                     <strong>Discount:</strong> {{product.discount}}% (<s>${{product.price}}</s> - <span class="green-text">${{product.price - product.price * (product.discount / 100) | number: 2}}</span>)
                                 </p>
+
+                                <span ng-click="addToDiscountsProduct(product)" class="counter addDiscount border"><i class="fa fa-plus"></i></span>
+                                <span ng-click="deleteDiscountsProduct(product)" class="counter remImageEdit border"><i class="fas fa-times"></i></span>
 
                             </div>
                         </div>

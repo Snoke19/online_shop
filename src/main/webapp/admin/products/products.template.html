@@ -1,24 +1,26 @@
+<head>
+    <link rel="stylesheet" href="/admin/products/main-products.css">
+</head>
+
+
 <div class="container mt-1 pt-3">
 
-
     <!--Navbar-->
-    <nav class="navbar navbar-expand-lg navbar-dark primary-color mt-1 mb-4">
+    <div class="row justify-content-center">
+        <div class="col-5">
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent1">
-
-            <!-- Search form -->
-            <form class="search-form" role="search">
-                <div class="form-group md-form my-0 waves-light waves-effect waves-light">
-                    <input type="text" class="form-control" placeholder="Search">
+            <div class="input-group mb-4">
+                <input type="search" class="form-control py-1 pl-2" placeholder="Search" aria-describedby="basic-addon1">
+                <div class="input-group-prepend">
+                    <button class="btn btn-primary input-group-text py-2 px-4 my-0 ml-0" id="basic-addon1"><i class="fa fa-search"></i></button>
                 </div>
-            </form>
+            </div>
+
         </div>
-
-    </nav>
-    <!--/.Navbar-->
+    </div>
 
 
-    <div class="row pt-1">
+    <div class="row">
 
         <!-- Sidebar -->
         <div class="col-lg-2">
@@ -113,50 +115,54 @@
                 <div class="row">
 
                     <!--Grid column-->
-                    <div class="col-lg-4 col-md-12 mb-4">
+                    <div class="col-lg-4 col-md-12 mb-4" ng-repeat="product in mainProducts">
 
                         <!--Card-->
-                        <div class="card card-ecommerce">
-
+                        <div class="card card-cascade narrower card-ecommerce">
                             <!--Card image-->
                             <div class="view overlay">
-                                <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/1.jpg" class="img-fluid" alt="">
+                                <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/1.jpg" class="img-fluid" alt="sample photo">
                                 <a>
-                                    <div class="mask rgba-white-slight waves-effect waves-light"></div>
+                                    <div class="mask rgba-white-slight"></div>
                                 </a>
                             </div>
                             <!--Card image-->
-
                             <!--Card content-->
-                            <div class="card-body">
+                            <div class="card-body text-center">
                                 <!--Category & Title-->
+                                <a href="" class="grey-text">
+                                    <h5>{{product.category.name}}</h5>
+                                </a>
+                                <h4 class="card-title">
+                                    <strong>
+                                        <a href="">Denim trousers</a>
+                                    </strong>
+                                </h4>
+                                <!--Rating-->
+                                <ng-rate-it class="mr-3 d-inline" ng-model="rating" min="0" max="5" step="1" read-only="true" resetable="false"></ng-rate-it>
 
-                                <h5 class="card-title mb-1"><strong><a href="" class="dark-grey-text">iPad</a></strong></h5><span class="badge badge-danger mb-2">bestseller</span>
-                                <!-- Rating -->
-
-
+                                <!--Description-->
+                                <p class="card-text">Neque porro quisquam est, qui dolorem ipsum quia dolor sit..
+                                </p>
                                 <!--Card footer-->
-                                <div class="card-footer pb-0">
-                                    <div class="row mb-0">
-                                        <span class="float-left"><strong>1439$</strong></span>
-                                        <span class="float-right">
-
-                                        <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fa fa-shopping-cart ml-3"></i></a>
-                                        </span>
-                                    </div>
+                                <div class="card-footer">
+                                    <span class="float-left font-weight-bold active">
+                                        <strong>49$</strong>
+                                    </span>
+                                    <span class="float-right">
+                                        <a class="active" data-toggle="tooltip" data-placement="top" title="Add to Cart">
+                                            <i class="fa fa-shopping-cart ml-3"></i>
+                                        </a>
+                                    </span>
                                 </div>
-
                             </div>
                             <!--Card content-->
+                        </div>
 
                         </div>
-                        <!--Card-->
-
-                    </div>
                     <!--Grid column-->
-
                 </div>
-                <!--Grid row-->
+
 
                 <!--Grid row-->
                 <div class="row justify-content-center mb-4">
@@ -207,5 +213,4 @@
         <!-- /.Content -->
 
     </div>
-
 </div>

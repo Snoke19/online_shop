@@ -1,9 +1,6 @@
 .remImageEdit {
     padding-left: 5px;
     padding-right: 5px;
-    position: absolute;
-    right: 3%;
-    top: 15%;
     border-radius: 10rem;
     background-color: white;
     color: #8a8a8a;
@@ -18,9 +15,8 @@
 .addDiscount {
     padding-left: 5px;
     padding-right: 5px;
-    position: absolute;
-    right: 3%;
-    top: 5%;
+
+    top: 40%;
     border-radius: 10rem;
     background-color: white;
     color: #8a8a8a;

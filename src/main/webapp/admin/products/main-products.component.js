@@ -4,7 +4,11 @@
 
     angular.module('main-products', [
         'ngRoute',
-        'rzModule'
+        'main-products-service',
+        'rzModule',
+        'ngRateIt',
+        'ngProgress',
+        'cp.ngConfirm'
     ]);
 
     angular
@@ -14,11 +18,33 @@
             controller: ProductsController
         });
 
-    ProductsController.$inject = ['$http', '$scope'];
+    ProductsController.$inject = ['$http', '$scope', '$ngConfirm', 'ngProgressFactory', 'MainProductsService'];
 
-    function ProductsController ($http, $scope) {
+    function ProductsController ($http, $scope, $ngConfirm, ngProgressFactory, MainProductsService) {
+
+        //progress bar
+        $scope.progressbar = ngProgressFactory.createInstance();
+        $scope.progressbar.setHeight('5px');
+
         $scope.isOpen = true;
         $scope.isOpen1 = true;
+
+        $scope.rating = 4;
+
+        $scope.progressbar.start();
+        MainProductsService.getAllProducts().then(function (d) {
+            $scope.mainProducts = d;
+
+            $scope.progressbar.complete();
+        }).catch(function(response){
+            $ngConfirm({
+                title: 'Error',
+                type: 'red',
+                content: response.data
+            });
+            $scope.progressbar.reset();
+        });
+
 
         $scope.slider = {
             minValue: 100,

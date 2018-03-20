@@ -5,7 +5,8 @@
         'ngRoute',
         'admin',
         'rzModule',
-        'cgNotify'
+        'cgNotify',
+        'ngProgress'
     ]);
 
     angular.module('admin-board-discount-product')
@@ -14,9 +15,13 @@
             controller: AdminBoardDiscountProductController
         });
 
-    AdminBoardDiscountProductController.$inject = ['$scope', 'notify', '$http', 'AdminService'];
+    AdminBoardDiscountProductController.$inject = ['$scope', 'notify', '$http', 'ngProgressFactory', 'AdminService'];
 
-    function AdminBoardDiscountProductController($scope, notify, $http, AdminService) {
+    function AdminBoardDiscountProductController($scope, notify, $http, ngProgressFactory, AdminService) {
+
+        //progress bar
+        $scope.progressbar = ngProgressFactory.createInstance();
+        $scope.progressbar.setHeight('5px');
 
         $scope.resetFilter = function() {
             AdminService.getAdminProductsService().then(function (d) {
@@ -69,7 +74,6 @@
         });
 
         $scope.existDiscount = function (item) {
-            console.log(item);
             if (item){
                 $scope.products = _.filter($scope.products, function(product){ return product.discount === 0 || product.discount === null; });
             }else {
@@ -85,20 +89,15 @@
 
         $scope.discounts = [];
         $scope.addToDiscountsProduct = function (product) {
-            console.log($scope.discounts);
             $scope.discounts.push({
                 idProduct: product.idProduct,
                 nameProduct: product.name
             });
-            console.log($scope.discounts);
         };
 
         $scope.deleteDiscountsProduct = function (product) {
-            console.log($scope.discounts);
             var index = $scope.discounts.findIndex(x => x.idProduct == product.idProduct);
-            console.log(index);
             $scope.discounts.splice(index, 1);
-            console.log($scope.discounts);
         };
 
         $scope.makeDiscountProduct = function (discountProducts) {
@@ -106,7 +105,8 @@
             var arr = _.pluck($scope.discounts, 'idProduct');
 
             if (!angular.equals([], $scope.discounts)) {
-                if (discountProducts) {
+                if (discountProducts != null) {
+                    $scope.progressbar.start();
                     $http({
                         url: '/products/' + discountProducts,
                         method: 'PUT',
@@ -116,10 +116,19 @@
 
                         AdminService.getAdminProductsService().then(function (d) {
                             $scope.products = d;
+
+                            var stooges1 = $scope.products;
+                            $scope.max = _.max(stooges1, function(stooge){ return stooge.discount; });
+                            $scope.min = _.min(stooges1, function(stooge){ return stooge.discount; });
+
+                            $scope.sliderDiscount.minValue = $scope.min.discount;
+                            $scope.sliderDiscount.maxValue = $scope.max.discount;
+
                         });
 
                         $scope.discounts = [];
                         $scope.discountProducts = null;
+                        $scope.progressbar.complete();
                     });
                 }else {
                     notify({message: 'You need to set a discount.', position: 'right', classes: 'alert-danger'});

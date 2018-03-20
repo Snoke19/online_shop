@@ -22,12 +22,7 @@ public class ProductsController {
 
     @GetMapping("/products")
     public ResponseEntity<List<ProductDTO>> allProducts(){
-
-        if (productsService.getAll().isEmpty()){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }else {
-            return ResponseEntity.status(HttpStatus.OK).body(productsService.getAll());
-        }
+        return ResponseEntity.status(HttpStatus.OK).body(productsService.getAll());
     }
 
     @GetMapping("/products/{category}")
