@@ -24,6 +24,8 @@ public interface ProductsService extends Service<ProductDTO> {
 
     void deleteOneImageProduct(int indexImage, Long idProduct);
 
+    void setDiscount(List<Long> idList, Integer discount);
+
     List<String> getAllProducer();
     List<String> getAllProducerByCategory(String nameCategory);
 

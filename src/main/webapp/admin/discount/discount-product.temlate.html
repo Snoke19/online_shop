@@ -3,43 +3,89 @@
 </head>
 
 
-<div class="container-fluid">
+<div class="container">
 
     <div class="row">
-        <div class="col-2">
 
-            <div class="mt-2">
-                <p class="text-center h4">Discount</p>
-                <input class="form-control mt-2 mb-3" type="text" ng-model="search" placeholder="Search">
+        <div class="col-lg-3">
+            <div class="row">
 
-                <select title="Categories" class="custom-select mb-2" ng-model="category" >
-                    <option selected value>Categories</option>
-                    <option ng-click="resetFilter()">All</option>
-                    <option ng-repeat="category in categories" value="{{category.name}}">{{category.name}}</option>
-                </select>
+                <div class="col-md-8 col-lg-12 mt-2">
+                    <p class="text-center h4">Discount</p>
+                    <input class="form-control mt-2 mb-3" type="text" ng-model="search" placeholder="Search">
 
-                <angular-ranger min="{{min}}" max="{{max.price}}" step="1" min-value="value.min" max-value="value.max"></angular-ranger>
+                    <select title="Categories" class="custom-select mb-3" ng-model="category" >
+                        <!--<option >Categories</option>-->
+                        <option selected value>Categories</option>
+                        <option ng-repeat="category in categories" value="{{category.name}}">{{category.name}}</option>
+                    </select>
 
-            </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1" ng-change="existDiscount(exist)" ng-model="exist">
+                        <label class="custom-control-label" for="customCheck1">Products without discounts</label>
+                    </div>
 
-        </div>
+                    <p class="text-center mt-3 mb-2">Discount</p>
+                    <rzslider rz-slider-model="sliderDiscount.minValue"
+                              rz-slider-high="sliderDiscount.maxValue"
+                              rz-slider-options="sliderDiscount.options"></rzslider>
 
-        <div class="col-2" ng-repeat="product in products | filter:search | filter:category | filter:startPrice | filter:endPrice">
-            <div class="mt-3">
+                    <div class="input-group mt-5">
+                        <input type="number"
+                               title="Discount"
+                               placeholder="Discount"
+                               min="0"
+                               max="100"
+                               class="form-control py-2 pl-2"
+                               ng-model="discountProducts"
+                               ng-required="true">
 
-                <div class="card" >
-                    <img class="img-fluid" ng-src="data:image/jpeg;base64,{{product.listImages[0]}}" alt="Card image cap">
-
-                    <div class="card-body">
-                        <h4 class="card-title">{{product.name}} (-{{product.discount}}%)</h4>
-                        <p class="card-text">{{product.category.name}}</p>
-                        <p class="card-text">${{product.price}}</p>
+                        <div class="input-group-prepend">
+                            <button class="btn btn-primary btn-sm mb-0 mt-0 p-2" ng-click="makeDiscountProduct(discountProducts)" type="button">Make discount</button>
+                        </div>
 
                     </div>
+                    <br>
+                    <div class="ml-4">
+                    <div ng-repeat="disc in discounts">
+                        <div class="imagewrap">
+                            <p><span ng-click="deleteDiscountsProduct(disc)" class="counter remDiscount border mr-2"><i class="fas fa-times"></i></span>  {{$index}}. {{disc.nameProduct}}</p>
+                        </div>
+                    </div>
+                    </div>
                 </div>
+
             </div>
         </div>
+
+        <div class="col-lg-9">
+            <div class="row">
+
+                <div class="col-md-6 col-lg-4" ng-repeat="product in products | filter:search | filter:category">
+                    <div class="mt-3">
+
+                        <div class="card" >
+                            <div class="imagewrap">
+                                <img class="img-fluid" ng-src="data:image/jpeg;base64,{{product.listImages[0]}}" alt="Card image cap">
+                                <span ng-click="addToDiscountsProduct(product)" class="counter addDiscount border"><i class="fa fa-plus"></i></span>
+                                <span ng-click="deleteDiscountsProduct(product)" class="counter remImageEdit border"><i class="fas fa-times"></i></span>
+
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title">{{product.name}} (-{{product.discount}}%)</h4>
+                                <p class="card-text"><strong>Category:</strong> {{product.category.name}}</p>
+                                <p class="card-text"><strong>Price:</strong> ${{product.price}}</p>
+                                <p class="card-text">
+                                    <strong>Discount:</strong> {{product.discount}}% (<s>${{product.price}}</s> - <span class="green-text">${{product.price - product.price * (product.discount / 100) | number: 2}}</span>)
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
     </div>
-
-
 </div>

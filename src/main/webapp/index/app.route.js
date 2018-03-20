@@ -5,6 +5,7 @@
     angular.module('shop', [
         'ngRoute',
 
+        'main-products',
         'details-product',
 
         'admin-board',
@@ -27,7 +28,7 @@
             $qProvider.errorOnUnhandledRejections(false);
 
             $routeProvider.when('/products',{
-                template: '<products></products>'
+                template: '<main-products></main-products>'
             }).when('/cart', {
                 template: '<shopping-cart></shopping-cart>'
             }).when('/product/details/:idProduct', {

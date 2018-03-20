@@ -22,7 +22,8 @@
                         price: product.price,
                         code: product.code,
                         description: descriptionData,
-                        isActive: true
+                        isActive: true,
+                        discount: 0
                     }
                 }).then(function (response) {
                     return response.data;

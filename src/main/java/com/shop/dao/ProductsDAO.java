@@ -21,6 +21,7 @@ public interface ProductsDAO extends DAO<Product> {
     void updateCategory(Long idCategory, Long id);
     void updateCode(String code, Long id);
 
+    void setDiscount(Long idProduct, Integer discount);
 
     List<String> getAllProducer();
     List<String> getAllProducerByCategory(String nameCategory);

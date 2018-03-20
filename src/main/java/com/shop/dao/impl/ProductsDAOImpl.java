@@ -131,6 +131,15 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
     }
 
     @Override
+    public void setDiscount(Long id, Integer discount) {
+        getSession()
+                .createQuery("update Product p set p.discount = :discount where p.idProduct = :id")
+                .setParameter("discount", discount)
+                .setParameter("id", id)
+                .executeUpdate();
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
     public List<String> getAllProducer() {
         return getSession()

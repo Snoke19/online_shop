@@ -164,6 +164,14 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     @Transactional
+    public void setDiscount(List<Long> idList, Integer discount) {
+
+        idList.forEach(id -> productsDAO.setDiscount(id, discount));
+    }
+
+
+    @Override
+    @Transactional
     public List<String> getAllProducer() {
         return productsDAO.getAllProducer();
     }
