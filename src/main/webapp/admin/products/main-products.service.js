@@ -10,9 +10,9 @@
     function MainProductsService($http) {
         return {
             getAllProducts: function () {
-                $http.get("/products").then(function (response) {
+                return $http.get("/products").then(function (response) {
                     return response.data;
-                })
+                });
             }
         }
     }

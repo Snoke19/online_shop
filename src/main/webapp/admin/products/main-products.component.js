@@ -8,7 +8,8 @@
         'rzModule',
         'ngRateIt',
         'ngProgress',
-        'cp.ngConfirm'
+        'cp.ngConfirm',
+        'ngImageDimensions'
     ]);
 
     angular
