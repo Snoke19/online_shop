@@ -39,7 +39,7 @@ public class MainPageController {
         return productsService.getAllProductsWithCountProductsByProducer(nameProducer);
     }
 
-    @GetMapping("/sidebar/categories")
+    @GetMapping("/categories/count/product")
     public Map<String, Long> getAllCategoriesWithCountProducts(){
         return categoryService.getAllCategoriesWithCountProducts();
     }

@@ -8,7 +8,8 @@
         'ngRateIt',
         'ngProgress',
         'cp.ngConfirm',
-        'ngImageDimensions'
+        'ngImageDimensions',
+        'main-page-service'
     ]);
 
     angular
@@ -18,10 +19,20 @@
             controller: MainPageController
         });
 
-    MainPageController.$inject = ['$http', '$scope', '$ngConfirm', 'ngProgressFactory'];
+    MainPageController.$inject = ['$http', '$scope', '$ngConfirm', 'ngProgressFactory', 'MainPageService'];
 
-    function MainPageController($http, $scope, $ngConfirm, ngProgressFactory) {
+    function MainPageController($http, $scope, $ngConfirm, ngProgressFactory, MainPageService) {
+
+        //progress bar
+        $scope.progressbar = ngProgressFactory.createInstance();
+        $scope.progressbar.setHeight('5px');
 
 
+        $scope.progressbar.start();
+        MainPageService.getAllCategoriesWithCountProducts().then(function (d) {
+            $scope.categoriesCountProducts = d;
+
+            $scope.progressbar.complete();
+        });
     }
 })();

@@ -1,6 +1,8 @@
 package com.shop.dto.orderItems;
 
+import com.shop.dto.product.ProductDTO;
 import com.shop.entity.OrderItems;
+import com.shop.entity.Product;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
