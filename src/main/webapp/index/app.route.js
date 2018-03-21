@@ -5,6 +5,7 @@
     angular.module('shop', [
         'ngRoute',
 
+        'main-page',
         'main-products',
         'details-product',
 
@@ -27,7 +28,9 @@
             $locationProvider.hashPrefix('!');
             $qProvider.errorOnUnhandledRejections(false);
 
-            $routeProvider.when('/products',{
+            $routeProvider.when('/main', {
+                template: '<main-page></main-page>'
+            }).when('/products',{
                 template: '<main-products></main-products>'
             }).when('/cart', {
                 template: '<shopping-cart></shopping-cart>'
@@ -53,7 +56,7 @@
                 template: '<login></login>'
             }).when('/sign-up', {
                 template: '<sign-up></sign-up>'
-            }).otherwise('/products');
+            }).otherwise('/main');
         }
     ]);
 

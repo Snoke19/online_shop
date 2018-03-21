@@ -1,55 +1,106 @@
-<div class="container mt-5 pt-3">
+<div class="container">
 
     <!-- Section: product details -->
     <section id="productDetails" class="pb-5">
 
         <!--News card-->
-        <div class="card border-primary mt-5 hoverable">
-            <div class="row mt-5" >
+        <div class="card mt-5 hoverable">
+            <div class="row mt-5">
                 <div class="col-lg-6">
-
                     <div class="row mx-2">
                         <!--Carousel Wrapper-->
-                        <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails mb-5 pb-4" data-ride="carousel">
 
+                        <div id="carousel-example" class="carousel slide carousel-fade" data-ride="carousel">
+                            <!--Indicators-->
+                            <ol class="carousel-indicators">
+                                <li data-target="#carousel-example" data-slide-to="{{key}}" ng-repeat="(key, value) in productDetails.listImages track by $index"></li>
+                            </ol>
+                            <!--/.Indicators-->
                             <!--Slides-->
-                            <div class="carousel-inner center-on-small-only" role="listbox">
+                            <div class="carousel-inner" role="listbox">
+                                <!--First slide-->
                                 <div class="carousel-item active">
-                                    <img ng-src="data:image/jpeg;base64,{{productDetails.image}}" alt="First slide" class="img-fluid">
+                                    <div style="text-align: center;">
+                                        <img class="w-75" ng-src="data:image/jpeg;base64,{{ productDetails.listImages[0]}}">
+                                    </div>
                                 </div>
+                                <!--/First slide-->
+                                <!--Second slide-->
+                                <div class="carousel-item" ng-repeat="im in productDetails.listImages track by $index" ng-if="$index > 0">
+                                    <div style="text-align: center;">
+                                        <img class="w-75" ng-src="data:image/jpeg;base64,{{im}}" alt="Second slide">
+                                    </div>
+                                </div>
+                                <!--/Second slide-->
+
                             </div>
                             <!--/.Slides-->
+                            <!--Controls-->
+                            <a class="carousel-control-prev" data-target="#carousel-example" role="button" data-slide="prev">
+                                <span><i class="fas fa-angle-left fa-3x blue-text"></i></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" data-target="#carousel-example" role="button" data-slide="next">
+                                <span><i class="fas fa-angle-right fa-3x blue-text"></i></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                            <!--/.Controls-->
                         </div>
+
                         <!--/.Carousel Wrapper-->
                     </div>
+
+                    <!--Grid row-->
+                    <div class="row mb-4">
+
+
+                    </div>
+                    <!--Grid row-->
                 </div>
-                <div class="col-lg-5 mr-3 center-on-small-only" >
-                    <h2 class="h2-responsive center-on-small-only product-name font-bold dark-grey-text mb-1">
+                <div class="col-lg-5 mr-3 text-center text-md-left">
+                    <h2 class="h2-responsive text-center text-md-left product-name font-weight-bold dark-grey-text mb-1 ml-xl-0 ml-4">
                         <strong>{{productDetails.name}} </strong>
                     </h2>
-                    <h3 class="h3-responsive center-on-small-only mb-4 mt-4">
-                        <span class="font-bold">
-                            <strong>${{productDetails.price}}</strong>
-                        </span>
+                    <span class="badge badge-success product mb-4 ml-2" ng-hide="productDetails.discount === 0">SALE</span>
+
+                    <h3 class="h3-responsive text-center text-md-left mb-4 ml-xl-0 ml-4">
+                            <span class="font-weight-bold">
+                                <strong>${{productDetails.price - productDetails.price * (productDetails.discount / 100) | number: 2}}</strong>
+                            </span>
+                        <span class="grey-text" ng-hide="productDetails.discount === 0">
+                                <small>
+                                    (<s>${{productDetails.price}}</s> - <span class="green-text">%{{productDetails.discount}}</span>)
+                                </small>
+                            </span>
                     </h3>
 
-                    <p ng-repeat="d in productDetails.description | limitTo: 1">
-                        <strong>{{d.nameDesc}}: </strong>{{d.dataDesc}}</p>
+                    <span class="ml-xl-0 ml-4" ng-repeat="desc in productDetails.description | limitTo:10">
+                        {{desc.nameDesc}} {{desc.dataDesc}}/
+                    </span>
+                    <span>more below</span>
 
-                    <p>
-                        <strong>Code: </strong>{{productDetails.code}}</p>
-                    <p>
-                        <strong>Producer: </strong>{{productDetails.producer}}</p>
-                    <p>
-                        <strong>Availability: </strong>{{productDetails.status}}</p>
+                    <p class="ml-xl-0 ml-4 mt-4">
+                        <strong>Rating: </strong> <ng-rate-it class="mr-3 d-inline" ng-model="productDetails.ratings" min="0" max="5" step="1" read-only="true" resetable="false"></ng-rate-it>
+                    </p>
+                    <p class="ml-xl-0 ml-4">
+                        <strong>Category: </strong>{{productDetails.category.name}}
+                    </p>
+                    <p class="ml-xl-0 ml-4">
+                        <strong>Producer: </strong>{{productDetails.producer}}
+                    </p>
+
+                    <p class="ml-xl-0 ml-4">
+                        <span ng-if="productDetails.quantity != 0"><strong>Availability: </strong> In Stock</span>
+                        <span ng-if="productDetails.quantity === 0"><strong>Availability: </strong> Sold out</span>
+                    </p>
 
                     <!-- Add to Cart -->
                     <section class="color">
                         <div class="mt-5">
-                            <div class="row mt-3 mb-r">
-                                <div class="col-md-12 center-on-small-only text-md-right">
+                            <div class="row mt-3 mb-4">
+                                <div class="col-md-12 text-center text-md-left text-md-right">
                                     <button class="btn btn-primary btn-rounded waves-effect waves-light">
-                                        <i class="fa fa-cart-plus mr-2" aria-hidden="true"></i> Add to cart</button>
+                                        <i class="fa fa-shopping-cart mr-2" aria-hidden="true"></i> Add to cart</button>
                                 </div>
                             </div>
                         </div>
@@ -63,22 +114,33 @@
     </section>
     <!-- Section: product details -->
 
-    <h4 class="h4-responsive dark-grey-text font-bold mb-5 text-center">
+    <h4 class="h4-responsive dark-grey-text font-weight-bold mb-3 text-center">
         <strong>Description</strong>
     </h4>
 
     <!--Table-->
-    <div class="card mb-r">
+    <div class="card mb-5">
         <div class="card-body">
 
-            <table class="characteristic__product__table table table-striped">
+            <table class="table table-responsive-md">
+                <thead>
+                <tr>
+                    <th>
+                        <strong>Description</strong>
+                    </th>
+                    <th>
+                        <strong>Data of Description</strong>
+                    </th>
+                </tr>
+                </thead>
                 <tbody>
-                    <tr ng-repeat="d in productDetails.description">
-                        <th>{{d.nameDesc}}</th>
-                        <td>{{d.dataDesc}}</td>
-                    </tr>
+                <tr ng-repeat="desc in productDetails.description">
+                    <th scope="row">{{desc.nameDesc}}</th>
+                    <td>{{desc.dataDesc}}</td>
+                </tr>
                 </tbody>
             </table>
+
         </div>
 
     </div>

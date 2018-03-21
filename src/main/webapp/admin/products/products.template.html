@@ -124,7 +124,7 @@
                                 <div image-dimensions>
                                     <img ng-src="data:image/jpeg;base64,{{mainProduct.listImages[0]}}" class="img-fluid" alt="sample photo">
                                 </div>
-                                <a>
+                                <a href="#!/product/details/{{mainProduct.idProduct}}">
                                     <div class="mask rgba-white-slight"></div>
                                 </a>
                             </div>
@@ -132,12 +132,12 @@
                             <!--Card content-->
                             <div class="card-body text-center">
                                 <!--Category & Title-->
-                                <a href="" class="grey-text">
+                                <a href="#!/product/details/{{mainProduct.idProduct}}" class="grey-text">
                                     <h5>{{mainProduct.category.name}}</h5>
                                 </a>
                                 <h4 class="card-title">
                                     <strong>
-                                        <a href="">{{mainProduct.name}}</a>
+                                        <a href="#!/product/details/{{mainProduct.idProduct}}">{{mainProduct.name}}</a>
                                     </strong>
                                 </h4>
                                 <!--Rating-->
@@ -152,7 +152,7 @@
                                         <strong>{{mainProduct.price}}$</strong>
                                     </span>
                                     <span class="float-right">
-                                        <a class="active" data-toggle="tooltip" data-placement="top" title="Add to Cart">
+                                        <a href="#!/product/details/{{mainProduct.idProduct}}" class="active" data-toggle="tooltip" data-placement="top" title="Add to Cart">
                                             <i class="fa fa-shopping-cart ml-3"></i>
                                         </a>
                                     </span>
