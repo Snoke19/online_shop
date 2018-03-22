@@ -3,7 +3,7 @@ package com.shop.service.impl;
 import com.shop.dao.ProductsDAO;
 import com.shop.dto.product.Description;
 import com.shop.dto.product.ProductDTO;
-import com.shop.dto.product.ProductMapperImpl;
+import com.shop.dto.product.ProductMapImpl;
 import com.shop.entity.Product;
 import com.shop.service.ProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class ProductsServiceImpl implements ProductsService {
 
     private ProductsDAO productsDAO;
     private ProductsService productsService;
-    private ProductMapperImpl productMapper;
+    private ProductMapImpl productMapper;
 
     @Autowired
     public void setProductsDAO(ProductsDAO productsDAO) {
@@ -31,7 +31,7 @@ public class ProductsServiceImpl implements ProductsService {
     }
 
     @Autowired
-    public void setProductMapper(ProductMapperImpl productMapper) {
+    public void setProductMapper(ProductMapImpl productMapper) {
         this.productMapper = productMapper;
     }
 

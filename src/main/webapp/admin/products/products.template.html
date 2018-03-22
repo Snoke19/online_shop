@@ -48,7 +48,7 @@
                 <div class="col-md-6 col-lg-12 mb-5">
                     <p class="mb-2">
                         <a class="font-weight-bold dark-grey-text h5" ng-click="isOpen=!isOpen" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                            <strong>Category <i class="ml-5" ng-class="(isOpen) ? 'fas fa-angle-down' : 'fas fa-angle-up'"></i></strong>
+                            <strong>Producers <i class="ml-5" ng-class="(isOpen) ? 'fas fa-angle-down' : 'fas fa-angle-up'"></i></strong>
 
                         </a>
                     </p>
@@ -115,15 +115,14 @@
                 <div class="row">
 
                     <!--Grid column-->
-                    <div class="col-lg-4 col-md-12 mb-4" ng-repeat="mainProduct in mainProducts">
+                    <div class="col-lg-4 col-md-12 mb-4" ng-repeat="mainProduct in mainProducts" >
 
                         <!--Card-->
+                        <div image-dimensions>
                         <div class="card card-cascade narrower card-ecommerce" >
                             <!--Card image-->
                             <div class="view overlay">
-                                <div image-dimensions>
-                                    <img ng-src="data:image/jpeg;base64,{{mainProduct.listImages[0]}}" class="img-fluid" alt="sample photo">
-                                </div>
+                                <img ng-src="data:image/jpeg;base64,{{mainProduct.listImages[0]}}" class="img-fluid" alt="sample photo">
                                 <a href="#!/product/details/{{mainProduct.idProduct}}">
                                     <div class="mask rgba-white-slight"></div>
                                 </a>
@@ -141,11 +140,21 @@
                                     </strong>
                                 </h4>
                                 <!--RatingProducts-->
-                                <ng-rate-it class="d-inline" ng-model="rating" min="0" max="5" step="1" read-only="true" resetable="false"></ng-rate-it>
+                                <ng-rate-it class="d-inline"
+                                            ng-model="mainProduct.ratings"
+                                            min="0"
+                                            max="5"
+                                            step="1"
+                                            read-only="readOnlyRating"
+                                            rated="ratingProduct(rating, mainProduct.idProduct)"
+                                            resetable="false"></ng-rate-it>
 
                                 <!--Description-->
-                                <p class="card-text">Neque porro quisquam est, qui dolorem ipsum quia dolor sit..
-                                </p>
+                                <br>
+                                <span class="" ng-repeat="desc in mainProduct.description | limitTo: 3">
+                                    {{desc.nameDesc}} {{desc.dataDesc}}/
+                                </span>
+                                <a ng-href="#!/product/details/{{mainProduct.idProduct}}" style="text-decoration: underline">see more</a>
                                 <!--Card footer-->
                                 <div class="card-footer">
                                     <span class="float-left font-weight-bold active">
@@ -160,7 +169,7 @@
                             </div>
                             <!--Card content-->
                         </div>
-
+                        </div>
                         </div>
                     <!--Grid column-->
                 </div>

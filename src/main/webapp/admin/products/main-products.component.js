@@ -59,6 +59,10 @@
             }
         };
 
+        $scope.ratingProduct = function (rating, idProduct) {
+            alert(rating + "" + idProduct);
+            $scope.readOnlyRating = true;
+        }
     }
 
 })();
