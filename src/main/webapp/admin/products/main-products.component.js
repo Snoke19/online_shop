@@ -19,9 +19,9 @@
             controller: ProductsController
         });
 
-    ProductsController.$inject = ['$http', '$scope', '$ngConfirm', 'ngProgressFactory', 'MainProductsService'];
+    ProductsController.$inject = ['$http', '$scope', '$routeParams', '$ngConfirm', 'ngProgressFactory', 'MainProductsService'];
 
-    function ProductsController ($http, $scope, $ngConfirm, ngProgressFactory, MainProductsService) {
+    function ProductsController ($http, $scope, $routeParams, $ngConfirm, ngProgressFactory, MainProductsService) {
 
         //progress bar
         $scope.progressbar = ngProgressFactory.createInstance();
@@ -33,7 +33,7 @@
         $scope.rating = 4;
 
         $scope.progressbar.start();
-        MainProductsService.getAllProducts().then(function (d) {
+        MainProductsService.getAllProductsByCategory($routeParams.category).then(function (d) {
             $scope.mainProducts = d;
 
             $scope.progressbar.complete();

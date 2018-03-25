@@ -271,30 +271,43 @@
                                 </div>
 
                                 <p class="mb-0 mt-3 text-center border border-bottom-0 rounded-top rgba-blue-slight">Description</p>
+
                                 <div ng-class="scrollDesc" class="border">
 
-                                    <fieldset data-ng-repeat="desc in descriptionData" class="mb-2 mt-2">
-
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">Name of desc</div>
-                                            </div>
-                                            <input class="form-control py-0 pl-2 rounded-0" type="text" ng-model="desc.nameDesc" ng-required="true" title="NameDesc">
-                                            <button class="btn btn-danger btn-sm mt-2 mb-2 px-2 py-1" ng-click="reduce($index)"><i class="fas fa-times"></i></button>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <a class="btn btn-primary btn-sm" data-nodrag ng-click="newItem()"><i class="fas fa-plus"></i> Add Description</a>
+                                            <table ui-tree id="tree-root" class="table table-responsive">
+                                                <tbody ui-tree-nodes ng-model="data">
+                                                <tr ng-repeat="node in data" ui-tree-node>
+                                                    <td>
+                                                        <i class="glyphicon glyphicon-resize-vertical" ui-tree-handle></i>
+                                                    </td>
+                                                    <td>
+                                                        <strong>{{node.descName}}</strong>
+                                                        <strong>{{node.descData}}</strong>
+                                                    </td>
+                                                    <td>
+                                                        <a class="pull-right btn btn-danger btn-xs" data-nodrag ng-click="remove(this)">
+                                                            <span class="glyphicon glyphicon-remove"></span>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
 
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text" style="width: 125px">Data of desc</div>
+                                        <div class="col-sm-6">
+                                            <div class="info">
+                                                {{info}}
                                             </div>
-                                            <textarea class="form-control py-0 pl-2 rounded-0" ng-model="desc.dataDesc" ng-required="true" title="data desc"></textarea>
+                                            <pre class="code">{{ data | json }}</pre>
                                         </div>
-
-                                    </fieldset>
 
                                 </div>
 
-                                <button class="btn btn-primary btn-sm mb-3" ng-click="addNewDesc($event)">Add describe fields</button>
+                                <input type="text" class="form-control validate" ng-model="categoryDescription" title="Category of desc">
+                                <button class="btn btn-primary btn-sm mb-3" ng-click="addCategoryDesc($event)">Add category fields</button>
 
                                 <label class="control control-checkbox mt-2">
                                     Not use image uploader

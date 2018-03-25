@@ -53,4 +53,6 @@ public class MainPageController {
     public Map<String, Long> getAllProductsWithCountProducts(){
         return productsService.getAllProductsWithCountProducts();
     }
+
+
 }

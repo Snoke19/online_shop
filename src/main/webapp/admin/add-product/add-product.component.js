@@ -7,6 +7,7 @@
         'cgNotify',
         'ngImageDimensions',
         'angularFileUpload',
+        'ui.tree',
         'ui.grid',
         'ui.grid.pagination',
         'ui.grid.resizeColumns',
@@ -28,7 +29,15 @@
         .directive('ngThumb', ['$window', ngThumb])
         .directive('imageInput', ['$parse', imageInput]);
 
-    AdminBoardAddProductController.$inject = ['$scope', 'notify', '$ngConfirm', 'ngProgressFactory', 'editableOptions', 'editableThemes', 'FileUploader', 'AdminService'];
+    AdminBoardAddProductController.$inject = [
+        '$scope',
+        'notify',
+        '$ngConfirm',
+        'ngProgressFactory',
+        'editableOptions',
+        'editableThemes',
+        'FileUploader',
+        'AdminService'];
 
     function AdminBoardAddProductController($scope, notify, $ngConfirm, ngProgressFactory, editableOptions, editableThemes, FileUploader, AdminService) {
 
@@ -278,37 +287,36 @@
         };
 
 
-        // save data
-        // description fields
-        var counter = 0;
-        $scope.descriptionData = [{
-            id: counter,
-            nameDesc: '',
-            dataDesc: ''
-        }];
-        $scope.addNewDesc = function ($event) {
-            counter++;
+        $scope.remove = function (scope) {
+            scope.remove();
+        };
 
-            if (counter > 1){
-                $scope.scrollDesc = 'scrollbar scrollbar-primary force-overflow2';
-            }
-
-            $scope.descriptionData.push({
-                id: counter,
-                nameDesc: '',
-                dataDesc: ''
+        $scope.newItem = function () {
+            var nodeData = $scope.data[$scope.data.length - 1];
+            $scope.data.push({
+                id: $scope.data.length + 1,
+                title: 'Memory ' + ($scope.data.length + 1),
+                descData: '64gb ' + ($scope.data.length + 1)
             });
-            $event.preventDefault();
         };
-        $scope.reduce = function ($index) {
-            counter--;
-            if(counter < 3){
-                $scope.scrollDesc = '';
-            }
 
-            $scope.descriptionData.splice($index, 1);
-        };
-        // description fields
+        $scope.data = [{
+            "id": 1,
+            "title": "node1",
+            "nodes": [
+                {
+                    "id": 10,
+                    "title": "node1.1",
+                    "nodes": []
+                },
+                {
+                    "id": 11,
+                    "title": "node1.2",
+                    "nodes": []
+                }
+            ]
+        }];
+
 
 
         $scope.disabledUploader = function (boolean) {

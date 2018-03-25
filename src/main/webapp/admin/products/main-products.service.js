@@ -13,6 +13,11 @@
                 return $http.get("/products").then(function (response) {
                     return response.data;
                 });
+            },
+            getAllProductsByCategory: function (category) {
+                return $http.get("/products/" + category).then(function (response) {
+                    return response.data;
+                });
             }
         }
     }

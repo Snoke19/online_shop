@@ -30,7 +30,7 @@
 
             $routeProvider.when('/main', {
                 template: '<main-page></main-page>'
-            }).when('/products',{
+            }).when('/products/:category',{
                 template: '<main-products></main-products>'
             }).when('/cart', {
                 template: '<shopping-cart></shopping-cart>'

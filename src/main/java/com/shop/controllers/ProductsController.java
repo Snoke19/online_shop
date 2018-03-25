@@ -27,13 +27,7 @@ public class ProductsController {
 
     @GetMapping("/products/{category}")
     public ResponseEntity<List<ProductDTO>> allProductsByCategory(@PathVariable("category") String category){
-
-        if (productsService.getAllProductsBySomething(category).isEmpty()){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }else {
-            return ResponseEntity.status(HttpStatus.OK).body(productsService.getAllProductsBySomething(category));
-        }
-
+        return ResponseEntity.status(HttpStatus.OK).body(productsService.getAllProductsBySomething(category));
     }
 
     @GetMapping("/product/{id}")
