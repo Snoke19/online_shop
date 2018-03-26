@@ -106,7 +106,7 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     @Transactional
-    public void updateDescription(List<Description> desc, Long id) {
+    public void updateDescription(List<Map<String, List<Description>>> desc, Long id) {
         productsDAO.updateDescription(desc, id);
     }
 

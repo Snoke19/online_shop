@@ -36,6 +36,13 @@
         MainProductsService.getAllProductsByCategory($routeParams.category).then(function (d) {
             $scope.mainProducts = d;
 
+            var producers = $scope.mainProducts.map(a => a.producer);
+
+            $scope.countProducers = {};
+            producers.forEach(function(i) { $scope.countProducers[i] = ($scope.countProducers[i]||0) + 1;});
+
+            console.log($scope.countProducers);
+
             $scope.progressbar.complete();
         }).catch(function(response){
             $ngConfirm({

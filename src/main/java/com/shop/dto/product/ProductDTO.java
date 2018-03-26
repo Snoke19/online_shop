@@ -1,15 +1,13 @@
 package com.shop.dto.product;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.shop.dto.category.CategoryDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Data
 @AllArgsConstructor
@@ -19,7 +17,7 @@ public class ProductDTO {
     private Long idProduct;
     private String name;
     private String producer;
-    private List<Description> description;
+    private List<Map<String, List<Description>>> description;
     private BigDecimal price;
     private List<byte[]> listImages;
     private Boolean isActive;

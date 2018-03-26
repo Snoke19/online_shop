@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @Repository("productsDAO")
 public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO {
@@ -68,7 +69,7 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
     }
 
     @Override
-    public void updateDescription(List<Description> desc, Long id) {
+    public void updateDescription(List<Map<String, List<Description>>> desc, Long id) {
         getSession()
                 .createQuery("update Product p set p.description = :desc where p.idProduct = :id")
                 .setParameter("desc", desc)

@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class AdminEditProductController {
@@ -50,7 +51,8 @@ public class AdminEditProductController {
 
 
     @PutMapping("/product/{id}/description")
-    public  ResponseEntity<String> updateDescription(@PathVariable("id") Long id, @RequestBody List<Description> descriptionList){
+    public  ResponseEntity<String> updateDescription(@PathVariable("id") Long id, @RequestBody List<Map<String, List<Description>>> descriptionList){
+        System.out.println(descriptionList);
         productsService.updateDescription(descriptionList, id);
 
         return ResponseEntity.ok(new Gson().toJson("Description is updated!"));

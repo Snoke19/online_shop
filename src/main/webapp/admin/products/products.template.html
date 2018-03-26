@@ -29,57 +29,60 @@
             <div class="row">
                 <div class="col-md-6 col-lg-12 mb-3 ">
                     <p class="mb-2">
-                        <a class="font-weight-bold dark-grey-text h5" ng-click="isOpen1=!isOpen1" data-toggle="collapse" data-target="#collapseOrder" aria-expanded="false" aria-controls="collapseOrder">
+                        <a class="font-weight-bold dark-grey-text h5" ng-click="isOpen1=!isOpen1" data-toggle="collapse" data-target="#collapseOrderBy" aria-expanded="false" aria-controls="collapseOrderBy">
                             <strong>Order By <i class="ml-5" ng-class="(isOpen1) ? 'fas fa-angle-down' : 'fas fa-angle-up'"></i></strong>
 
                         </a>
                     </p>
 
-                    <div class="collapse show" id="collapseOrder">
+                    <div class="collapse show" id="collapseOrderBy">
                         <p class="blue-text mt-2 mb-2"><a>Default</a></p>
-                        <p class="dark-grey-text mt-2 mb-2"><a>Popularity</a></p>
-                        <p class="dark-grey-text mt-2 mb-2"><a>Average rating</a></p>
+                        <p class="dark-grey-text mt-2 mb-2"><a>Кating</a></p>
                         <p class="dark-grey-text mt-2 mb-2"><a>Price: low to high</a></p>
                         <p class="dark-grey-text mt-2 mb-2"><a>Price: high to low</a></p>
                     </div>
                 </div>
 
-                <!-- Filter by category-->
-                <div class="col-md-6 col-lg-12 mb-5">
+                <!-- Filter by producer-->
+                <div class="col-md-6 col-lg-12 mb-3">
                     <p class="mb-2">
-                        <a class="font-weight-bold dark-grey-text h5" ng-click="isOpen=!isOpen" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                            <strong>Producers <i class="ml-5" ng-class="(isOpen) ? 'fas fa-angle-down' : 'fas fa-angle-up'"></i></strong>
-
+                        <a class="font-weight-bold dark-grey-text h5" ng-click="isOpen2=!isOpen2" data-toggle="collapse" data-target="#collapseProducer" aria-expanded="false" aria-controls="collapseProducer">
+                            <strong>Producers <i class="ml-5" ng-class="(isOpen2) ? 'fas fa-angle-down' : 'fas fa-angle-up'"></i></strong>
                         </a>
                     </p>
 
-                    <div class="collapse show" id="collapseExample">
+                    <div class="collapse show" id="collapseProducer">
 
                         <!--Radio group-->
-                        <div class="custom-control custom-radio mb-2">
-                            <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
-                            <label class="custom-control-label" for="customRadio1">All</label>
+                        <div class="custom-control custom-checkbox mb-2" ng-repeat="(key, value) in countProducers">
+                            <input type="checkbox" id="customRadio{{key}}" name="customRadio" class="custom-control-input">
+                            <label class="custom-control-label" for="customRadio{{key}}">{{key}} {{value}}</label>
                         </div>
-
-                        <div class="custom-control custom-radio mt-2 mb-2">
-                            <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
-                            <label class="custom-control-label" for="customRadio2">Laptop</label>
-                        </div>
-
-                        <div class="custom-control custom-radio mt-2 mb-2">
-                            <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input">
-                            <label class="custom-control-label" for="customRadio3">SmartPhone</label>
-                        </div>
-
-                        <div class="custom-control custom-radio mt-2 mb-2">
-                            <input type="radio" id="customRadio4" name="customRadio" class="custom-control-input">
-                            <label class="custom-control-label" for="customRadio4">Tablet</label>
-                        </div>
-
                     </div>
                     <!--Radio group-->
                 </div>
                 <!-- /Filter by category-->
+
+                <!-- Filter by memory-->
+                <div class="col-md-6 col-lg-12 mb-3">
+                    <p class="mb-2">
+                        <a class="font-weight-bold dark-grey-text h5" ng-click="isOpen3=!isOpen3" data-toggle="collapse" data-target="#collapseExampleMemory" aria-expanded="false" aria-controls="collapseExampleMemory">
+                            <strong>Memory <i class="ml-5" ng-class="(isOpen3) ? 'fas fa-angle-down' : 'fas fa-angle-up'"></i></strong>
+                        </a>
+                    </p>
+
+                    <div class="collapse show" id="collapseExampleMemory">
+
+                        <!--Radio group-->
+                        <div class="custom-control custom-checkbox mb-2" ng-repeat="(key, value) in countProducers">
+                            <input type="checkbox" id="customRadioMemory{{key}}" name="customRadio" class="custom-control-input">
+                            <label class="custom-control-label" for="customRadioMemory{{key}}">{{key}} {{value}}</label>
+                        </div>
+                    </div>
+                    <!--Radio group-->
+                </div>
+                <!-- /Filter by category-->
+
             </div>
             <!-- /Grid row -->
 
@@ -115,7 +118,7 @@
                 <div class="row">
 
                     <!--Grid column-->
-                    <div class="col-lg-4 col-md-12 mb-4" ng-repeat="mainProduct in mainProducts" >
+                    <div class="col-lg-4 col-md-12 mb-4" ng-repeat="mainProduct in mainProducts | orderBy: -name" >
 
                         <!--Card-->
                         <div image-dimensions>
@@ -151,9 +154,14 @@
 
                                 <!--Description-->
                                 <br>
-                                <span class="" ng-repeat="desc in mainProduct.description | limitTo: 3">
-                                    {{desc.nameDesc}} {{desc.dataDesc}}/
-                                </span>
+
+                                <div  ng-repeat="(key, value) in mainProduct.description" >
+                                    <div ng-repeat="(key, value) in value" ng-if="$index < 1">
+                                        <span ng-repeat="(key, value) in value">
+                                            &middot {{value.nameDesc}} {{value.dataDesc}}/
+                                        </span>
+                                    </div>
+                                </div>
                                 <a ng-href="#!/product/details/{{mainProduct.idProduct}}" style="text-decoration: underline">see more</a>
                                 <!--Card footer-->
                                 <div class="card-footer">

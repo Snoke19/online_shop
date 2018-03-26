@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class ProductMapImpl {
@@ -42,9 +44,9 @@ public class ProductMapImpl {
         productDTO.setIdProduct( product.getIdProduct() );
         productDTO.setName( product.getName() );
         productDTO.setProducer( product.getProducer() );
-        List<Description> list = product.getDescription();
+        List<Map<String, List<Description>>> list = product.getDescription();
         if ( list != null ) {
-            productDTO.setDescription( new ArrayList<Description>( list ) );
+            productDTO.setDescription(new ArrayList<Map<String, List<Description>>>(list));
         }
         else {
             productDTO.setDescription( null );
@@ -77,9 +79,9 @@ public class ProductMapImpl {
         product.setIdProduct( productDTO.getIdProduct() );
         product.setName( productDTO.getName() );
         product.setProducer( productDTO.getProducer() );
-        List<Description> list = productDTO.getDescription();
+        List<Map<String, List<Description>>> list = productDTO.getDescription();
         if ( list != null ) {
-            product.setDescription( new ArrayList<Description>( list ) );
+            product.setDescription( new ArrayList<Map<String, List<Description>>>( list ) );
         }
         else {
             product.setDescription( null );

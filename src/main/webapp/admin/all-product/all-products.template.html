@@ -110,14 +110,16 @@
 
                     <div class="card-footer">
                         <h4 class="font-bold text-center">Description</h4>
-                        <table class="table table-hover">
-                            <tbody>
-                            <tr ng-repeat="d in productForEdit.description">
-                                <th>{{d.nameDesc}}: </th>
-                                <td>{{d.dataDesc}}</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <div class="row">
+                            <div class="col mx-1 mb-2" ng-repeat="(key, value) in productForEdit.description">
+                                <div ng-repeat="(key, value) in value">
+                                    <div class="h4">{{key}}</div>
+                                    <div class="ml-2 mb-2" ng-repeat="(key, value) in value">
+                                        &middot {{value.nameDesc}} {{value.dataDesc}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>

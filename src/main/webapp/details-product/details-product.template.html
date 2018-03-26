@@ -9,8 +9,8 @@
                 <div class="col-lg-6">
                     <div class="row mx-2">
                         <!--Carousel Wrapper-->
-
-                        <div id="carousel-example" class="carousel slide carousel-fade" data-ride="carousel">
+                        <div class="col">
+                            <div id="carousel-example" class="carousel slide carousel-fade" data-ride="carousel">
                             <!--Indicators-->
                             <ol class="carousel-indicators">
                                 <li data-target="#carousel-example" data-slide-to="{{key}}" ng-repeat="(key, value) in productDetails.listImages track by $index"></li>
@@ -46,7 +46,7 @@
                             </a>
                             <!--/.Controls-->
                         </div>
-
+                        </div>
                         <!--/.Carousel Wrapper-->
                     </div>
 
@@ -74,9 +74,13 @@
                             </span>
                     </h3>
 
-                    <span class="ml-xl-0 ml-4" ng-repeat="desc in productDetails.description | limitTo:10">
-                        {{desc.nameDesc}} {{desc.dataDesc}}/
-                    </span>
+                    <div  ng-repeat="(key, value) in productDetails.description" >
+                        <div style="word-break: break-all;" ng-repeat="(key, value) in value" ng-if="$index < 3">
+                            <span ng-repeat="(key, value) in value">
+                                &middot {{value.nameDesc}} {{value.dataDesc}}/
+                            </span>
+                        </div>
+                    </div>
                     <span>more below</span>
 
                     <p class="ml-xl-0 ml-4 mt-4">
@@ -122,24 +126,16 @@
     <div class="card mb-5">
         <div class="card-body">
 
-            <table class="table table-responsive-md">
-                <thead>
-                <tr>
-                    <th>
-                        <strong>Description</strong>
-                    </th>
-                    <th>
-                        <strong>Data of Description</strong>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="desc in productDetails.description">
-                    <th scope="row">{{desc.nameDesc}}</th>
-                    <td>{{desc.dataDesc}}</td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="row">
+                <div class="col mx-1 mb-2" ng-repeat="(key, value) in productDetails.description">
+                    <div ng-repeat="(key, value) in value">
+                        <div class="h4">{{key}}</div>
+                        <div class="ml-2 mb-2" ng-repeat="(key, value) in value">
+                            &middot {{value.nameDesc}} {{value.dataDesc}}
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
 

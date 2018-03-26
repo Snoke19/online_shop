@@ -37,7 +37,8 @@
         $scope.progressbar.start();
         AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
             $scope.productForUpdate = d;
-            $scope.descriptionData = $scope.productForUpdate.description;
+            $scope.descriptionDatas = $scope.productForUpdate.description;
+            $scope.descriptionData = $scope.descriptionDatas[0];
 
             $scope.progressbar.complete();
 
@@ -142,19 +143,31 @@
 
 
         var counter = 0;
-        $scope.addNewChoice = function($event) {
-            counter++;
-            $scope.descriptionData.push({
-                id: counter,
-                nameDesc: '',
-                dataDesc: ''
-            });
-            $event.preventDefault();
+        $scope.addNewDescEdit = function (k) {
+            $scope.descriptionData[k].push({
+                    id: counter++,
+                    nameDesc: '',
+                    dataDesc: ''
+                }
+            );
         };
 
+        $scope.addNewCategoryDescEdit = function (cat) {
+            $scope.descriptionData[cat] = [{id: counter++, nameDesc: '', dataDesc: ''}];
+        };
+
+        $scope.deleteCategoryDescEdit = function (k) {
+            delete($scope.descriptionData[k]);
+        };
+
+        $scope.reduceEdit = function (cat, $index) {
+            $scope.descriptionData[cat].splice($index, 1);
+        };
+        
         $scope.updateDescription = function () {
 
-            var jsonDesc = angular.toJson($scope.descriptionData);
+            var jsonDesc = [$scope.descriptionData];
+
             $scope.progressbar.start();
 
             AdminEditProductService.updateDescriptionService(jsonDesc, $scope.productForUpdate.idProduct).then(function (d) {

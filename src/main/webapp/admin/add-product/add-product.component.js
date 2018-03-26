@@ -7,7 +7,6 @@
         'cgNotify',
         'ngImageDimensions',
         'angularFileUpload',
-        'ui.tree',
         'ui.grid',
         'ui.grid.pagination',
         'ui.grid.resizeColumns',
@@ -287,35 +286,29 @@
         };
 
 
-        $scope.remove = function (scope) {
-            scope.remove();
-        };
+        $scope.descriptionData = {};
 
-        $scope.newItem = function () {
-            var nodeData = $scope.data[$scope.data.length - 1];
-            $scope.data.push({
-                id: $scope.data.length + 1,
-                title: 'Memory ' + ($scope.data.length + 1),
-                descData: '64gb ' + ($scope.data.length + 1)
-            });
-        };
-
-        $scope.data = [{
-            "id": 1,
-            "title": "node1",
-            "nodes": [
-                {
-                    "id": 10,
-                    "title": "node1.1",
-                    "nodes": []
-                },
-                {
-                    "id": 11,
-                    "title": "node1.2",
-                    "nodes": []
+        var counter = 0;
+        $scope.addNewDescEdit = function (k) {
+            $scope.descriptionData[k].push({
+                    id: counter++,
+                    nameDesc: '',
+                    dataDesc: ''
                 }
-            ]
-        }];
+            );
+        };
+
+        $scope.addNewCategoryDescEdit = function (cat) {
+            $scope.descriptionData[cat] = [{id: counter++, nameDesc: '', dataDesc: ''}];
+        };
+
+        $scope.deleteCategoryDescEdit = function (k) {
+            delete($scope.descriptionData[k]);
+        };
+
+        $scope.reduceEdit = function (cat, $index) {
+            $scope.descriptionData[cat].splice($index, 1);
+        };
 
 
 
@@ -369,10 +362,15 @@
 
         $scope.saveData = function () {
             $scope.progressbar.start();
-            AdminService.addProductService($scope.product, $scope.descriptionData).then(function (d) {
+
+            var jsonDesc = [$scope.descriptionData];
+
+            AdminService.addProductService($scope.product, jsonDesc).then(function (d) {
 
                 AdminService.getAdminProductsService().then(function (d) {
                     $scope.productsAddAdmin = d;
+
+                    $scope.descriptionData = {};
                 }).catch(function(response){
                     $ngConfirm({
                         title: 'Error',

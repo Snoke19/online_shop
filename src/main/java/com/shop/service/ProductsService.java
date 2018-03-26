@@ -14,7 +14,7 @@ public interface ProductsService extends Service<ProductDTO> {
 
     void updateNameProduct(String name, Long id);
     void updateProducer(String producer, Long id);
-    void updateDescription(List<Description> desc, Long id);
+    void updateDescription(List<Map<String, List<Description>>> desc, Long id);
     void updatePrice(BigDecimal price, Long id);
     void updateImage(List<byte[]> imageJson, Long id);
     void updateActive(boolean active, Long id);

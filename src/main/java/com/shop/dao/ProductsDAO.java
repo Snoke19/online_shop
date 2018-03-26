@@ -6,6 +6,7 @@ import com.shop.utils.layers.DAO;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 public interface ProductsDAO extends DAO<Product> {
 
@@ -13,7 +14,7 @@ public interface ProductsDAO extends DAO<Product> {
 
     void updateNameProduct(String name, Long id);
     void updateProducer(String producer, Long id);
-    void updateDescription(List<Description> desc, Long id);
+    void updateDescription(List<Map<String, List<Description>>> desc, Long id);
     void updatePrice(BigDecimal price, Long id);
     void updateImage(List<byte[]> imageJson, Long id);
     void updateActive(boolean active, Long id);
