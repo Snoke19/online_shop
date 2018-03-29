@@ -1,17 +1,22 @@
 package com.shop.service.impl;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import com.shop.dao.ProductsDAO;
-import com.shop.dto.product.Description;
+import com.shop.dto.product.ProductMapper;
 import com.shop.dto.product.ProductDTO;
 import com.shop.dto.product.ProductMapImpl;
 import com.shop.entity.Product;
 import com.shop.service.ProductsService;
+import com.shop.utils.products.Description;
+import com.shop.utils.products.DescriptionCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service("productsService")
 public class ProductsServiceImpl implements ProductsService {
@@ -86,7 +91,7 @@ public class ProductsServiceImpl implements ProductsService {
     public List<ProductDTO> getAdminProducts() {
         List<Product> productList = productsDAO.getAdminProducts();
         Collections.reverse(productList);
-        return productMapper.productsToProductsDTO(productList);
+        return ProductMapper.mapper.productsAddAdminDTO(productList);
     }
 
 
@@ -106,7 +111,7 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     @Transactional
-    public void updateDescription(List<Map<String, List<Description>>> desc, Long id) {
+    public void updateDescription(List<DescriptionCategory> desc, Long id) {
         productsDAO.updateDescription(desc, id);
     }
 
@@ -186,8 +191,15 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     @Transactional
-    public List<ProductDTO> getAllProductsBySomething(String something) {
-        return productMapper.productsToProductsDTO(productsDAO.getAllProductsBySomething(something));
+    public List<ProductDTO> getProductsByRange(Integer start, String category) {
+        return productMapper.productsToProductsDTO(productsDAO.getProductsByRange(start, category));
+    }
+
+
+    @Override
+    @Transactional
+    public List<ProductDTO> getAllProductsByCategory(String category) {
+        return productMapper.productsToProductsDTO(productsDAO.getAllProductsByCategory(category));
     }
 
 
@@ -253,5 +265,30 @@ public class ProductsServiceImpl implements ProductsService {
         for (Long aSelected : selected) {
             productsDAO.delete(aSelected);
         }
+    }
+
+    @Override
+    @Transactional
+    public List<Map<String, String>> getSideBarProducts() {
+
+        List<Product> descriptionCategories = productsDAO.getAll();
+
+        List<List<DescriptionCategory>> listDescription = descriptionCategories.stream().map(Product::getDescription).collect(Collectors.toList());
+
+        List<DescriptionCategory> list = new ArrayList<>();
+
+        for (List<DescriptionCategory> aListDescription : listDescription) {
+            list.addAll(aListDescription);
+        }
+
+        Multimap<String, List<Description>> map = ArrayListMultimap.create();
+
+        for (DescriptionCategory aList : list) {
+            map.put(aList.getNameCategoryDescription(), aList.getDescriptionList());
+        }
+
+        System.out.println(map);
+
+        return null;
     }
 }

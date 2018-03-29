@@ -33,11 +33,8 @@ public interface OrderItemsMapper {
 
     @Named("orderItemsToOrdersItemsDTO")
     @Mappings({
-            @Mapping(target = "idOrderItems"),
-            @Mapping(target = "quantityProducts"),
-            @Mapping(target = "pricePerQuantity"),
-            @Mapping(target = "orders"),
-            @Mapping(target = "product"),
+            @Mapping(target = "product.description", ignore = true),
+            @Mapping(target = "orders.user.avatar", ignore = true),
     })
     OrderItemsDTO orderItemsToOrdersItemsDTO(OrderItems orderItems);
 }

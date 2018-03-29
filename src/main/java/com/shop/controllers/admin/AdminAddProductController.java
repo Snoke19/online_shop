@@ -48,6 +48,8 @@ public class AdminAddProductController {
     @PostMapping("/admin/product")
     public ResponseEntity<String> addProduct(@RequestBody ProductDTO productDTO) {
 
+        System.out.println(productDTO);
+
         System.out.println(productDTO.getDescription());
 
         CategoryDTO categoryDTO = new CategoryDTO();

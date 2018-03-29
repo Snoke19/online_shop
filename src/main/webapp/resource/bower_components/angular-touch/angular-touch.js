@@ -10,7 +10,7 @@
 /**
  * @ngdoc module
  * @name ngTouch
- * @description
+ * @descriptionList
  *
  * The `ngTouch` module provides helpers for touch-enabled devices.
  * The implementation is based on jQuery Mobile touch event handling
@@ -36,7 +36,7 @@ function nodeName_(element) {
  * @ngdoc provider
  * @name $touchProvider
  *
- * @description
+ * @descriptionList
  * The `$touchProvider` allows enabling / disabling {@link ngTouch.ngClick ngTouch's ngClick directive}.
  */
 $TouchProvider.$inject = ['$provide', '$compileProvider'];
@@ -52,7 +52,7 @@ function $TouchProvider($provide, $compileProvider) {
    *
    * @kind function
    *
-   * @description
+   * @descriptionList
    * Call this method to enable/disable {@link ngTouch.ngClick ngTouch's ngClick directive}. If enabled,
    * the default ngClick directive will be replaced by a version that eliminates the 300ms delay for
    * click events on browser for touch-devices.
@@ -106,7 +106,7 @@ function $TouchProvider($provide, $compileProvider) {
   * @name $touch
   * @kind object
   *
-  * @description
+  * @descriptionList
   * Provides the {@link ngTouch.$touch#ngClickOverrideEnabled `ngClickOverrideEnabled`} method.
   *
   */
@@ -136,7 +136,7 @@ function $TouchProvider($provide, $compileProvider) {
      * @ngdoc service
      * @name $swipe
      *
-     * @description
+     * @descriptionList
      * The `$swipe` service is a service that abstracts the messier details of hold-and-drag swipe
      * behavior, to make implementing swipe-related directives more convenient.
      *
@@ -201,7 +201,7 @@ ngTouch.factory('$swipe', [function() {
      * @ngdoc method
      * @name $swipe#bind
      *
-     * @description
+     * @descriptionList
      * The main method of `$swipe`. It takes an element to be watched for swipe motions, and an
      * object containing event handlers.
      * The pointer types that should be used can be specified via the optional

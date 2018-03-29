@@ -111,12 +111,12 @@
                     <div class="card-footer">
                         <h4 class="font-bold text-center">Description</h4>
                         <div class="row">
-                            <div class="col mx-1 mb-2" ng-repeat="(key, value) in productForEdit.description">
-                                <div ng-repeat="(key, value) in value">
-                                    <div class="h4">{{key}}</div>
-                                    <div class="ml-2 mb-2" ng-repeat="(key, value) in value">
-                                        &middot {{value.nameDesc}} {{value.dataDesc}}
-                                    </div>
+                            <div class="col-12 mx-1 mb-2" ng-repeat="desc in productForEdit.description">
+
+                                <div class="h4">{{desc.nameCategoryDescription}}</div>
+
+                                <div class="ml-2 mb-2 col-12" ng-repeat="v in desc.descriptionList">
+                                    &middot {{v.nameDesc}} {{v.dataDesc}}
                                 </div>
                             </div>
                         </div>

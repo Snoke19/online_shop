@@ -1,8 +1,11 @@
 package com.shop.service;
 
-import com.shop.dto.product.Description;
+import com.shop.entity.Product;
+import com.shop.utils.SideBar;
+import com.shop.utils.products.Description;
 import com.shop.dto.product.ProductDTO;
 import com.shop.utils.layers.Service;
+import com.shop.utils.products.DescriptionCategory;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -14,7 +17,7 @@ public interface ProductsService extends Service<ProductDTO> {
 
     void updateNameProduct(String name, Long id);
     void updateProducer(String producer, Long id);
-    void updateDescription(List<Map<String, List<Description>>> desc, Long id);
+    void updateDescription(List<DescriptionCategory> desc, Long id);
     void updatePrice(BigDecimal price, Long id);
     void updateImage(List<byte[]> imageJson, Long id);
     void updateActive(boolean active, Long id);
@@ -29,7 +32,9 @@ public interface ProductsService extends Service<ProductDTO> {
     List<String> getAllProducer();
     List<String> getAllProducerByCategory(String nameCategory);
 
-    List<ProductDTO> getAllProductsBySomething(String something);
+    List<ProductDTO> getProductsByRange(Integer start, String category);
+
+    List<ProductDTO> getAllProductsByCategory(String something);
 
     Map<String, Long> getAllProductsWithCountProducts();
     Map<String, Long> getAllProducerWithCountProducts();
@@ -37,4 +42,6 @@ public interface ProductsService extends Service<ProductDTO> {
     Map<String, Long> getAllProductsWithCountProductsByProducer(String nameProducer);
 
     void deleteProductSelected(List<Long> selected);
+
+    List<Map<String, String>> getSideBarProducts();
 }

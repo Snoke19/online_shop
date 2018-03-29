@@ -1,7 +1,8 @@
 package com.shop.dto.product;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.shop.dto.category.CategoryDTO;
+import com.shop.utils.products.Description;
+import com.shop.utils.products.DescriptionCategory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ public class ProductDTO {
     private Long idProduct;
     private String name;
     private String producer;
-    private List<Map<String, List<Description>>> description;
+    private List<DescriptionCategory> description;
     private BigDecimal price;
     private List<byte[]> listImages;
     private Boolean isActive;

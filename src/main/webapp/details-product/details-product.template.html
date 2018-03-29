@@ -74,11 +74,10 @@
                             </span>
                     </h3>
 
-                    <div  ng-repeat="(key, value) in productDetails.description" >
-                        <div style="word-break: break-all;" ng-repeat="(key, value) in value" ng-if="$index < 3">
-                            <span ng-repeat="(key, value) in value">
-                                &middot {{value.nameDesc}} {{value.dataDesc}}/
-                            </span>
+                    <div class="d-inline" ng-repeat="desc in productDetails.description | limitTo: 3">
+                        <span>{{desc.nameCategoryDescription}}</span>
+                        <div class="d-inline" ng-repeat="v in desc.descriptionList">
+                            &middot {{v.nameDesc}} {{v.dataDesc}}
                         </div>
                     </div>
                     <span>more below</span>
@@ -127,12 +126,12 @@
         <div class="card-body">
 
             <div class="row">
-                <div class="col mx-1 mb-2" ng-repeat="(key, value) in productDetails.description">
-                    <div ng-repeat="(key, value) in value">
-                        <div class="h4">{{key}}</div>
-                        <div class="ml-2 mb-2" ng-repeat="(key, value) in value">
-                            &middot {{value.nameDesc}} {{value.dataDesc}}
-                        </div>
+                <div class="col-12 mx-1 mb-2" ng-repeat="desc in productDetails.description">
+
+                    <div class="h4">{{desc.nameCategoryDescription}}</div>
+
+                    <div class="ml-2 mb-2 col-12" ng-repeat="v in desc.descriptionList">
+                        &middot {{v.nameDesc}} {{v.dataDesc}}
                     </div>
                 </div>
             </div>

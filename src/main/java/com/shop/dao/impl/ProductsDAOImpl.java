@@ -1,9 +1,10 @@
 package com.shop.dao.impl;
 
 import com.shop.dao.ProductsDAO;
-import com.shop.dto.product.Description;
+import com.shop.utils.products.Description;
 import com.shop.entity.Product;
 import com.shop.utils.HibernateSessionDAO;
+import com.shop.utils.products.DescriptionCategory;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -59,6 +60,7 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
                 .executeUpdate();
     }
 
+
     @Override
     public void updateProducer(String producer, Long id) {
         getSession()
@@ -68,14 +70,16 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
                 .executeUpdate();
     }
 
+
     @Override
-    public void updateDescription(List<Map<String, List<Description>>> desc, Long id) {
+    public void updateDescription(List<DescriptionCategory> desc, Long id) {
         getSession()
                 .createQuery("update Product p set p.description = :desc where p.idProduct = :id")
                 .setParameter("desc", desc)
                 .setParameter("id", id)
                 .executeUpdate();
     }
+
 
     @Override
     public void updatePrice(BigDecimal price, Long id) {
@@ -86,6 +90,7 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
                 .executeUpdate();
     }
 
+
     @Override
     public void updateImage(List<byte[]> imageJson, Long id) {
         getSession()
@@ -94,6 +99,7 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
                 .setParameter("id", id)
                 .executeUpdate();
     }
+
 
     @Override
     public void updateActive(boolean active, Long id) {
@@ -104,6 +110,7 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
                 .executeUpdate();
     }
 
+
     @Override
     public void updateQuantity(Integer number, Long id) {
         getSession()
@@ -112,6 +119,7 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
                 .setParameter("id", id)
                 .executeUpdate();
     }
+
 
     @Override
     public void updateCategory(Long idCategory, Long id) {
@@ -122,6 +130,7 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
                 .executeUpdate();
     }
 
+
     @Override
     public void updateCode(String code, Long id) {
         getSession()
@@ -130,6 +139,7 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
                 .setParameter("id", id)
                 .executeUpdate();
     }
+
 
     @Override
     public void setDiscount(Long id, Integer discount) {
@@ -140,6 +150,7 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
                 .executeUpdate();
     }
 
+
     @Override
     @SuppressWarnings("unchecked")
     public List<String> getAllProducer() {
@@ -147,6 +158,19 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
                 .createQuery("select p.producer from Product p group by p.producer")
                 .list();
     }
+
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Product> getProductsByRange(Integer start, String category) {
+        return getSession()
+                .createQuery("from Product p where (p.category.name = :category) and p.isActive = true")
+                .setParameter("category", category)
+                .setFirstResult(start)
+                .setMaxResults(12)
+                .list();
+    }
+
 
     @Override
     @SuppressWarnings("unchecked")
@@ -157,14 +181,17 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
                 .list();
     }
 
+
     @Override
     @SuppressWarnings("unchecked")
-    public List<Product> getAllProductsBySomething(String something) {
+    public List<Product> getAllProductsByCategory(String category) {
         return getSession()
-                .createQuery("from Product p where (p.category.name = :something or p.producer = :something or p.name = :something) and p.isActive = true")
-                .setParameter("something", something)
+                .createQuery("from Product p where (p.category.name = :category) and p.isActive = true")
+                .setParameter("category", category)
+                .setMaxResults(12)
                 .list();
     }
+
 
     @Override
     @SuppressWarnings("unchecked")
@@ -174,6 +201,7 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
                 .list();
     }
 
+
     @Override
     @SuppressWarnings("unchecked")
     public List<Object[]> getAllProducerWithCountProducts() {
@@ -181,6 +209,7 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
                 .createQuery("select p.producer, COUNT(p.idProduct) from Product p where p.isActive = true group by p.producer")
                 .list();
     }
+
 
     @Override
     @SuppressWarnings("unchecked")
@@ -190,6 +219,7 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
                 .setParameter("nameCategory", nameCategory)
                 .list();
     }
+
 
     @Override
     @SuppressWarnings("unchecked")

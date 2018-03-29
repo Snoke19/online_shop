@@ -1,14 +1,18 @@
 package com.shop.dto.product;
 
 import com.shop.dto.category.CategoryDTO;
+import com.shop.dto.category.CategoryMapper;
 import com.shop.entity.Category;
 import com.shop.entity.Product;
 import org.mapstruct.*;
+import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
+
+    ProductMapper mapper = Mappers.getMapper(ProductMapper.class);
 
     List<ProductDTO> productsToProductsDTO(List<Product> productList);
     ProductDTO productToProductDTO(Product product);

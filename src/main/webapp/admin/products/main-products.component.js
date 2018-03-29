@@ -29,19 +29,44 @@
 
         $scope.isOpen = true;
         $scope.isOpen1 = true;
+        $scope.isOpen2 = true;
+        $scope.isOpen3 = true;
 
         $scope.rating = 4;
+
+
+        function findOccurrences(array) {
+            if(!Array.isArray(array)) {
+                return {};
+            }
+
+            var occurrences = {};
+
+            // JS arrays don't have a native clone method so
+            // Array#slice with a start point of 0 creates
+            // a copy of our array. If handling in the same
+            // order is important, tack a .reverse() at the
+            // end.
+            var stack = array.slice(0);
+
+            while(stack.length !== 0) {
+                var nextElement = stack.pop();
+                if(Array.isArray(nextElement)) {
+                    // We use some fanciness here so we don't have
+                    // to write out an explicit loop
+                    [].push.apply(stack, nextElement);
+                    continue;
+                }
+
+                occurrences[nextElement] = occurrences[nextElement] + 1 || 1;
+            }
+
+            return occurrences;
+        }
 
         $scope.progressbar.start();
         MainProductsService.getAllProductsByCategory($routeParams.category).then(function (d) {
             $scope.mainProducts = d;
-
-            var producers = $scope.mainProducts.map(a => a.producer);
-
-            $scope.countProducers = {};
-            producers.forEach(function(i) { $scope.countProducers[i] = ($scope.countProducers[i]||0) + 1;});
-
-            console.log($scope.countProducers);
 
             $scope.progressbar.complete();
         }).catch(function(response){
@@ -65,6 +90,19 @@
                 }
             }
         };
+
+        var start = 12;
+        $scope.showMoreProduct = function () {
+            $scope.progressbar.start();
+            MainProductsService.getProductsByRange(start, $routeParams.category).then(function (d) {
+                for (var i=0; i<d.length; i++){
+                    $scope.mainProducts.push(d[i]);
+                }
+                start += 12;
+                $scope.progressbar.complete();
+            })
+        };
+
 
         $scope.ratingProduct = function (rating, idProduct) {
             alert(rating + "" + idProduct);

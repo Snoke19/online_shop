@@ -29,9 +29,8 @@
             <div class="row">
                 <div class="col-md-6 col-lg-12 mb-3 ">
                     <p class="mb-2">
-                        <a class="font-weight-bold dark-grey-text h5" ng-click="isOpen1=!isOpen1" data-toggle="collapse" data-target="#collapseOrderBy" aria-expanded="false" aria-controls="collapseOrderBy">
+                        <a class="font-weight-bold dark-grey-text h5" ng-click="isOpen1=!isOpen1" data-toggle="collapse" data-target="#collapseOrderBy">
                             <strong>Order By <i class="ml-5" ng-class="(isOpen1) ? 'fas fa-angle-down' : 'fas fa-angle-up'"></i></strong>
-
                         </a>
                     </p>
 
@@ -46,22 +45,32 @@
                 <!-- Filter by producer-->
                 <div class="col-md-6 col-lg-12 mb-3">
                     <p class="mb-2">
-                        <a class="font-weight-bold dark-grey-text h5" ng-click="isOpen2=!isOpen2" data-toggle="collapse" data-target="#collapseProducer" aria-expanded="false" aria-controls="collapseProducer">
+                        <a class="font-weight-bold dark-grey-text h5" ng-click="isOpen2=!isOpen2" data-toggle="collapse" data-target="#collapseProducer">
                             <strong>Producers <i class="ml-5" ng-class="(isOpen2) ? 'fas fa-angle-down' : 'fas fa-angle-up'"></i></strong>
                         </a>
                     </p>
 
                     <div class="collapse show" id="collapseProducer">
-
                         <!--Radio group-->
-                        <div class="custom-control custom-checkbox mb-2" ng-repeat="(key, value) in countProducers">
-                            <input type="checkbox" id="customRadio{{key}}" name="customRadio" class="custom-control-input">
-                            <label class="custom-control-label" for="customRadio{{key}}">{{key}} {{value}}</label>
+                        <div class="custom-control custom-checkbox mb-2" ng-repeat="d in countProducers">
+                            <input type="checkbox" id="customRadio{{d}}" name="customRadio" class="custom-control-input">
+                            <label class="custom-control-label" for="customRadio{{d}}">{{d}}</label>
                         </div>
                     </div>
                     <!--Radio group-->
                 </div>
                 <!-- /Filter by category-->
+
+                <!-- Filter by price  -->
+                <div class="col-md-6 col-lg-12 mb-5">
+                    <h5 class="font-weight-bold dark-grey-text"><strong>Price</strong></h5>
+
+                    <rzslider rz-slider-model="slider.minValue"
+                              rz-slider-high="slider.maxValue"
+                              rz-slider-options="slider.options"></rzslider>
+                </div>
+                <!-- /Filter by price -->
+
 
                 <!-- Filter by memory-->
                 <div class="col-md-6 col-lg-12 mb-3">
@@ -72,7 +81,10 @@
                     </p>
 
                     <div class="collapse show" id="collapseExampleMemory">
-
+                        <p class="blue-text mt-2 mb-2"><a>Default</a></p>
+                        <p class="dark-grey-text mt-2 mb-2"><a>Кating</a></p>
+                        <p class="dark-grey-text mt-2 mb-2"><a>Price: low to high</a></p>
+                        <p class="dark-grey-text mt-2 mb-2"><a>Price: high to low</a></p>
                         <!--Radio group-->
                         <div class="custom-control custom-checkbox mb-2" ng-repeat="(key, value) in countProducers">
                             <input type="checkbox" id="customRadioMemory{{key}}" name="customRadio" class="custom-control-input">
@@ -86,30 +98,12 @@
             </div>
             <!-- /Grid row -->
 
-            <!-- Grid row -->
-            <div class="row">
-
-                <!-- Filter by price  -->
-                <div class="col-md-6 col-lg-12 mb-5">
-                    <h5 class="font-weight-bold dark-grey-text"><strong>Price</strong></h5>
-
-                    <rzslider rz-slider-model="slider.minValue"
-                              rz-slider-high="slider.maxValue"
-                              rz-slider-options="slider.options"></rzslider>
-
-                </div>
-                <!-- /Filter by price -->
-
-                <!-- Filter by rating -->
-                <!-- Filter by rating -->
-            </div>
-            <!-- /Grid row -->
 
         </div>
         <!-- /.Sidebar -->
 
         <!-- Content -->
-        <div class="col-lg-9">
+        <div class="col-lg-10">
 
             <!-- Products Grid -->
             <section class="section pt-2">
@@ -118,7 +112,7 @@
                 <div class="row">
 
                     <!--Grid column-->
-                    <div class="col-lg-4 col-md-12 mb-4" ng-repeat="mainProduct in mainProducts | orderBy: -name" >
+                    <div class="col-lg-4 col-md-12 mb-4" ng-repeat="mainProduct in mainProducts" >
 
                         <!--Card-->
                         <div image-dimensions>
@@ -153,15 +147,8 @@
                                             resetable="false"></ng-rate-it>
 
                                 <!--Description-->
-                                <br>
 
-                                <div  ng-repeat="(key, value) in mainProduct.description" >
-                                    <div ng-repeat="(key, value) in value" ng-if="$index < 1">
-                                        <span ng-repeat="(key, value) in value">
-                                            &middot {{value.nameDesc}} {{value.dataDesc}}/
-                                        </span>
-                                    </div>
-                                </div>
+                                <br>
                                 <a ng-href="#!/product/details/{{mainProduct.idProduct}}" style="text-decoration: underline">see more</a>
                                 <!--Card footer-->
                                 <div class="card-footer">
@@ -185,44 +172,7 @@
 
                 <!--Grid row-->
                 <div class="row justify-content-center mb-4">
-
-                    <!--Pagination -->
-                    <nav class="mb-4">
-                        <ul class="pagination pagination-circle pg-blue mb-0">
-
-                            <!--First-->
-                            <li class="page-item disabled clearfix d-none d-md-block"><a class="page-link waves-effect waves-effect">First</a></li>
-
-                            <!--Arrow left-->
-                            <li class="page-item disabled">
-                                <a class="page-link waves-effect waves-effect" aria-label="Previous">
-                                    <span aria-hidden="true">«</span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                            </li>
-
-                            <!--Numbers-->
-                            <li class="page-item active"><a class="page-link waves-effect waves-effect">1</a></li>
-                            <li class="page-item"><a class="page-link waves-effect waves-effect">2</a></li>
-                            <li class="page-item"><a class="page-link waves-effect waves-effect">3</a></li>
-                            <li class="page-item"><a class="page-link waves-effect waves-effect">4</a></li>
-                            <li class="page-item"><a class="page-link waves-effect waves-effect">5</a></li>
-
-                            <!--Arrow right-->
-                            <li class="page-item">
-                                <a class="page-link waves-effect waves-effect" aria-label="Next">
-                                    <span aria-hidden="true">»</span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </li>
-
-                            <!--First-->
-                            <li class="page-item clearfix d-none d-md-block"><a class="page-link waves-effect waves-effect">Last</a></li>
-
-                        </ul>
-                    </nav>
-                    <!--/Pagination -->
-
+                    <button class="btn btn-primary" ng-click="showMoreProduct()">Show more</button>
                 </div>
                 <!--Grid row-->
             </section>

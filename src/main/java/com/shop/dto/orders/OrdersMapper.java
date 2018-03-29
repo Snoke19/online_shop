@@ -14,7 +14,7 @@ public interface OrdersMapper {
     List<OrdersDTO> ordersToOrdersDTO(List<Orders> ordersList);
 
     @IterableMapping(qualifiedByName="ordersToDTO")
-    List<OrdersDTO> newOrdersToDTO(List<Orders> ordersList);
+    List<OrdersDTO> listOrdersDTO(List<Orders> ordersList);
 
     @Named("ordersToDTO")
     @Mappings({

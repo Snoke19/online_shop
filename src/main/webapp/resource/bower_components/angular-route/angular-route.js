@@ -44,7 +44,7 @@ var noop;
 /**
  * @ngdoc module
  * @name ngRoute
- * @description
+ * @descriptionList
  *
  * The `ngRoute` module provides routing and deeplinking services and directives for AngularJS apps.
  *
@@ -70,7 +70,7 @@ var isEagerInstantiationEnabled;
  * @name $routeProvider
  * @this
  *
- * @description
+ * @descriptionList
  *
  * Used for configuring routes.
  *
@@ -228,7 +228,7 @@ function $RouteProvider() {
    *
    * @returns {Object} self
    *
-   * @description
+   * @descriptionList
    * Adds a new route definition to the `$route` service.
    */
   this.when = function(path, route) {
@@ -263,7 +263,7 @@ function $RouteProvider() {
   /**
    * @ngdoc property
    * @name $routeProvider#caseInsensitiveMatch
-   * @description
+   * @descriptionList
    *
    * A boolean property indicating if routes defined
    * using this provider should be matched using a case insensitive
@@ -276,7 +276,7 @@ function $RouteProvider() {
     * @param opts {Object} options
     * @return {?Object}
     *
-    * @description
+    * @descriptionList
     * Normalizes the given path, returning a regular expression
     * and the original path.
     *
@@ -316,7 +316,7 @@ function $RouteProvider() {
    * @ngdoc method
    * @name $routeProvider#otherwise
    *
-   * @description
+   * @descriptionList
    * Sets route definition that will be used on route change when no other route definition
    * is matched.
    *
@@ -337,7 +337,7 @@ function $RouteProvider() {
    * @name $routeProvider#eagerInstantiationEnabled
    * @kind function
    *
-   * @description
+   * @descriptionList
    * Call this method as a setter to enable/disable eager instantiation of the
    * {@link ngRoute.$route $route} service upon application bootstrap. You can also call it as a
    * getter (i.e. without any arguments) to get the current value of the
@@ -523,7 +523,7 @@ function $RouteProvider() {
      * @ngdoc event
      * @name $route#$routeChangeStart
      * @eventType broadcast on root scope
-     * @description
+     * @descriptionList
      * Broadcasted before a route change. At this  point the route services starts
      * resolving all of the dependencies needed for the route change to occur.
      * Typically this involves fetching the view template as well as any dependencies
@@ -543,7 +543,7 @@ function $RouteProvider() {
      * @ngdoc event
      * @name $route#$routeChangeSuccess
      * @eventType broadcast on root scope
-     * @description
+     * @descriptionList
      * Broadcasted after a route change has happened successfully.
      * The `resolve` dependencies are now available in the `current.locals` property.
      *
@@ -560,7 +560,7 @@ function $RouteProvider() {
      * @ngdoc event
      * @name $route#$routeChangeError
      * @eventType broadcast on root scope
-     * @description
+     * @descriptionList
      * Broadcasted if a redirection function fails or any redirection or resolve promises are
      * rejected.
      *
@@ -575,7 +575,7 @@ function $RouteProvider() {
      * @ngdoc event
      * @name $route#$routeUpdate
      * @eventType broadcast on root scope
-     * @description
+     * @descriptionList
      * The `reloadOnSearch` property has been set to false, and we are reusing the same
      * instance of the Controller.
      *
@@ -593,7 +593,7 @@ function $RouteProvider() {
            * @ngdoc method
            * @name $route#reload
            *
-           * @description
+           * @descriptionList
            * Causes `$route` service to reload the current route even if
            * {@link ng.$location $location} hasn't changed.
            *
@@ -621,7 +621,7 @@ function $RouteProvider() {
            * @ngdoc method
            * @name $route#updateParams
            *
-           * @description
+           * @descriptionList
            * Causes `$route` service to update the current URL, replacing
            * current route parameters with those specified in `newParams`.
            * Provided property names that match the route's path segment
@@ -654,7 +654,7 @@ function $RouteProvider() {
      * @param route {Object} route regexp to match the url against
      * @return {?Object}
      *
-     * @description
+     * @descriptionList
      * Check if the route matches the current url.
      *
      * Inspired by match in
@@ -905,7 +905,7 @@ ngRouteModule.provider('$routeParams', $RouteParamsProvider);
  * @requires $route
  * @this
  *
- * @description
+ * @descriptionList
  * The `$routeParams` service allows you to retrieve the current set of route parameters.
  *
  * Requires the {@link ngRoute `ngRoute`} module to be installed.
@@ -1111,7 +1111,7 @@ ngRouteModule.directive('ngView', ngViewFillContentFactory);
  * @ngdoc event
  * @name ngView#$viewContentLoaded
  * @eventType emit on the current ngView scope
- * @description
+ * @descriptionList
  * Emitted every time the ngView content is reloaded.
  */
 ngViewFactory.$inject = ['$route', '$anchorScroll', '$animate'];

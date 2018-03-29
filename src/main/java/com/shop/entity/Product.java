@@ -1,15 +1,11 @@
 package com.shop.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.shop.dto.product.Description;
-import com.shop.dto.product.Rating;
+import com.shop.utils.products.Description;
+import com.shop.utils.products.DescriptionCategory;
+import com.shop.utils.products.Rating;
 import com.shop.utils.JsonConverter;
-import com.vladmihalcea.hibernate.type.array.IntArrayType;
-import com.vladmihalcea.hibernate.type.array.StringArrayType;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import com.vladmihalcea.hibernate.type.json.JsonNodeBinaryType;
-import com.vladmihalcea.hibernate.type.json.JsonNodeStringType;
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,7 +19,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Data
 @Entity
@@ -52,7 +47,7 @@ public class Product implements Serializable {
 
     @Column(name = "description")
     @Convert(converter = JsonConverter.class)
-    private List<Map<String, List<Description>>> description;
+    private List<DescriptionCategory> description;
 
     @Column(name = "price")
     private BigDecimal price;

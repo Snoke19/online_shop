@@ -4,11 +4,12 @@ import com.shop.dto.category.CategoryDTO;
 import com.shop.dto.product.util.CountRatingUtil;
 import com.shop.entity.Category;
 import com.shop.entity.Product;
+import com.shop.utils.products.Description;
+import com.shop.utils.products.DescriptionCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,9 +45,9 @@ public class ProductMapImpl {
         productDTO.setIdProduct( product.getIdProduct() );
         productDTO.setName( product.getName() );
         productDTO.setProducer( product.getProducer() );
-        List<Map<String, List<Description>>> list = product.getDescription();
+        List<DescriptionCategory> list = product.getDescription();
         if ( list != null ) {
-            productDTO.setDescription(new ArrayList<Map<String, List<Description>>>(list));
+            productDTO.setDescription(new ArrayList<DescriptionCategory>(list));
         }
         else {
             productDTO.setDescription( null );
@@ -79,9 +80,9 @@ public class ProductMapImpl {
         product.setIdProduct( productDTO.getIdProduct() );
         product.setName( productDTO.getName() );
         product.setProducer( productDTO.getProducer() );
-        List<Map<String, List<Description>>> list = productDTO.getDescription();
+        List<DescriptionCategory> list = productDTO.getDescription();
         if ( list != null ) {
-            product.setDescription( new ArrayList<Map<String, List<Description>>>( list ) );
+            product.setDescription( new ArrayList<DescriptionCategory>( list ) );
         }
         else {
             product.setDescription( null );

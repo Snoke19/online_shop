@@ -37,8 +37,7 @@
         $scope.progressbar.start();
         AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
             $scope.productForUpdate = d;
-            $scope.descriptionDatas = $scope.productForUpdate.description;
-            $scope.descriptionData = $scope.descriptionDatas[0];
+            $scope.descriptionData = $scope.productForUpdate.description;
 
             $scope.progressbar.complete();
 
@@ -142,35 +141,47 @@
         };
 
 
-        var counter = 0;
-        $scope.addNewDescEdit = function (k) {
-            $scope.descriptionData[k].push({
-                    id: counter++,
-                    nameDesc: '',
-                    dataDesc: ''
-                }
-            );
+        $scope.addNewDescEdit = function (categoryDesc) {
+            var index = $scope.descriptionData.indexOf(categoryDesc);
+            $scope.descriptionData[index].descriptionList.push({"nameDesc": "","dataDesc": ""});
         };
 
         $scope.addNewCategoryDescEdit = function (cat) {
-            $scope.descriptionData[cat] = [{id: counter++, nameDesc: '', dataDesc: ''}];
+            $scope.descriptionData.push({
+                "nameCategoryDescription": cat,
+                "descriptionList": [
+                    {
+                        "nameDesc": "",
+                        "dataDesc": ""
+                    }
+                ]
+            });
+            $scope.catDesc = null;
         };
 
         $scope.deleteCategoryDescEdit = function (k) {
-            delete($scope.descriptionData[k]);
+            if (k > -1) {
+                $scope.descriptionData.splice(k, 1);
+            }
         };
 
-        $scope.reduceEdit = function (cat, $index) {
-            $scope.descriptionData[cat].splice($index, 1);
+        $scope.reduceDescEdit = function (categoryDesc, i) {
+            var index = $scope.descriptionData.indexOf(categoryDesc);
+            $scope.descriptionData[index].descriptionList.splice(i, 1);
         };
-        
+
+
+        $scope.changeCategoryDescEdit = function (categoryDesc) {
+            $scope.descriptionData.nameCategoryDescription = categoryDesc;
+            console.log($scope.descriptionData);
+        };
+
+
         $scope.updateDescription = function () {
-
-            var jsonDesc = [$scope.descriptionData];
-
+            console.log($scope.descriptionData);
             $scope.progressbar.start();
 
-            AdminEditProductService.updateDescriptionService(jsonDesc, $scope.productForUpdate.idProduct).then(function (d) {
+            AdminEditProductService.updateDescriptionService($scope.descriptionData, $scope.productForUpdate.idProduct).then(function (d) {
 
                 AdminService.getAdminProductService($routeParams.idProduct).then(function (d) {
                     $scope.productForUpdate = d;

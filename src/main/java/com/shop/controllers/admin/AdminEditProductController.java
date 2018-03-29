@@ -1,11 +1,10 @@
 package com.shop.controllers.admin;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
-import com.shop.dto.product.Description;
+import com.shop.utils.products.Description;
 import com.shop.service.ProductsService;
 import com.shop.service.impl.ImageService;
+import com.shop.utils.products.DescriptionCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -51,10 +49,9 @@ public class AdminEditProductController {
 
 
     @PutMapping("/product/{id}/description")
-    public  ResponseEntity<String> updateDescription(@PathVariable("id") Long id, @RequestBody List<Map<String, List<Description>>> descriptionList){
-        System.out.println(descriptionList);
-        productsService.updateDescription(descriptionList, id);
-
+    public  ResponseEntity<String> updateDescription(@PathVariable("id") Long id, @RequestBody List<DescriptionCategory> descriptionData){
+        System.out.println(descriptionData);
+        productsService.updateDescription(descriptionData, id);
         return ResponseEntity.ok(new Gson().toJson("Description is updated!"));
     }
 

@@ -286,30 +286,42 @@
         };
 
 
-        $scope.descriptionData = {};
+        $scope.descriptionData = [];
 
-        var counter = 0;
-        $scope.addNewDescEdit = function (k) {
-            $scope.descriptionData[k].push({
-                    id: counter++,
-                    nameDesc: '',
-                    dataDesc: ''
-                }
-            );
+        $scope.addNewDesc = function (categoryDesc) {
+            var index = $scope.descriptionData.indexOf(categoryDesc);
+            $scope.descriptionData[index].descriptionList.push({"nameDesc": "","dataDesc": ""});
         };
 
-        $scope.addNewCategoryDescEdit = function (cat) {
-            $scope.descriptionData[cat] = [{id: counter++, nameDesc: '', dataDesc: ''}];
+        $scope.addNewCategoryDesc = function (cat) {
+            $scope.descriptionData.push({
+                "nameCategoryDescription": cat,
+                "descriptionList": [
+                    {
+                        "nameDesc": "",
+                        "dataDesc": ""
+                    }
+                ]
+            });
+            $scope.catDesc = null;
         };
 
-        $scope.deleteCategoryDescEdit = function (k) {
-            delete($scope.descriptionData[k]);
+        $scope.deleteCategoryDesc = function (k) {
+            if (k > -1) {
+                $scope.descriptionData.splice(k, 1);
+            }
         };
 
-        $scope.reduceEdit = function (cat, $index) {
-            $scope.descriptionData[cat].splice($index, 1);
+        $scope.reduceDesc = function (categoryDesc, i) {
+            var index = $scope.descriptionData.indexOf(categoryDesc);
+            $scope.descriptionData[index].descriptionList.splice(i, 1);
         };
 
+
+        $scope.changeCategoryDesc = function (categoryDesc) {
+            $scope.descriptionData.nameCategoryDescription = categoryDesc;
+            console.log($scope.descriptionData);
+        };
 
 
         $scope.disabledUploader = function (boolean) {
@@ -363,14 +375,11 @@
         $scope.saveData = function () {
             $scope.progressbar.start();
 
-            var jsonDesc = [$scope.descriptionData];
-
-            AdminService.addProductService($scope.product, jsonDesc).then(function (d) {
+            AdminService.addProductService($scope.product, $scope.descriptionData).then(function (d) {
 
                 AdminService.getAdminProductsService().then(function (d) {
                     $scope.productsAddAdmin = d;
 
-                    $scope.descriptionData = {};
                 }).catch(function(response){
                     $ngConfirm({
                         title: 'Error',
@@ -385,11 +394,7 @@
 
                 if ($scope.switcher) {
                     $scope.product = null;
-                    $scope.descriptionData = [{
-                        id: counter,
-                        nameDesc: '',
-                        dataDesc: ''
-                    }];
+                    $scope.descriptionData = [];
                 }
             }).catch(function(response){
                 $ngConfirm({

@@ -61,7 +61,16 @@
 
                 $scope.orderUser = d;
 
-                //total price
+                $scope.totalPriceWithDiscount = null;
+                $scope.totalPriceNoneDiscount = null;
+                angular.forEach($scope.orderUser, function(value, key){
+                    if(value.product.discount !== 0){
+                        $scope.totalPriceWithDiscount += value.pricePerQuantity - (value.product.price * value.product.discount / 100) * value.quantityProducts;
+                    }else {
+                        $scope.totalPriceNoneDiscount += value.pricePerQuantity;
+                    }
+                });
+
                 $scope.pricePerQuantity = _.pluck($scope.orderUser, 'pricePerQuantity');
                 $scope.total = null;
                 angular.forEach($scope.pricePerQuantity, function(value, key){
@@ -105,10 +114,19 @@
             AdminUserOrdersService.getOrderItemsByIdUser(id).then(function (d) {
                 $scope.orderUser = d;
 
-                //total price
-                $scope.totalPrice = _.pluck($scope.orderUser, 'pricePerQuantity');
-                $scope.total = 0.0;
-                angular.forEach($scope.totalPrice, function(value, key){
+                $scope.totalPriceWithDiscount = null;
+                $scope.totalPriceNoneDiscount = null;
+                angular.forEach($scope.orderUser, function(value, key){
+                    if(value.product.discount !== 0){
+                        $scope.totalPriceWithDiscount += value.pricePerQuantity - (value.product.price * value.product.discount / 100) * value.quantityProducts;
+                    }else {
+                        $scope.totalPriceNoneDiscount += value.pricePerQuantity;
+                    }
+                });
+
+                $scope.pricePerQuantity = _.pluck($scope.orderUser, 'pricePerQuantity');
+                $scope.total = null;
+                angular.forEach($scope.pricePerQuantity, function(value, key){
                     $scope.total += value;
                 });
 
@@ -157,10 +175,19 @@
 
                             $scope.orderUser = d;
 
-                            //total price
+                            $scope.totalPriceWithDiscount = null;
+                            $scope.totalPriceNoneDiscount = null;
+                            angular.forEach($scope.orderUser, function(value, key){
+                                if(value.product.discount !== 0){
+                                    $scope.totalPriceWithDiscount += value.pricePerQuantity - (value.product.price * value.product.discount / 100) * value.quantityProducts;
+                                }else {
+                                    $scope.totalPriceNoneDiscount += value.pricePerQuantity;
+                                }
+                            });
+
                             $scope.pricePerQuantity = _.pluck($scope.orderUser, 'pricePerQuantity');
                             $scope.total = null;
-                            angular.forEach($scope.pricePerQuantity, function (value, key) {
+                            angular.forEach($scope.pricePerQuantity, function(value, key){
                                 $scope.total += value;
                             });
 
@@ -219,13 +246,21 @@
 
                 if (!angular.equals([], $scope.allOrders)) {
                     AdminUserOrdersService.getOrderItemsByIdUser($scope.allOrders[0].idOrders).then(function (d) {
-
                         $scope.orderUser = d;
 
-                        //total price
+                        $scope.totalPriceWithDiscount = null;
+                        $scope.totalPriceNoneDiscount = null;
+                        angular.forEach($scope.orderUser, function(value, key){
+                            if(value.product.discount !== 0){
+                                $scope.totalPriceWithDiscount += value.pricePerQuantity - (value.product.price * value.product.discount / 100) * value.quantityProducts;
+                            }else {
+                                $scope.totalPriceNoneDiscount += value.pricePerQuantity;
+                            }
+                        });
+
                         $scope.pricePerQuantity = _.pluck($scope.orderUser, 'pricePerQuantity');
                         $scope.total = null;
-                        angular.forEach($scope.pricePerQuantity, function (value, key) {
+                        angular.forEach($scope.pricePerQuantity, function(value, key){
                             $scope.total += value;
                         });
 
@@ -262,6 +297,11 @@
         };
 
 
+        $scope.countDiscountForEachProduct = function (data) {
+            var discount = data.pricePerQuantity - (data.product.price * data.product.discount / 100) * data.quantityProducts;
+            return discount;
+        };
+
         $scope.gridOptionsOrderSItems = {
 
             rowHeight: 140,
@@ -270,32 +310,45 @@
 
             enableRowSelection: true,
 
+            onRegisterApi: function(gridApi){
+                $scope.gridApi = gridApi;
+            },
+
             columnDefs: [
                 { field: 'product.code',
                     displayName: '#Code',
-                    width: 90,
+                    width: 80,
                     cellClass: 'pl-1'
                 },
                 { field: 'product',
                     displayName: 'Images',
-                    width: 165,
+                    width: 130,
                     cellTemplate: '/admin/orders-users/carouselImg.html'
                 },
                 { field: 'product.name',
                     displayName: 'Name Product',
-                    width: 200
+                    width: 160
                 },
                 { field: 'product.price',
                     displayName: 'Price product',
-                    width: 135
+                    width: 125
                 },
                 { field: 'quantityProducts',
                     displayName: 'Quantity',
-                    width: 120
+                    width: 90
                 },
                 { field: 'pricePerQuantity',
                     displayName: 'Price',
-                    width: 95
+                    cellTemplate: '<div class="ml-2" ng-hide="row.entity.product.discount ==  0">' +
+                    '<span class="green-text">{{grid.appScope.countDiscountForEachProduct(row.entity)}}$</span> - ' +
+                    '<span class="red-text"><s>{{row.entity.pricePerQuantity}}$</s></span></div>' +
+                    '<div class="ml-2" ng-show="row.entity.product.discount == 0">{{row.entity.pricePerQuantity}}$</div>',
+                    width: 130
+                },
+                { field: 'product.discount',
+                    displayName: 'Discount',
+                    cellTemplate: '<p>{{row.entity.product.discount}}%</p>',
+                    width: 90
                 }
             ],
             data: 'orderUser'

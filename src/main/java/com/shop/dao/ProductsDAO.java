@@ -1,8 +1,9 @@
 package com.shop.dao;
 
-import com.shop.dto.product.Description;
+import com.shop.utils.products.Description;
 import com.shop.entity.Product;
 import com.shop.utils.layers.DAO;
+import com.shop.utils.products.DescriptionCategory;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -14,7 +15,7 @@ public interface ProductsDAO extends DAO<Product> {
 
     void updateNameProduct(String name, Long id);
     void updateProducer(String producer, Long id);
-    void updateDescription(List<Map<String, List<Description>>> desc, Long id);
+    void updateDescription(List<DescriptionCategory> desc, Long id);
     void updatePrice(BigDecimal price, Long id);
     void updateImage(List<byte[]> imageJson, Long id);
     void updateActive(boolean active, Long id);
@@ -25,13 +26,20 @@ public interface ProductsDAO extends DAO<Product> {
     void setDiscount(Long idProduct, Integer discount);
 
     List<String> getAllProducer();
-    List<String> getAllProducerByCategory(String nameCategory);
 
-    List<Product> getAllProductsBySomething(String something);
+    List<Product> getProductsByRange(Integer start, String category);
 
+    List<Product> getAllProductsByCategory(String something);
 
     List<Object[]> getAllProductsWithCountProducts();
+
     List<Object[]> getAllProducerWithCountProducts();
+
+    List<String> getAllProducerByCategory(String nameCategory);
+
     List<Object[]> getAllProducerWithCountProductsByCategory(String nameCategory);
+
     List<Object[]> getAllProductsWithCountProductsByProducer(String nameProducer);
+
+
 }

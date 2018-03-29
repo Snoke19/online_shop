@@ -18,6 +18,11 @@
                 return $http.get("/products/" + category).then(function (response) {
                     return response.data;
                 });
+            },
+            getProductsByRange: function (start, category) {
+                return $http.get("/more/products/" + category + "/" + start).then(function (response) {
+                    return response.data;
+                })
             }
         }
     }

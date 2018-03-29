@@ -36,7 +36,7 @@ public class OrdersServiceImpl implements OrdersService {
     @Override
     @Transactional
     public List<OrdersDTO> getAll() {
-        return OrdersMapper.mapper.ordersToOrdersDTO(ordersDAO.getAll());
+        return OrdersMapper.mapper.listOrdersDTO(ordersDAO.getAll());
     }
 
 
@@ -85,14 +85,14 @@ public class OrdersServiceImpl implements OrdersService {
     @Override
     @Transactional
     public List<OrdersDTO> getNewOrders() {
-        return OrdersMapper.mapper.newOrdersToDTO(ordersDAO.getNewOrders());
+        return OrdersMapper.mapper.listOrdersDTO(ordersDAO.getNewOrders());
     }
 
 
     @Override
     @Transactional
     public List<OrdersDTO> getOrdersByStatus(String status) {
-        return OrdersMapper.mapper.newOrdersToDTO(ordersDAO.getOrdersByStatus(status));
+        return OrdersMapper.mapper.listOrdersDTO(ordersDAO.getOrdersByStatus(status));
     }
 
 
