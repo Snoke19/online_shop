@@ -19,18 +19,21 @@
         </div>
     </div>
 
+    <div class="row">
+
+    </div>
 
     <div class="row">
 
         <!-- Sidebar -->
-        <div class="col-lg-2">
+        <div class="col-lg-3 pr-0">
 
             <!-- Grid row -->
             <div class="row">
-                <div class="col-md-6 col-lg-12 mb-3 ">
+                <div class="col-md-6 col-lg-12 mb-3">
                     <p class="mb-2">
                         <a class="font-weight-bold dark-grey-text h5" ng-click="isOpen1=!isOpen1" data-toggle="collapse" data-target="#collapseOrderBy">
-                            <strong>Order By <i class="ml-5" ng-class="(isOpen1) ? 'fas fa-angle-down' : 'fas fa-angle-up'"></i></strong>
+                            <strong>Order By: <i class="" ng-class="(isOpen1) ? 'fas fa-angle-down' : 'fas fa-angle-up'"></i></strong>
                         </a>
                     </p>
 
@@ -42,58 +45,34 @@
                     </div>
                 </div>
 
-                <!-- Filter by producer-->
                 <div class="col-md-6 col-lg-12 mb-3">
-                    <p class="mb-2">
-                        <a class="font-weight-bold dark-grey-text h5" ng-click="isOpen2=!isOpen2" data-toggle="collapse" data-target="#collapseProducer">
-                            <strong>Producers <i class="ml-5" ng-class="(isOpen2) ? 'fas fa-angle-down' : 'fas fa-angle-up'"></i></strong>
-                        </a>
-                    </p>
-
-                    <div class="collapse show" id="collapseProducer">
-                        <!--Radio group-->
-                        <div class="custom-control custom-checkbox mb-2" ng-repeat="d in countProducers">
-                            <input type="checkbox" id="customRadio{{d}}" name="customRadio" class="custom-control-input">
-                            <label class="custom-control-label" for="customRadio{{d}}">{{d}}</label>
-                        </div>
-                    </div>
-                    <!--Radio group-->
-                </div>
-                <!-- /Filter by category-->
-
-                <!-- Filter by price  -->
-                <div class="col-md-6 col-lg-12 mb-5">
-                    <h5 class="font-weight-bold dark-grey-text"><strong>Price</strong></h5>
+                    <h5 class="font-weight-bold dark-grey-text"><strong>Price:</strong></h5>
 
                     <rzslider rz-slider-model="slider.minValue"
-                              rz-slider-high="slider.maxValue"
-                              rz-slider-options="slider.options"></rzslider>
+                            rz-slider-high="slider.maxValue"
+                            rz-slider-options="slider.options"></rzslider>
                 </div>
-                <!-- /Filter by price -->
 
 
-                <!-- Filter by memory-->
-                <div class="col-md-6 col-lg-12 mb-3">
+                <div class="col-md-6 col-lg-12 mb-3" ng-repeat="(key, value) in filterProducts">
+
                     <p class="mb-2">
-                        <a class="font-weight-bold dark-grey-text h5" ng-click="isOpen3=!isOpen3" data-toggle="collapse" data-target="#collapseExampleMemory" aria-expanded="false" aria-controls="collapseExampleMemory">
-                            <strong>Memory <i class="ml-5" ng-class="(isOpen3) ? 'fas fa-angle-down' : 'fas fa-angle-up'"></i></strong>
+                        <a class="font-weight-bold dark-grey-text" ng-click="isOpen=!isOpen" data-toggle="collapse" data-target="#collapseProducer{{key}}">
+                            <strong>{{key}} <i class="" ng-class="(isOpen) ? 'fas fa-angle-down' : 'fas fa-angle-up'"></i></strong>
                         </a>
                     </p>
 
-                    <div class="collapse show" id="collapseExampleMemory">
-                        <p class="blue-text mt-2 mb-2"><a>Default</a></p>
-                        <p class="dark-grey-text mt-2 mb-2"><a>Кating</a></p>
-                        <p class="dark-grey-text mt-2 mb-2"><a>Price: low to high</a></p>
-                        <p class="dark-grey-text mt-2 mb-2"><a>Price: high to low</a></p>
+                    <div class="collapse show" id="collapseProducer{{key}}">
                         <!--Radio group-->
-                        <div class="custom-control custom-checkbox mb-2" ng-repeat="(key, value) in countProducers">
-                            <input type="checkbox" id="customRadioMemory{{key}}" name="customRadio" class="custom-control-input">
-                            <label class="custom-control-label" for="customRadioMemory{{key}}">{{key}} {{value}}</label>
+                        <div class="custom-control custom-checkbox mb-2" ng-repeat="(key, value) in value">
+                            <div ng-repeat="(key, value) in value">
+                                <input type="checkbox" id="customRadio{{key}}" name="customRadio" class="custom-control-input">
+                                <label class="custom-control-label" for="customRadio{{key}}">{{key}} ({{value}})</label>
+                            </div>
                         </div>
                     </div>
-                    <!--Radio group-->
+
                 </div>
-                <!-- /Filter by category-->
 
             </div>
             <!-- /Grid row -->
@@ -103,7 +82,17 @@
         <!-- /.Sidebar -->
 
         <!-- Content -->
-        <div class="col-lg-10">
+        <div class="col-lg-9">
+
+            <div class="col">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Library</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Data</li>
+                    </ol>
+                </nav>
+            </div>
 
             <!-- Products Grid -->
             <section class="section pt-2">

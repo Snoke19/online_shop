@@ -1,8 +1,6 @@
 package com.shop.service;
 
-import com.shop.entity.Product;
-import com.shop.utils.SideBar;
-import com.shop.utils.products.Description;
+import com.google.common.collect.Multimap;
 import com.shop.dto.product.ProductDTO;
 import com.shop.utils.layers.Service;
 import com.shop.utils.products.DescriptionCategory;
@@ -43,5 +41,5 @@ public interface ProductsService extends Service<ProductDTO> {
 
     void deleteProductSelected(List<Long> selected);
 
-    List<Map<String, String>> getSideBarProducts();
+    Multimap<String, Map<String, Integer>> getSideBarFilterProducts(String category);
 }

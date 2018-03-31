@@ -1,10 +1,13 @@
 package com.shop.controllers;
 
+import com.google.common.collect.Multimap;
 import com.shop.service.CategoryService;
 import com.shop.service.ProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.Map;
 
 @RestController
@@ -29,30 +32,15 @@ public class MainPageController {
         return productsService.getAll().size();
     }
 
-    @GetMapping("/sidebar/producer/{nameCategory}")
-    public Map<String, Long> getAllProducerWithCountProductsByCategory(@PathVariable("nameCategory") String nameCategory){
-        return productsService.getAllProducerWithCountProductsByCategory(nameCategory);
-    }
-
-    @GetMapping("/sidebar/products/{nameProducer}")
-    public Map<String, Long> getAllProductsWithCountProductsByProducer(@PathVariable("nameProducer") String nameProducer){
-        return productsService.getAllProductsWithCountProductsByProducer(nameProducer);
-    }
 
     @GetMapping("/categories/count/product")
     public Map<String, Long> getAllCategoriesWithCountProducts(){
         return categoryService.getAllCategoriesWithCountProducts();
     }
 
-    @GetMapping("/sidebar/producer")
-    public Map<String, Long> getAllProducerWithCountProducts(){
-        return productsService.getAllProducerWithCountProducts();
+    @GetMapping("/sidebar/products/{category}")
+    public ResponseEntity<Map<String, Collection<Map<String, Integer>>>> getSideBarProducts(@PathVariable("category") String category){
+        System.out.println(productsService.getSideBarFilterProducts(category));
+        return ResponseEntity.ok(productsService.getSideBarFilterProducts(category).asMap());
     }
-
-    @GetMapping("/sidebar/products")
-    public Map<String, Long> getAllProductsWithCountProducts(){
-        return productsService.getAllProductsWithCountProducts();
-    }
-
-
 }

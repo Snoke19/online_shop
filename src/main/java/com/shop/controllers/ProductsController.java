@@ -28,7 +28,6 @@ public class ProductsController {
 
     @GetMapping("/products/{category}")
     public ResponseEntity<List<ProductDTO>> allProductsByCategory(@PathVariable("category") String category){
-        System.out.println(productsService.getSideBarProducts());
         return ResponseEntity.status(HttpStatus.OK).body(productsService.getAllProductsByCategory(category));
     }
 

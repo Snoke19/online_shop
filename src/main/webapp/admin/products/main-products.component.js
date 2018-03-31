@@ -28,41 +28,9 @@
         $scope.progressbar.setHeight('5px');
 
         $scope.isOpen = true;
-        $scope.isOpen1 = true;
-        $scope.isOpen2 = true;
-        $scope.isOpen3 = true;
 
         $scope.rating = 4;
 
-
-        function findOccurrences(array) {
-            if(!Array.isArray(array)) {
-                return {};
-            }
-
-            var occurrences = {};
-
-            // JS arrays don't have a native clone method so
-            // Array#slice with a start point of 0 creates
-            // a copy of our array. If handling in the same
-            // order is important, tack a .reverse() at the
-            // end.
-            var stack = array.slice(0);
-
-            while(stack.length !== 0) {
-                var nextElement = stack.pop();
-                if(Array.isArray(nextElement)) {
-                    // We use some fanciness here so we don't have
-                    // to write out an explicit loop
-                    [].push.apply(stack, nextElement);
-                    continue;
-                }
-
-                occurrences[nextElement] = occurrences[nextElement] + 1 || 1;
-            }
-
-            return occurrences;
-        }
 
         $scope.progressbar.start();
         MainProductsService.getAllProductsByCategory($routeParams.category).then(function (d) {
@@ -78,6 +46,18 @@
             $scope.progressbar.reset();
         });
 
+        MainProductsService.getSideBarFilterProducts($routeParams.category).then(function (d) {
+            $scope.filterProducts = d;
+
+            console.log($scope.filterProducts);
+        }).catch(function(response){
+            $ngConfirm({
+                title: 'Error',
+                type: 'red',
+                content: response.data
+            });
+            $scope.progressbar.reset();
+        });
 
         $scope.slider = {
             minValue: 100,

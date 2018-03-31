@@ -1,6 +1,8 @@
 package com.shop.service.impl;
 
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableMultiset;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
 import com.shop.dao.ProductsDAO;
 import com.shop.dto.product.ProductMapper;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service("productsService")
@@ -267,28 +270,32 @@ public class ProductsServiceImpl implements ProductsService {
         }
     }
 
+
     @Override
     @Transactional
-    public List<Map<String, String>> getSideBarProducts() {
+    public Multimap<String, Map<String, Integer>> getSideBarFilterProducts(String category) {
 
-        List<Product> descriptionCategories = productsDAO.getAll();
+        List<Product> descriptionCategories = productsDAO.getAllProductsByCategory(category);
 
-        List<List<DescriptionCategory>> listDescription = descriptionCategories.stream().map(Product::getDescription).collect(Collectors.toList());
+        List<List<DescriptionCategory>> listOfListDescription = descriptionCategories.stream().map(Product::getDescription).collect(Collectors.toList());
 
-        List<DescriptionCategory> list = new ArrayList<>();
+        List<DescriptionCategory> listDescription = listOfListDescription.stream().flatMap(List::stream).collect(Collectors.toList());
 
-        for (List<DescriptionCategory> aListDescription : listDescription) {
-            list.addAll(aListDescription);
+
+        List<Description> descriptionList = listDescription.stream().flatMap(d -> d.getDescriptionList().stream()).collect(Collectors.toList());
+
+        Map<Description, Integer> middleMap = new HashMap<>();
+
+        for(Description s: descriptionList){
+            middleMap.put(s,Collections.frequency(descriptionList,s));
         }
 
-        Multimap<String, List<Description>> map = ArrayListMultimap.create();
+        Multimap<String, Map<String, Integer>> finalMap = ArrayListMultimap.create();
 
-        for (DescriptionCategory aList : list) {
-            map.put(aList.getNameCategoryDescription(), aList.getDescriptionList());
+        for (Map.Entry<Description, Integer> data : middleMap.entrySet()) {
+            finalMap.put(data.getKey().getNameDesc(), new HashMap<String, Integer>(){{put(data.getKey().getDataDesc(), data.getValue());}});
         }
 
-        System.out.println(map);
-
-        return null;
+        return finalMap;
     }
 }

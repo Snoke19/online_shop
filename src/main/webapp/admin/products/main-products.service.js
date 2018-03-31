@@ -22,7 +22,12 @@
             getProductsByRange: function (start, category) {
                 return $http.get("/more/products/" + category + "/" + start).then(function (response) {
                     return response.data;
-                })
+                });
+            },
+            getSideBarFilterProducts: function (category) {
+                return $http.get("/sidebar/products/" + category).then(function (response) {
+                    return response.data;
+                });
             }
         }
     }
