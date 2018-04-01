@@ -9,7 +9,8 @@
         'ngRateIt',
         'ngProgress',
         'cp.ngConfirm',
-        'ngImageDimensions'
+        'ngImageDimensions',
+        'checklist-model'
     ]);
 
     angular
@@ -29,8 +30,6 @@
 
         $scope.isOpen = true;
 
-        $scope.rating = 4;
-
 
         $scope.progressbar.start();
         MainProductsService.getAllProductsByCategory($routeParams.category).then(function (d) {
@@ -46,19 +45,8 @@
             $scope.progressbar.reset();
         });
 
-        MainProductsService.getSideBarFilterProducts($routeParams.category).then(function (d) {
-            $scope.filterProducts = d;
 
-            console.log($scope.filterProducts);
-        }).catch(function(response){
-            $ngConfirm({
-                title: 'Error',
-                type: 'red',
-                content: response.data
-            });
-            $scope.progressbar.reset();
-        });
-
+        //money
         $scope.slider = {
             minValue: 100,
             maxValue: 400,
@@ -70,6 +58,19 @@
                 }
             }
         };
+
+
+        MainProductsService.getSideBarFilterProducts($routeParams.category).then(function (d) {
+            $scope.filterProducts = d;
+        }).catch(function(response){
+            $ngConfirm({
+                title: 'Error',
+                type: 'red',
+                content: response.data
+            });
+            $scope.progressbar.reset();
+        });
+
 
         var start = 12;
         $scope.showMoreProduct = function () {
@@ -87,7 +88,13 @@
         $scope.ratingProduct = function (rating, idProduct) {
             alert(rating + "" + idProduct);
             $scope.readOnlyRating = true;
+        };
+
+
+        $scope.filtersProducts = [];
+
+        $scope.deleteFiltersProducts = function (data) {
+            $scope.filtersProducts.splice($scope.filtersProducts.indexOf(data), 1);
         }
     }
-
 })();

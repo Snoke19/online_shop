@@ -8,15 +8,14 @@
             <div class="row mt-5">
                 <div class="col-lg-6">
                     <div class="row mx-2">
-                        <!--Carousel Wrapper-->
+
                         <div class="col">
                             <div id="carousel-example" class="carousel slide carousel-fade" data-ride="carousel">
-                            <!--Indicators-->
+
                             <ol class="carousel-indicators">
                                 <li data-target="#carousel-example" data-slide-to="{{key}}" ng-repeat="(key, value) in productDetails.listImages track by $index"></li>
                             </ol>
-                            <!--/.Indicators-->
-                            <!--Slides-->
+
                             <div class="carousel-inner" role="listbox">
                                 <!--First slide-->
                                 <div class="carousel-item active">
@@ -24,18 +23,15 @@
                                         <img class="w-75" ng-src="data:image/jpeg;base64,{{ productDetails.listImages[0]}}">
                                     </div>
                                 </div>
-                                <!--/First slide-->
-                                <!--Second slide-->
+
                                 <div class="carousel-item" ng-repeat="im in productDetails.listImages track by $index" ng-if="$index > 0">
                                     <div style="text-align: center;">
                                         <img class="w-75" ng-src="data:image/jpeg;base64,{{im}}" alt="Second slide">
                                     </div>
                                 </div>
-                                <!--/Second slide-->
 
                             </div>
-                            <!--/.Slides-->
-                            <!--Controls-->
+
                             <a class="carousel-control-prev" data-target="#carousel-example" role="button" data-slide="prev">
                                 <span><i class="fas fa-angle-left fa-3x blue-text"></i></span>
                                 <span class="sr-only">Previous</span>
@@ -44,18 +40,18 @@
                                 <span><i class="fas fa-angle-right fa-3x blue-text"></i></span>
                                 <span class="sr-only">Next</span>
                             </a>
-                            <!--/.Controls-->
+
                         </div>
                         </div>
-                        <!--/.Carousel Wrapper-->
+
                     </div>
 
-                    <!--Grid row-->
+
                     <div class="row mb-4">
 
 
                     </div>
-                    <!--Grid row-->
+
                 </div>
                 <div class="col-lg-5 mr-3 text-center text-md-left">
                     <h2 class="h2-responsive text-center text-md-left product-name font-weight-bold dark-grey-text mb-1 ml-xl-0 ml-4">
@@ -64,14 +60,14 @@
                     <span class="badge badge-success product mb-4 ml-2" ng-hide="productDetails.discount === 0">SALE</span>
 
                     <h3 class="h3-responsive text-center text-md-left mb-4 ml-xl-0 ml-4">
-                            <span class="font-weight-bold">
-                                <strong>${{productDetails.price - productDetails.price * (productDetails.discount / 100) | number: 2}}</strong>
-                            </span>
+                        <span class="font-weight-bold">
+                            <strong>${{productDetails.price - productDetails.price * (productDetails.discount / 100) | number: 2}}</strong>
+                        </span>
                         <span class="grey-text" ng-hide="productDetails.discount === 0">
-                                <small>
-                                    (<s>${{productDetails.price}}</s> - <span class="green-text">%{{productDetails.discount}}</span>)
-                                </small>
-                            </span>
+                            <small>
+                                (<s>${{productDetails.price}}</s> - <span class="green-text">%{{productDetails.discount}}</span>)
+                            </small>
+                        </span>
                     </h3>
 
                     <div class="d-inline" ng-repeat="desc in productDetails.description | limitTo: 3">

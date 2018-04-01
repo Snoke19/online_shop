@@ -40,7 +40,6 @@ public class MainPageController {
 
     @GetMapping("/sidebar/products/{category}")
     public ResponseEntity<Map<String, Collection<Map<String, Integer>>>> getSideBarProducts(@PathVariable("category") String category){
-        System.out.println(productsService.getSideBarFilterProducts(category));
         return ResponseEntity.ok(productsService.getSideBarFilterProducts(category).asMap());
     }
 }
