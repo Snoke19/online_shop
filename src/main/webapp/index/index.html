@@ -21,6 +21,7 @@
     <link   rel="stylesheet"       href="/resource/bower_components/v-tabs/v-tabs.min.css">
     <link   rel="stylesheet"       href="/resource/bower_components/angular-rateit/ng-rateit.css">
     <link   rel="stylesheet"       href="/resource/bower_components/angularjs-slider/dist/rzslider.min.css">
+    <link   rel="stylesheet"       href="/resource/bower_components/angular-ui-swiper/dist/angular-ui-swiper.css">
 
 
 
@@ -53,6 +54,7 @@
     <script type="text/javascript" src="/resource/bower_components/moment/moment.js"></script>
     <script type="text/javascript" src="/resource/bower_components/angularjs-slider/dist/rzslider.min.js"></script>
     <script type="text/javascript" src="/resource/bower_components/checklist-model/checklist-model.js"></script>
+    <script type="text/javascript" src="/resource/bower_components/angular-ui-swiper/dist/angular-ui-swiper.min.js"></script>
     <!--/util-->
 
     <!--service-->
@@ -93,6 +95,17 @@
                 <div class="collapse navbar-collapse" id="navbarText">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
+
+                            <div class="input-group">
+                                <input type="search" class="form-control py-1 pl-2" placeholder="Search" aria-describedby="basic-addon1">
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-primary input-group-text py-2 px-4 my-0 ml-0" id="basic-addon1"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+
+                        </li>
+
+                        <li class="nav-item ml-auto">
                             <a class="nav-link dark-grey-text font-bold" ng-href="#!/cart">
                                 <span class="badge danger-color">{{cartSize}}</span>
                                 <i class="fa fa-shopping-cart blue-text"></i>

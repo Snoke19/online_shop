@@ -16,7 +16,8 @@
         'cp.ngConfirm',
         '720kb.tooltips',
         'fiestah.money',
-        'xeditable'
+        'xeditable',
+        'ui.swiper'
     ]);
 
     angular

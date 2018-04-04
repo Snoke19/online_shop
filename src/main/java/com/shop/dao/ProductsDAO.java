@@ -41,5 +41,5 @@ public interface ProductsDAO extends DAO<Product> {
 
     List<Object[]> getAllProductsWithCountProductsByProducer(String nameProducer);
 
-
+    List<Product> getAllProductsByFilters(List<String> filters);
 }

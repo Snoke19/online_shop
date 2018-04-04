@@ -65,6 +65,16 @@
                     <div class="mt-3">
 
                         <div class="card" >
+                            <swiper class="w-75">
+                                <slides>
+                                    <slide ng-repeat="image in product.listImages">
+                                        <img ng-src="data:image/jpeg;base64,{{image}}" class="img-fluid">
+                                    </slide>
+                                </slides>
+                                <prev></prev>
+                                <next></next>
+                                <pagination></pagination>
+                            </swiper>
                             <div class="card-body">
                                 <h4 class="card-title">{{product.name}} (-{{product.discount}}%)</h4>
                                 <p class="card-text"><strong>Category:</strong> {{product.category.name}}</p>

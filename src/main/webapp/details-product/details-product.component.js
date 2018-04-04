@@ -2,7 +2,8 @@
     'use strict';
 
     angular.module('details-product', [
-        'ngRoute'
+        'ngRoute',
+        'ui.swiper'
     ]);
 
     angular.module('details-product').component('detailsProduct', {

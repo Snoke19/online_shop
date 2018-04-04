@@ -5,12 +5,14 @@
     angular.module('main-products', [
         'ngRoute',
         'main-products-service',
+        'main-page-service',
         'rzModule',
         'ngRateIt',
         'ngProgress',
         'cp.ngConfirm',
         'ngImageDimensions',
-        'checklist-model'
+        'checklist-model',
+        'ui.swiper'
     ]);
 
     angular
@@ -20,16 +22,18 @@
             controller: ProductsController
         });
 
-    ProductsController.$inject = ['$http', '$scope', '$routeParams', '$ngConfirm', 'ngProgressFactory', 'MainProductsService'];
+    ProductsController.$inject = ['$http', '$scope', '$routeParams', '$ngConfirm', 'ngProgressFactory', 'MainPageService', 'MainProductsService'];
 
-    function ProductsController ($http, $scope, $routeParams, $ngConfirm, ngProgressFactory, MainProductsService) {
+    function ProductsController ($http, $scope, $routeParams, $ngConfirm, ngProgressFactory, MainPageService, MainProductsService) {
 
         //progress bar
         $scope.progressbar = ngProgressFactory.createInstance();
         $scope.progressbar.setHeight('5px');
 
         $scope.isOpen = true;
+        $scope.isOpen1 = true;
 
+        $scope.categoryProducts = $routeParams.category
 
         $scope.progressbar.start();
         MainProductsService.getAllProductsByCategory($routeParams.category).then(function (d) {
@@ -55,6 +59,15 @@
                 ceil: 500,
                 translate: function(value) {
                     return '$' + value;
+                },
+                onStart: function(sliderId, modelValue, highValue, pointerType) {
+
+                },
+                onChange: function (sliderId, modelValue, highValue, pointerType) {
+
+                },
+                onEnd: function (sliderId, modelValue, highValue, pointerType) {
+
                 }
             }
         };
@@ -71,6 +84,16 @@
             $scope.progressbar.reset();
         });
 
+        MainPageService.getAllCategoriesWithCountProducts().then(function (d) {
+            $scope.categoriesCountedProducts = d;
+        }).catch(function(response){
+            $ngConfirm({
+                title: 'Error',
+                type: 'red',
+                content: response.data
+            });
+            $scope.progressbar.reset();
+        });
 
         var start = 12;
         $scope.showMoreProduct = function () {

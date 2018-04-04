@@ -8,6 +8,7 @@ import com.shop.utils.products.DescriptionCategory;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -228,5 +229,17 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
                 .createQuery("select p.name, COUNT(p.idProduct) from Product p where p.isActive = true and p.producer = :nameProducer group by p.name")
                 .setParameter("nameProducer", nameProducer)
                 .list();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Product> getAllProductsByFilters(List<String> filters) {
+
+        List<Product> productList = new ArrayList<>();
+
+
+
+
+        return null;
     }
 }

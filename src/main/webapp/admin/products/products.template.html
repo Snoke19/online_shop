@@ -23,61 +23,59 @@
             <!-- Grid row -->
             <div class="row">
                 <div class="col-md-6 col-lg-12 mb-3">
-
-                    <div class="input-group mb-2">
-                        <input type="search" class="form-control py-1 pl-2" placeholder="Search" aria-describedby="basic-addon1">
-                        <div class="input-group-prepend">
-                            <button class="btn btn-primary input-group-text py-2 px-4 my-0 ml-0" id="basic-addon1"><i class="fa fa-search"></i></button>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-md-6 col-lg-12 mb-3">
                     <p class="mb-2">
                         <a class="font-weight-bold dark-grey-text h5" ng-click="isOpen1=!isOpen1" data-toggle="collapse" data-target="#collapseOrderBy">
-                            <strong>Selected filters: <i class="" ng-class="(isOpen1) ? 'fas fa-angle-down' : 'fas fa-angle-up'"></i></strong>
+                            <strong>Categories: <i class="" ng-class="(isOpen1) ? 'fas fa-angle-down' : 'fas fa-angle-up'"></i></strong>
                         </a>
                     </p>
 
-                    <div class="collapse show" id="collapseOrderBy">
-                        <p class="blue-text mt-2 mb-2"><a>Default</a></p>
-                        <p class="dark-grey-text mt-2 mb-2"><a>Кating</a></p>
-                        <p class="dark-grey-text mt-2 mb-2"><a>Price: low to high</a></p>
-                        <p class="dark-grey-text mt-2 mb-2"><a>Price: high to low</a></p>
+                    <div class="collapse" id="collapseOrderBy" >
+                        <p class="mt-2 mb-2" ng-repeat="(key, value) in categoriesCountedProducts">
+                            <a ng-href="#!/products/{{key}}" class="mdb-color-text darken-4"><b>{{key}}</b> <span class="badge mdb-color lighten-4">{{value}}</span></a>
+                        </p>
                     </div>
                 </div>
 
                 <div class="col-md-6 col-lg-12 mb-3">
                     <h5 class="font-weight-bold dark-grey-text"><strong>Price:</strong></h5>
 
-                    <rzslider rz-slider-model="slider.minValue"
-                            rz-slider-high="slider.maxValue"
-                            rz-slider-options="slider.options"></rzslider>
-                </div>
-
-                <div class="scrollbar scrollbar-primary force-overflow mb-3">
-                <div class="col-md-6 col-lg-11 mb-3" ng-init="nameCategory = key" ng-repeat="(key, value) in filterProducts">
-
-                    <p class="mb-2">
-                        <a class="font-weight-bold dark-grey-text" ng-click="isOpen=!isOpen" data-toggle="collapse" data-target="#collapseProducer{{key}}">
-                            <strong>{{key}} <i class="" ng-class="(isOpen) ? 'fas fa-angle-down' : 'fas fa-angle-up'"></i></strong>
-                        </a>
-                    </p>
-
-                    <div class="collapse show" id="collapseProducer{{key}}">
-                        <div class="custom-control custom-checkbox mb-2" ng-repeat="(key, value) in value">
-                            <div ng-repeat="(key, value) in value">
-                                <input ng-change="filterDatas()"
-                                       type="checkbox"
-                                       checklist-model="filtersProducts"
-                                       checklist-value="nameCategory + key"
-                                       id="customRadio{{key}}" class="custom-control-input">
-                                <label class="custom-control-label" for="customRadio{{key}}">{{key}} ({{value}})</label>
-                            </div>
+                    <div class="row">
+                        <div class="col-9 pr-0">
+                            <rzslider rz-slider-model="slider.minValue"
+                                      rz-slider-high="slider.maxValue"
+                                      rz-slider-options="slider.options"></rzslider>
+                        </div>
+                        <div class="col-3 pl-2">
+                            <span class="btn btn-success btn-sm py-2 px-2">ok</span>
                         </div>
                     </div>
 
+
                 </div>
+
+                <div class="scrollbar scrollbar-primary force-overflow mb-3" style="width: 290px;">
+                    <div class="col-md-6 col-lg-11 mb-3" ng-init="nameCategory = key" ng-repeat="(key, value) in filterProducts">
+
+                        <p class="mb-2">
+                            <a class="font-weight-bold dark-grey-text" ng-click="isOpen=!isOpen" data-toggle="collapse" data-target="#collapseProducer{{key}}">
+                                <strong>{{key}} <i class="" ng-class="(isOpen) ? 'fas fa-angle-down' : 'fas fa-angle-up'"></i></strong>
+                            </a>
+                        </p>
+
+                        <div class="collapse show" id="collapseProducer{{key}}">
+                            <div class="custom-control custom-checkbox mb-2" ng-repeat="(key, value) in value">
+                                <div ng-repeat="(key, value) in value">
+                                    <input ng-change="filterDatas()"
+                                        type="checkbox"
+                                        checklist-model="filtersProducts"
+                                        checklist-value="nameCategory + key"
+                                        id="customRadio{{key}}" class="custom-control-input">
+                                    <label class="custom-control-label" for="customRadio{{key}}">{{key}} ({{value}})</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
 
             </div>
@@ -92,8 +90,11 @@
             <section class="section">
 
                 <div class="row">
-                    <div class="ml-1 mb-3">
-                        <div class="chip blue lighten-4 mt-2" ng-repeat="filterItem in filtersProducts">
+                    <div class="ml-3">
+                        <div class="chip blue lighten-4">
+                            {{categoryProducts}}
+                        </div>
+                        <div class="chip blue lighten-4 mb-2" ng-repeat="filterItem in filtersProducts">
                             {{filterItem}}
                             <i class="close fa fa-times" ng-click="deleteFiltersProducts(filterItem)"></i>
                         </div>
@@ -104,19 +105,25 @@
                 <div class="row">
 
                     <!--Grid column-->
-                    <div class="col-lg-4 col-md-12 mb-4" ng-repeat="mainProduct in mainProducts">
+                    <div class="col-lg-4 col-md-12 mt-2 mb-4" ng-repeat="mainProduct in mainProducts">
 
                         <div image-dimensions>
 
                             <div class="card card-ecommerce">
 
                                 <!--Card image-->
-                                <div class="view overlay">
-                                    <img ng-src="data:image/jpeg;base64,{{mainProduct.listImages[0]}}" class="img-fluid">
-                                    <a href="#!/product/details/{{mainProduct.idProduct}}">
-                                        <div class="mask rgba-white-slight waves-effect waves-light"></div>
-                                    </a>
-                                </div>
+                                <swiper>
+                                    <slides>
+                                        <slide ng-repeat="image in mainProduct.listImages">
+                                            <a href="#!/product/details/{{mainProduct.idProduct}}">
+                                                <img ng-src="data:image/jpeg;base64,{{image}}" class="img-fluid">
+                                            </a>
+                                        </slide>
+                                    </slides>
+                                    <prev></prev>
+                                    <next></next>
+                                    <pagination></pagination>
+                                </swiper>
                                 <!--Card image-->
 
                                 <!--Card content-->
@@ -141,8 +148,7 @@
                                         <h5>{{mainProduct.category.name}}</h5>
                                     </a>
 
-
-                                    <a href="#!/product/details/{{mainProduct.idProduct}}" style="text-decoration: underline">see more</a>
+                                    <p><a href="#!/product/details/{{mainProduct.idProduct}}" style="text-decoration: underline">see more</a></p>
 
                                     <!--Card footer-->
                                     <div class="card-footer pb-0">

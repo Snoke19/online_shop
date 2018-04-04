@@ -15,7 +15,8 @@
         'cp.ngConfirm',
         'ngRateIt',
         '720kb.tooltips',
-        'ngRateIt'
+        'ngRateIt',
+        'ui.swiper'
     ]);
 
     angular

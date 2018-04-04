@@ -59,44 +59,16 @@
 
                             <div class="col-sm-12 col-md-12 col-lg-7">
 
-                                <!--Carousel Wrapper-->
-                                <div id="carousel-example" class="carousel slide carousel-fade" data-ride="carousel">
-                                    <!--Indicators-->
-                                    <ol class="carousel-indicators">
-                                        <li data-target="#carousel-example" data-slide-to="{{key}}" ng-repeat="(key, value) in adminProduct.listImages track by $index"></li>
-                                    </ol>
-                                    <!--/.Indicators-->
-                                    <!--Slides-->
-                                    <div class="carousel-inner" role="listbox">
-                                        <!--First slide-->
-                                        <div class="carousel-item active">
-                                            <div style="text-align: center;">
-                                                <img class="w-50" ng-src="data:image/jpeg;base64,{{ adminProduct.listImages[0]}}">
-                                            </div>
-                                        </div>
-                                        <!--/First slide-->
-                                        <!--Second slide-->
-                                        <div class="carousel-item" ng-repeat="im in adminProduct.listImages track by $index" ng-if="$index > 0">
-                                            <div style="text-align: center;">
-                                                <img class="w-50" ng-src="data:image/jpeg;base64,{{im}}" alt="Second slide">
-                                            </div>
-                                        </div>
-                                        <!--/Second slide-->
-
-                                    </div>
-                                    <!--/.Slides-->
-                                    <!--Controls-->
-                                    <a class="carousel-control-prev" data-target="#carousel-example" role="button" data-slide="prev">
-                                        <span><i class="fas fa-angle-left fa-3x blue-text"></i></span>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                    <a class="carousel-control-next" data-target="#carousel-example" role="button" data-slide="next">
-                                        <span><i class="fas fa-angle-right fa-3x blue-text"></i></span>
-                                        <span class="sr-only">Next</span>
-                                    </a>
-                                    <!--/.Controls-->
-                                </div>
-                                <!--/.Carousel Wrapper-->
+                                <swiper class="w-75">
+                                    <slides>
+                                        <slide ng-repeat="image in adminProduct.listImages">
+                                            <img ng-src="data:image/jpeg;base64,{{image}}" class="img-fluid">
+                                        </slide>
+                                    </slides>
+                                    <prev></prev>
+                                    <next></next>
+                                    <pagination></pagination>
+                                </swiper>
 
                             </div>
 

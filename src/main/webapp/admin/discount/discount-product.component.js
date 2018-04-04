@@ -6,7 +6,8 @@
         'admin',
         'rzModule',
         'cgNotify',
-        'ngProgress'
+        'ngProgress',
+        'ui.swiper'
     ]);
 
     angular.module('admin-board-discount-product')
