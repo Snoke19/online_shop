@@ -42,7 +42,7 @@
 
                     <swiper class="w-75">
                         <slides>
-                            <slide ng-repeat="image in productForEdit.listImages">
+                            <slide ng-repeat="image in productForEdit.listImages track by $index">
                                 <img ng-src="data:image/jpeg;base64,{{image}}" class="img-fluid">
                             </slide>
                         </slides>

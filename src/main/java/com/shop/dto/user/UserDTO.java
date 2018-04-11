@@ -1,7 +1,6 @@
 package com.shop.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.shop.entity.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

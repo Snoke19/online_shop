@@ -52,15 +52,13 @@
                 minValue: 0,
                 maxValue: 0,
                 options: {
-                    noSwitching: true,
-                    floor: $scope.min.price,
+                    floor: 0,
                     ceil: $scope.max.price,
                     translate: function(value) {
                         return '$' + value;
                     }
                 }
             };
-
 
             $scope.progressbar.complete();
         }).catch(function(response){
@@ -72,12 +70,15 @@
             $scope.progressbar.reset();
         });
 
+
         MainProductsService.getAllProducerWithCount().then(function (d) {
             $scope.producers = d;
         });
 
+
         MainProductsService.getSideBarFilterProducts($routeParams.category, $scope.filtersProducts).then(function (d) {
             $scope.filterProducts = d;
+            console.log($scope.filterProducts);
         }).catch(function(response){
             $ngConfirm({
                 title: 'Error',
@@ -86,6 +87,7 @@
             });
             $scope.progressbar.reset();
         });
+
 
         MainPageService.getAllCategoriesWithCountProducts().then(function (d) {
             $scope.categoriesCountedProducts = d;
@@ -97,6 +99,7 @@
             });
             $scope.progressbar.reset();
         });
+
 
         var start = 12;
         $scope.showMoreProduct = function () {
@@ -179,6 +182,7 @@
             }
         };
 
+
         $scope.deleteFiltersProducts = function (data) {
             $scope.filtersProducts.splice($scope.filtersProducts.indexOf(data), 1);
 
@@ -209,6 +213,18 @@
                     });
                     $scope.progressbar.reset();
                 });
+
+                MainProductsService.getAllProducerWithCountProductsByFilter($routeParams.category, $scope.filtersProducts).then(function (d) {
+                    $scope.producers = d;
+                }).catch(function(response){
+                    $ngConfirm({
+                        title: 'Error',
+                        type: 'red',
+                        content: response.data
+                    });
+                    $scope.progressbar.reset();
+                });
+
             }else{
                 MainProductsService.getAllProductsByCategory($routeParams.category).then(function (d) {
                     $scope.mainProducts = d;
@@ -224,6 +240,7 @@
                 });
             }
         };
+
 
         $scope.deleteFiltersProducersProducts = function (data) {
             $scope.producersProducts.splice($scope.producersProducts.indexOf(data), 1);
@@ -255,6 +272,17 @@
                     });
                     $scope.progressbar.reset();
                 });
+
+                MainProductsService.getAllProducerWithCountProductsByFilter($routeParams.category, $scope.filtersProducts).then(function (d) {
+                    $scope.producers = d;
+                }).catch(function(response){
+                    $ngConfirm({
+                        title: 'Error',
+                        type: 'red',
+                        content: response.data
+                    });
+                    $scope.progressbar.reset();
+                });
             }else{
                 MainProductsService.getAllProductsByCategory($routeParams.category).then(function (d) {
                     $scope.mainProducts = d;
@@ -270,5 +298,30 @@
                 });
             }
         };
+
+
+        $scope.productsByPrice = function(){
+
+            $scope.progressbar.start();
+            MainProductsService.getAllProductsByPrice(
+                $scope.filtersProducts,
+                $scope.producersProducts,
+                $routeParams.category,
+                $scope.slider.minValue,
+                $scope.slider.maxValue
+            ).then(function (d) {
+
+                $scope.mainProducts = d;
+
+                $scope.progressbar.complete();
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
+            });
+        }
     }
 })();

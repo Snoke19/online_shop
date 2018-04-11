@@ -46,7 +46,7 @@
                                       rz-slider-options="slider.options"></rzslider>
                         </div>
                         <div class="col-3 pl-2">
-                            <span class="btn btn-success btn-sm py-2 px-2">ok</span>
+                            <span ng-click="productsByPrice()" class="btn btn-success btn-sm py-2 px-2">ok</span>
                         </div>
                     </div>
 
@@ -76,7 +76,7 @@
                     </div>
 
 
-                    <div class="col-md-6 col-lg-11 mb-3" ng-init="nameCategory = key" ng-repeat="(key, value) in filterProducts">
+                    <div class="col-md-6 col-lg-11 mb-3" ng-init="nameCategories = key" ng-repeat="(key, value) in filterProducts">
 
                         <p class="mb-2">
                             <a class="font-weight-bold dark-grey-text" ng-click="isOpen=!isOpen" data-toggle="collapse" data-target="#collapseFilter{{key}}">
@@ -90,9 +90,9 @@
                                     <input ng-click="productsByFilters()"
                                         type="checkbox"
                                         checklist-model="filtersProducts"
-                                        checklist-value="key"
-                                        id="customRadioFilter{{key}}" class="custom-control-input">
-                                    <label class="custom-control-label" for="customRadioFilter{{key}}">{{key}} ({{value}})</label>
+                                        checklist-value="nameCategories + ' ' + key"
+                                        id="customRadioFilter{{key + nameCategories}}" class="custom-control-input">
+                                    <label class="custom-control-label" for="customRadioFilter{{key + nameCategories}}">{{key}} ({{value}})</label>
                                 </div>
                             </div>
                         </div>
@@ -141,7 +141,7 @@
                                 <!--Card image-->
                                 <swiper>
                                     <slides>
-                                        <slide ng-repeat="image in mainProduct.listImages">
+                                        <slide ng-repeat="image in mainProduct.listImages track by $index">
                                             <a href="#!/product/details/{{mainProduct.idProduct}}">
                                                 <img ng-src="data:image/jpeg;base64,{{image}}" class="img-fluid">
                                             </a>

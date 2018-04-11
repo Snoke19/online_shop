@@ -28,21 +28,22 @@ public interface ProductsService extends Service<ProductDTO> {
 
     void setDiscount(List<Long> idList, Integer discount);
 
-    List<String> getAllProducer();
-    List<String> getAllProducerByCategory(String nameCategory);
-
     List<ProductDTO> getProductsByRange(Integer start, String category);
 
     List<ProductDTO> getAllProductsByCategory(String something);
 
-    Map<String, Long> getAllProductsWithCountProducts();
     Map<String, Long> getAllProducerWithCountProducts();
-    Map<String, Long> getAllProducerWithCountProductsByFilter(List<String> filter, String category);
-    Map<String, Long> getAllProductsWithCountProductsByProducer(String nameProducer);
+    Map<String, Long> getAllProducerWithCountProductsByFilter(Multimap<String, String> filter, String category);
 
     void deleteProductSelected(List<Long> selected);
 
     Multimap<String, Map<String, Integer>> getSideBarFilterProducts(String category, List<String> filters);
 
-    List<ProductDTO> getAllProductsByFilters(List<String> filters, List<String> producers, String category);
+    List<ProductDTO> getAllProductsByFilters(Multimap<String, String> filters, List<String> producers, String category);
+
+    List<ProductDTO> getAllProductsByPrice(Multimap<String, String> filters,
+                                           List<String> producers,
+                                           String category,
+                                           Integer max,
+                                           Integer min);
 }

@@ -42,17 +42,26 @@
                     return response.data;
                 });
             },
-            getAllProductsByFilters: function (category, filters, producers, minPrice, maxPrice) {
+            getAllProductsByFilters: function (category, filters, producers) {
                 return $http({
                     method: "PUT",
                     url: "/products/filtered/" + category,
-                    data: { allFilter: filters, allProducers: producers, min: minPrice, max: maxPrice}
+                    data: {allFilter: filters, allProducers: producers}
                 }).then(function (response) {
                     return response.data;
-                })
+                });
             },
             getAllProducerWithCount: function () {
                 return $http.get("/producers").then(function (response) {
+                    return response.data;
+                });
+            },
+            getAllProductsByPrice: function (filters, producers, category, minPrice, maxPrice) {
+                return $http({
+                    method: "PUT",
+                    url: "/products/price/" + category,
+                    data: {allFilter: filters, allProducers: producers, min: minPrice, max: maxPrice}
+                }).then(function (response) {
                     return response.data;
                 });
             }
