@@ -54,23 +54,45 @@
                 </div>
 
                 <div class="scrollbar scrollbar-primary force-overflow mb-3" style="width: 290px;">
-                    <div class="col-md-6 col-lg-11 mb-3" ng-init="nameCategory = key" ng-repeat="(key, value) in filterProducts">
+                    <div class="col-md-6 col-lg-11 mb-3" ng-init="nameCategory = key">
 
                         <p class="mb-2">
                             <a class="font-weight-bold dark-grey-text" ng-click="isOpen=!isOpen" data-toggle="collapse" data-target="#collapseProducer{{key}}">
-                                <strong>{{key}} <i class="" ng-class="(isOpen) ? 'fas fa-angle-down' : 'fas fa-angle-up'"></i></strong>
+                                <strong>Producers <i class="" ng-class="(isOpen) ? 'fas fa-angle-down' : 'fas fa-angle-up'"></i></strong>
                             </a>
                         </p>
 
                         <div class="collapse show" id="collapseProducer{{key}}">
+                            <div class="custom-control custom-checkbox mb-2" ng-repeat="(key, value) in producers">
+                                <input ng-click="productsByFilters()"
+                                       type="checkbox"
+                                       checklist-model="producersProducts"
+                                       checklist-value="key"
+                                       id="customRadio{{key}}" class="custom-control-input">
+                                <label class="custom-control-label" for="customRadio{{key}}">{{key}} ({{value}})</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6 col-lg-11 mb-3" ng-init="nameCategory = key" ng-repeat="(key, value) in filterProducts">
+
+                        <p class="mb-2">
+                            <a class="font-weight-bold dark-grey-text" ng-click="isOpen=!isOpen" data-toggle="collapse" data-target="#collapseFilter{{key}}">
+                                <strong>{{key}} <i class="" ng-class="(isOpen) ? 'fas fa-angle-down' : 'fas fa-angle-up'"></i></strong>
+                            </a>
+                        </p>
+
+                        <div class="collapse show" id="collapseFilter{{key}}">
                             <div class="custom-control custom-checkbox mb-2" ng-repeat="(key, value) in value">
                                 <div ng-repeat="(key, value) in value">
-                                    <input ng-change="filterDatas()"
+                                    <input ng-click="productsByFilters()"
                                         type="checkbox"
                                         checklist-model="filtersProducts"
-                                        checklist-value="nameCategory + key"
-                                        id="customRadio{{key}}" class="custom-control-input">
-                                    <label class="custom-control-label" for="customRadio{{key}}">{{key}} ({{value}})</label>
+                                        checklist-value="key"
+                                        id="customRadioFilter{{key}}" class="custom-control-input">
+                                    <label class="custom-control-label" for="customRadioFilter{{key}}">{{key}} ({{value}})</label>
                                 </div>
                             </div>
                         </div>
@@ -94,10 +116,15 @@
                         <div class="chip blue lighten-4">
                             {{categoryProducts}}
                         </div>
+                        <div class="chip blue lighten-4 mb-2" ng-repeat="filterItem in producersProducts">
+                            {{filterItem}}
+                            <i class="close fa fa-times" ng-click="deleteFiltersProducersProducts(filterItem)"></i>
+                        </div>
                         <div class="chip blue lighten-4 mb-2" ng-repeat="filterItem in filtersProducts">
                             {{filterItem}}
                             <i class="close fa fa-times" ng-click="deleteFiltersProducts(filterItem)"></i>
                         </div>
+
                     </div>
                 </div>
 

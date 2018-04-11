@@ -2,6 +2,7 @@ package com.shop.service;
 
 import com.google.common.collect.Multimap;
 import com.shop.dto.product.ProductDTO;
+import com.shop.entity.Product;
 import com.shop.utils.layers.Service;
 import com.shop.utils.products.DescriptionCategory;
 
@@ -36,10 +37,12 @@ public interface ProductsService extends Service<ProductDTO> {
 
     Map<String, Long> getAllProductsWithCountProducts();
     Map<String, Long> getAllProducerWithCountProducts();
-    Map<String, Long> getAllProducerWithCountProductsByCategory(String nameCategory);
+    Map<String, Long> getAllProducerWithCountProductsByFilter(List<String> filter, String category);
     Map<String, Long> getAllProductsWithCountProductsByProducer(String nameProducer);
 
     void deleteProductSelected(List<Long> selected);
 
-    Multimap<String, Map<String, Integer>> getSideBarFilterProducts(String category);
+    Multimap<String, Map<String, Integer>> getSideBarFilterProducts(String category, List<String> filters);
+
+    List<ProductDTO> getAllProductsByFilters(List<String> filters, List<String> producers, String category);
 }

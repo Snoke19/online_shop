@@ -1,14 +1,12 @@
 package com.shop.controllers;
 
-import com.google.common.collect.Multimap;
 import com.shop.service.CategoryService;
 import com.shop.service.ProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class MainPageController {
@@ -38,8 +36,17 @@ public class MainPageController {
         return categoryService.getAllCategoriesWithCountProducts();
     }
 
-    @GetMapping("/sidebar/products/{category}")
-    public ResponseEntity<Map<String, Collection<Map<String, Integer>>>> getSideBarProducts(@PathVariable("category") String category){
-        return ResponseEntity.ok(productsService.getSideBarFilterProducts(category).asMap());
+    @PutMapping("/sidebar/products/{category}")
+    public ResponseEntity<Map<String, Collection<Map<String, Integer>>>> getSideBarProducts(
+            @PathVariable("category") String category, @RequestBody Map<String, Object> filter){
+
+        List<String> filterList = (List<String>) filter.get("allProducers");
+
+        if (filterList == null){
+            filterList = new ArrayList<>();
+            return ResponseEntity.ok(productsService.getSideBarFilterProducts(category, filterList).asMap());
+        }
+
+        return ResponseEntity.ok(productsService.getSideBarFilterProducts(category, filterList).asMap());
     }
 }

@@ -230,16 +230,4 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
                 .setParameter("nameProducer", nameProducer)
                 .list();
     }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<Product> getAllProductsByFilters(List<String> filters) {
-
-        List<Product> productList = new ArrayList<>();
-
-
-
-
-        return null;
-    }
 }

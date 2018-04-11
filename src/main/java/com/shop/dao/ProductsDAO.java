@@ -1,13 +1,11 @@
 package com.shop.dao;
 
-import com.shop.utils.products.Description;
 import com.shop.entity.Product;
 import com.shop.utils.layers.DAO;
 import com.shop.utils.products.DescriptionCategory;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 public interface ProductsDAO extends DAO<Product> {
 
@@ -40,6 +38,4 @@ public interface ProductsDAO extends DAO<Product> {
     List<Object[]> getAllProducerWithCountProductsByCategory(String nameCategory);
 
     List<Object[]> getAllProductsWithCountProductsByProducer(String nameProducer);
-
-    List<Product> getAllProductsByFilters(List<String> filters);
 }

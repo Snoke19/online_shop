@@ -9,6 +9,7 @@ import com.shop.dto.product.ProductMapper;
 import com.shop.dto.product.ProductDTO;
 import com.shop.dto.product.ProductMapImpl;
 import com.shop.entity.Product;
+import com.shop.service.FilterService;
 import com.shop.service.ProductsService;
 import com.shop.utils.products.Description;
 import com.shop.utils.products.DescriptionCategory;
@@ -18,8 +19,10 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service("productsService")
 public class ProductsServiceImpl implements ProductsService {
@@ -27,6 +30,7 @@ public class ProductsServiceImpl implements ProductsService {
     private ProductsDAO productsDAO;
     private ProductsService productsService;
     private ProductMapImpl productMapper;
+    private FilterService filterService;
 
     @Autowired
     public void setProductsDAO(ProductsDAO productsDAO) {
@@ -42,6 +46,12 @@ public class ProductsServiceImpl implements ProductsService {
     public void setProductMapper(ProductMapImpl productMapper) {
         this.productMapper = productMapper;
     }
+
+    @Autowired
+    public void setFilterService(FilterService filterService) {
+        this.filterService = filterService;
+    }
+
 
     @Override
     @Transactional
@@ -173,7 +183,6 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     @Transactional
     public void setDiscount(List<Long> idList, Integer discount) {
-
         idList.forEach(id -> productsDAO.setDiscount(id, discount));
     }
 
@@ -236,15 +245,18 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     @Transactional
-    public Map<String, Long> getAllProducerWithCountProductsByCategory(String nameCategory) {
-        Map<String, Long> results = new HashMap<>();
-        List<Object[]> list = productsDAO.getAllProducerWithCountProductsByCategory(nameCategory);
+    public Map<String, Long> getAllProducerWithCountProductsByFilter(List<String> filter, String category) {
 
-        for (Object[] object : list) {
-            results.put((String)object[0], (Long)object[1]);
+        List<Product> list = productsDAO.getAllProductsByCategory(category);
+        List<Product> listNew;
+
+        if (!filter.isEmpty()){
+            listNew = filterService.productsByFiltersDescription(list, filter);
+        }else {
+            return getAllProducerWithCountProducts();
         }
 
-        return results;
+        return listNew.stream().distinct().collect(Collectors.groupingBy(Product::getProducer, Collectors.counting()));
     }
 
 
@@ -265,6 +277,7 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     @Transactional
     public void deleteProductSelected(List<Long> selected) {
+
         for (Long aSelected : selected) {
             productsDAO.delete(aSelected);
         }
@@ -273,14 +286,25 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     @Transactional
-    public Multimap<String, Map<String, Integer>> getSideBarFilterProducts(String category) {
+    public Multimap<String, Map<String, Integer>> getSideBarFilterProducts(String category, List<String> producers) {
 
-        List<Product> descriptionCategories = productsDAO.getAllProductsByCategory(category);
+        List<Product> descriptionCategories = new ArrayList<>();
+
+        if (!producers.isEmpty()) {
+            for (Product product : productsDAO.getAllProductsByCategory(category)) {
+                for (String str : producers) {
+                    if (str.equalsIgnoreCase(product.getProducer())) {
+                        descriptionCategories.add(product);
+                    }
+                }
+            }
+        }else{
+            descriptionCategories.addAll(productsDAO.getAllProductsByCategory(category));
+        }
 
         List<List<DescriptionCategory>> listOfListDescription = descriptionCategories.stream().map(Product::getDescription).collect(Collectors.toList());
 
         List<DescriptionCategory> listDescription = listOfListDescription.stream().flatMap(List::stream).collect(Collectors.toList());
-
 
         List<Description> descriptionList = listDescription.stream().flatMap(d -> d.getDescriptionList().stream()).collect(Collectors.toList());
 
@@ -297,5 +321,39 @@ public class ProductsServiceImpl implements ProductsService {
         }
 
         return finalMap;
+    }
+
+    @Override
+    @Transactional
+    public List<ProductDTO> getAllProductsByFilters(List<String> filters, List<String> producers, String category) {
+
+
+        List<Product> productList = productsDAO.getAllProductsByCategory(category);
+
+        List<Product> productListNew = new ArrayList<>();
+
+        if (!producers.isEmpty()){
+
+            productListNew.addAll(filterService.productsByProducer(productList, producers));
+
+        } else if (!filters.isEmpty()){
+
+            productListNew.addAll(filterService.productsByFiltersDescription(productList, filters));
+
+        }else {
+            return productMapper.productsToProductsDTO(productsDAO.getAllProductsByCategory(category));
+        }
+
+        if (!filters.isEmpty() && !producers.isEmpty()) {
+
+            List<Product> listProductsByProducer = new ArrayList<>();
+
+            listProductsByProducer.addAll(filterService.productsByProducer(productList, producers));
+
+            productListNew.clear();
+            productListNew.addAll(filterService.productsByFiltersDescription(listProductsByProducer, filters));
+        }
+
+        return productMapper.productsToProductsDTO(productListNew);
     }
 }
