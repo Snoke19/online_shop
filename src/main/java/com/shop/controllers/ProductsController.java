@@ -36,7 +36,8 @@ public class ProductsController {
 
 
     @PutMapping("/products/filtered/{category}")
-    public ResponseEntity<Collection<ProductDTO>> allProductsByFilters(@PathVariable("category") String category, @RequestBody Map<String, Object> filter){
+    public ResponseEntity<Collection<ProductDTO>> allProductsByFilters(@PathVariable("category") String category,
+                                                                       @RequestBody Map<String, Object> filter){
         @SuppressWarnings("unchecked")
         List<String> filterList = (List<String>) filter.get("allFilter");
         @SuppressWarnings("unchecked")
@@ -44,21 +45,26 @@ public class ProductsController {
 
         Multimap<String, String> stringMap = filterList
                 .stream()
-                .map(elem -> elem.split(" "))
+                .map(elem -> elem.split(": "))
                 .collect(ImmutableListMultimap.toImmutableListMultimap(e -> e[0], e -> e[1]));
 
-        Set<ProductDTO> productDTOHashSet = new HashSet<>(productsService.getAllProductsByFilters(stringMap, allProducers, category));
+        Integer maxValue = (Integer) filter.get("max");
+        Integer minValue = (Integer) filter.get("min");
+
+
+        Set<ProductDTO> productDTOHashSet = new HashSet<>(productsService.getAllProductsByFilters(stringMap, allProducers, category, maxValue, minValue));
 
         return ResponseEntity.status(HttpStatus.OK).body(productDTOHashSet);
     }
 
 
     @PutMapping("/producers/filtered/{category}")
-    public ResponseEntity<Map<String, Long>> getAllProducerWithCountProductsByFilter(@PathVariable("category") String category, @RequestBody List<String> filter){
+    public ResponseEntity<Map<String, Long>> getAllProducerWithCountProductsByFilter(@PathVariable("category") String category,
+                                                                                     @RequestBody List<String> filter){
 
         Multimap<String, String> stringMap = filter
                 .stream()
-                .map(elem -> elem.split(" "))
+                .map(elem -> elem.split(": "))
                 .collect(ImmutableListMultimap.toImmutableListMultimap(e -> e[0], e -> e[1]));
 
         return ResponseEntity.ok(productsService.getAllProducerWithCountProductsByFilter(stringMap, category));
@@ -66,7 +72,8 @@ public class ProductsController {
 
 
     @PutMapping("/products/price/{category}")
-    public ResponseEntity<List<ProductDTO>> getAllProductsByPrice(@PathVariable("category") String category, @RequestBody Map<String, Object> filter){
+    public ResponseEntity<Collection<ProductDTO>> getAllProductsByPrice(@PathVariable("category") String category,
+                                                                        @RequestBody Map<String, Object> filter){
 
         @SuppressWarnings("unchecked")
         List<String> filterList = (List<String>) filter.get("allFilter");
@@ -78,22 +85,18 @@ public class ProductsController {
 
         Multimap<String, String> stringMap = filterList
                 .stream()
-                .map(elem -> elem.split(" "))
+                .map(elem -> elem.split(": "))
                 .collect(ImmutableListMultimap.toImmutableListMultimap(e -> e[0], e -> e[1]));
 
-        System.out.println("filterList: " + filterList);
-        System.out.println("allProducers: " + allProducers);
-        System.out.println("min: " + min);
-        System.out.println("max: " + max);
-        System.out.println("filterList: " + filterList);
-        System.out.println("Category: " + category);
+        Set<ProductDTO> productDTOS = new HashSet<>(productsService.getAllProductsByPrice(stringMap, allProducers, category, max, min));
 
-        return ResponseEntity.status(HttpStatus.OK).body(productsService.getAllProductsByPrice(stringMap, allProducers, category, max, min));
+        return ResponseEntity.status(HttpStatus.OK).body(productDTOS);
     }
 
 
     @GetMapping("/more/products/{category}/{number}")
-    public ResponseEntity<List<ProductDTO>> productsWithinRage(@PathVariable("category") String category, @PathVariable("number") Integer start){
+    public ResponseEntity<List<ProductDTO>> productsWithinRage(@PathVariable("category") String category,
+                                                               @PathVariable("number") Integer start){
         return ResponseEntity.status(HttpStatus.OK).body(productsService.getProductsByRange(start, category));
     }
 

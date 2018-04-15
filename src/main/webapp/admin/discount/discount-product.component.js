@@ -43,7 +43,7 @@
                 value: 100,
                 options: {
                     noSwitching: true,
-                    floor: $scope.min.discount,
+                    floor: 0,
                     ceil: $scope.max.discount,
                     translate: function(value, sliderId, label) {
                         switch (label) {

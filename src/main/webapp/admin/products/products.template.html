@@ -50,31 +50,39 @@
                         </div>
                     </div>
 
+                    <div class="chip blue lighten-4 mt-2">
+                        min: {{priceMinChip}}
+                        <i class="close fa fa-times" ng-click=""></i>
+                    </div>
+                    <div class="chip blue lighten-4 mt-2">
+                        max: {{priceMaxChip}}
+                        <i class="close fa fa-times" ng-click=""></i>
+                    </div>
+
+                </div>
+
+                <div class="col-md-6 col-lg-11 mb-3" ng-init="allProducers = key">
+
+                    <p class="mb-2">
+                        <a class="font-weight-bold dark-grey-text" ng-click="isOpen=!isOpen" data-toggle="collapse" data-target="#collapseProducer{{key}}">
+                            <strong>Producers <i class="" ng-class="(isOpen) ? 'fas fa-angle-down' : 'fas fa-angle-up'"></i></strong>
+                        </a>
+                    </p>
+
+                    <div class="collapse show" id="collapseProducer{{key}}">
+                        <div class="custom-control custom-checkbox mb-2" ng-repeat="(key, value) in producers">
+                            <input ng-click="productsByFilters(false);"
+                                   type="checkbox"
+                                   checklist-model="producersProducts"
+                                   checklist-value="key"
+                                   id="customRadio{{key}}" class="custom-control-input">
+                            <label class="custom-control-label" for="customRadio{{key}}">{{key}} ({{value}})</label>
+                        </div>
+                    </div>
 
                 </div>
 
                 <div class="scrollbar scrollbar-primary force-overflow mb-3" style="width: 290px;">
-                    <div class="col-md-6 col-lg-11 mb-3" ng-init="nameCategory = key">
-
-                        <p class="mb-2">
-                            <a class="font-weight-bold dark-grey-text" ng-click="isOpen=!isOpen" data-toggle="collapse" data-target="#collapseProducer{{key}}">
-                                <strong>Producers <i class="" ng-class="(isOpen) ? 'fas fa-angle-down' : 'fas fa-angle-up'"></i></strong>
-                            </a>
-                        </p>
-
-                        <div class="collapse show" id="collapseProducer{{key}}">
-                            <div class="custom-control custom-checkbox mb-2" ng-repeat="(key, value) in producers">
-                                <input ng-click="productsByFilters()"
-                                       type="checkbox"
-                                       checklist-model="producersProducts"
-                                       checklist-value="key"
-                                       id="customRadio{{key}}" class="custom-control-input">
-                                <label class="custom-control-label" for="customRadio{{key}}">{{key}} ({{value}})</label>
-                            </div>
-                        </div>
-
-                    </div>
-
 
                     <div class="col-md-6 col-lg-11 mb-3" ng-init="nameCategories = key" ng-repeat="(key, value) in filterProducts">
 
@@ -87,10 +95,10 @@
                         <div class="collapse show" id="collapseFilter{{key}}">
                             <div class="custom-control custom-checkbox mb-2" ng-repeat="(key, value) in value">
                                 <div ng-repeat="(key, value) in value">
-                                    <input ng-click="productsByFilters()"
+                                    <input ng-click="productsByFilters(true);"
                                         type="checkbox"
                                         checklist-model="filtersProducts"
-                                        checklist-value="nameCategories + ' ' + key"
+                                        checklist-value="nameCategories + ': ' + key"
                                         id="customRadioFilter{{key + nameCategories}}" class="custom-control-input">
                                     <label class="custom-control-label" for="customRadioFilter{{key + nameCategories}}">{{key}} ({{value}})</label>
                                 </div>
@@ -118,11 +126,11 @@
                         </div>
                         <div class="chip blue lighten-4 mb-2" ng-repeat="filterItem in producersProducts">
                             {{filterItem}}
-                            <i class="close fa fa-times" ng-click="deleteFiltersProducersProducts(filterItem)"></i>
+                            <i class="close fa fa-times" ng-click="deleteFiltersProducersProducts(filterItem, true)"></i>
                         </div>
                         <div class="chip blue lighten-4 mb-2" ng-repeat="filterItem in filtersProducts">
                             {{filterItem}}
-                            <i class="close fa fa-times" ng-click="deleteFiltersProducts(filterItem)"></i>
+                            <i class="close fa fa-times" ng-click="deleteFiltersProducts(filterItem, true)"></i>
                         </div>
 
                     </div>

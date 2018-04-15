@@ -26,6 +26,8 @@ public interface ProductsService extends Service<ProductDTO> {
 
     void deleteOneImageProduct(int indexImage, Long idProduct);
 
+    void deleteProductSelected(List<Long> selected);
+
     void setDiscount(List<Long> idList, Integer discount);
 
     List<ProductDTO> getProductsByRange(Integer start, String category);
@@ -33,13 +35,16 @@ public interface ProductsService extends Service<ProductDTO> {
     List<ProductDTO> getAllProductsByCategory(String something);
 
     Map<String, Long> getAllProducerWithCountProducts();
+
+    Multimap<String, Map<String, Integer>> getSideBarFilterProducts(String category, List<String> producers, Integer max, Integer min);
+
     Map<String, Long> getAllProducerWithCountProductsByFilter(Multimap<String, String> filter, String category);
 
-    void deleteProductSelected(List<Long> selected);
-
-    Multimap<String, Map<String, Integer>> getSideBarFilterProducts(String category, List<String> filters);
-
-    List<ProductDTO> getAllProductsByFilters(Multimap<String, String> filters, List<String> producers, String category);
+    List<ProductDTO> getAllProductsByFilters(Multimap<String, String> filters,
+                                             List<String> producers,
+                                             String category,
+                                             Integer max,
+                                             Integer min);
 
     List<ProductDTO> getAllProductsByPrice(Multimap<String, String> filters,
                                            List<String> producers,

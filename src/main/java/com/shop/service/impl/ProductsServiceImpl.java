@@ -177,6 +177,16 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     @Transactional
+    public void deleteProductSelected(List<Long> selected) {
+
+        for (Long aSelected : selected) {
+            productsDAO.delete(aSelected);
+        }
+    }
+
+
+    @Override
+    @Transactional
     public void setDiscount(List<Long> idList, Integer discount) {
         idList.forEach(id -> productsDAO.setDiscount(id, discount));
     }
@@ -212,34 +222,7 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     @Transactional
-    public Map<String, Long> getAllProducerWithCountProductsByFilter(Multimap<String, String> filter, String category) {
-
-        List<Product> list = productsDAO.getAllProductsByCategory(category);
-        List<Product> listNew;
-
-        if (!filter.isEmpty()){
-            listNew = filterService.productsByFiltersDescription(list, filter);
-        }else {
-            return getAllProducerWithCountProducts();
-        }
-
-        return listNew.stream().distinct().collect(Collectors.groupingBy(Product::getProducer, Collectors.counting()));
-    }
-
-
-    @Override
-    @Transactional
-    public void deleteProductSelected(List<Long> selected) {
-
-        for (Long aSelected : selected) {
-            productsDAO.delete(aSelected);
-        }
-    }
-
-
-    @Override
-    @Transactional
-    public Multimap<String, Map<String, Integer>> getSideBarFilterProducts(String category, List<String> producers) {
+    public Multimap<String, Map<String, Integer>> getSideBarFilterProducts(String category, List<String> producers, Integer max, Integer min) {
 
         List<Product> descriptionCategories = new ArrayList<>();
 
@@ -251,8 +234,35 @@ public class ProductsServiceImpl implements ProductsService {
                     }
                 }
             }
-        }else{
-            descriptionCategories.addAll(productsDAO.getAllProductsByCategory(category));
+
+        }else if (!producers.isEmpty() && max != 0 && min >= 0) {
+
+            List<Product> productList = productsDAO.getAllProductsByCategory(category)
+                    .stream()
+                    .filter(product -> product.getPrice().intValue() >= min && product.getPrice().intValue() <= max)
+                    .collect(Collectors.toList());
+
+            for (Product product : productList) {
+                for (String str : producers) {
+                    if (str.equalsIgnoreCase(product.getProducer())) {
+                        descriptionCategories.add(product);
+                    }
+                }
+            }
+        } else if(max != 0 && min >= 0) {
+
+            List<Product> productList = productsDAO.getAllProductsByCategory(category)
+                    .stream()
+                    .filter(product -> product.getPrice().intValue() >= min && product.getPrice().intValue() <= max)
+                    .collect(Collectors.toList());
+
+            if (!productList.isEmpty()){
+                descriptionCategories = productList;
+            }else {
+                descriptionCategories = productsDAO.getAllProductsByCategory(category);
+            }
+        } else {
+            descriptionCategories = productsDAO.getAllProductsByCategory(category);
         }
 
         List<List<DescriptionCategory>> listOfListDescription = descriptionCategories.stream().map(Product::getDescription).collect(Collectors.toList());
@@ -276,25 +286,32 @@ public class ProductsServiceImpl implements ProductsService {
         return finalMap;
     }
 
+
     @Override
     @Transactional
-    public List<ProductDTO> getAllProductsByFilters(Multimap<String, String> filters, List<String> producers, String category) {
+    public Map<String, Long> getAllProducerWithCountProductsByFilter(Multimap<String, String> filter, String category) {
+
+        List<Product> list = productsDAO.getAllProductsByCategory(category);
+        List<Product> listNew;
+
+        if (!filter.isEmpty()){
+            listNew = filterService.productsByFiltersDescription(list, filter);
+        }else {
+            return getAllProducerWithCountProducts();
+        }
+
+        return listNew.stream().distinct().collect(Collectors.groupingBy(Product::getProducer, Collectors.counting()));
+    }
+
+
+    @Override
+    @Transactional
+    public List<ProductDTO> getAllProductsByFilters(Multimap<String, String> filters, List<String> producers, String category, Integer max, Integer min) {
 
         List<Product> productList = productsDAO.getAllProductsByCategory(category);
 
         List<Product> productListNew = new ArrayList<>();
 
-        if (!producers.isEmpty()){
-
-            productListNew.addAll(filterService.productsByProducer(productList, producers));
-
-        } else if (!filters.isEmpty()){
-
-            productListNew.addAll(filterService.productsByFiltersDescription(productList, filters));
-
-        }else {
-            return productMapper.productsToProductsDTO(productsDAO.getAllProductsByCategory(category));
-        }
 
         if (!filters.isEmpty() && !producers.isEmpty()) {
 
@@ -302,10 +319,45 @@ public class ProductsServiceImpl implements ProductsService {
 
             productListNew.clear();
             productListNew.addAll(filterService.productsByFiltersDescription(listProductsByProducer, filters));
+
+        } else if (!producers.isEmpty()){
+
+            productListNew.addAll(filterService.productsByProducer(productList, producers));
+
+        } else if (!filters.isEmpty()){
+
+            productListNew.addAll(filterService.productsByFiltersDescription(productList, filters));
+
+        } else {
+            return productMapper.productsToProductsDTO(productsDAO.getAllProductsByCategory(category));
+        }
+
+
+        if (max != 0 && min >= 0 && !filters.isEmpty()) {
+
+            productListNew = filterService.productsByFiltersDescriptionAndProducer(productList, filters)
+                    .stream()
+                    .filter(v -> v.getPrice().intValue() >= min && v.getPrice().intValue() <= max)
+                    .collect(Collectors.toList());
+
+        } else if (max != 0 && min >= 0 && !producers.isEmpty()) {
+
+            productListNew = filterService.productsByFiltersDescriptionAndProducer(productList, producers)
+                    .stream()
+                    .filter(v -> v.getPrice().intValue() >= min && v.getPrice().intValue() <= max)
+                    .collect(Collectors.toList());
+
+        } else if (max != 0 && min >= 0 && !filters.isEmpty() && !producers.isEmpty()) {
+
+            productListNew = filterService.productsByFiltersDescriptionAndProducer(productList, filters, producers)
+                    .stream()
+                    .filter(v -> v.getPrice().intValue() >= min && v.getPrice().intValue() <= max)
+                    .collect(Collectors.toList());
         }
 
         return productMapper.productsToProductsDTO(productListNew);
     }
+
 
     @Override
     @Transactional
@@ -324,23 +376,4 @@ public class ProductsServiceImpl implements ProductsService {
 
         return productMapper.productsToProductsDTO(productListNew);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

@@ -41,13 +41,17 @@ public class MainPageController {
     public ResponseEntity<Map<String, Collection<Map<String, Integer>>>> getSideBarProducts(
             @PathVariable("category") String category, @RequestBody Map<String, Object> filter){
 
-        List<String> filterList = (List<String>) filter.get("allProducers");
+        List<String> filterList = new ArrayList<>();
 
-        if (filterList == null){
-            filterList = new ArrayList<>();
-            return ResponseEntity.ok(productsService.getSideBarFilterProducts(category, filterList).asMap());
+        if(filter.get("allProducers") instanceof LinkedHashMap) {
+            filterList = (List<String>) ((LinkedHashMap) filter.get("allProducers")).keySet().stream().collect(Collectors.toList());
+        }else if (filter.get("allProducers") instanceof ArrayList){
+            filterList = (List<String>) filter.get("allProducers");
         }
 
-        return ResponseEntity.ok(productsService.getSideBarFilterProducts(category, filterList).asMap());
+        Integer max = (Integer) filter.get("max");
+        Integer min = (Integer) filter.get("min");
+
+        return ResponseEntity.ok(productsService.getSideBarFilterProducts(category, filterList, max, min).asMap());
     }
 }

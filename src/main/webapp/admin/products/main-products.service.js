@@ -9,11 +9,6 @@
 
     function MainProductsService($http) {
         return {
-            getAllProducts: function () {
-                return $http.get("/products").then(function (response) {
-                    return response.data;
-                });
-            },
             getAllProductsByCategory: function (category) {
                 return $http.get("/products/" + category).then(function (response) {
                     return response.data;
@@ -24,11 +19,11 @@
                     return response.data;
                 });
             },
-            getSideBarFilterProducts: function (category, producer) {
+            getSideBarFilterProducts: function (category, producer, maxValue, minValue) {
                 return $http({
                     method: "PUT",
                     url: "/sidebar/products/" + category,
-                    data: {allProducers: producer}
+                    data: {allProducers: producer, max: maxValue, min: minValue}
                 }).then(function (response) {
                     return response.data;
                 });
@@ -42,11 +37,11 @@
                     return response.data;
                 });
             },
-            getAllProductsByFilters: function (category, filters, producers) {
+            getAllProductsByFilters: function (category, filters, producers, valueMax, valueMin) {
                 return $http({
                     method: "PUT",
                     url: "/products/filtered/" + category,
-                    data: {allFilter: filters, allProducers: producers}
+                    data: {allFilter: filters, allProducers: producers, max: valueMax, min: valueMin}
                 }).then(function (response) {
                     return response.data;
                 });
@@ -56,7 +51,7 @@
                     return response.data;
                 });
             },
-            getAllProductsByPrice: function (filters, producers, category, minPrice, maxPrice) {
+            getAllProductsByPrice: function (filters, producers, category, maxPrice, minPrice) {
                 return $http({
                     method: "PUT",
                     url: "/products/price/" + category,
