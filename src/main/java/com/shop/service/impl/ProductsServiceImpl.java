@@ -303,51 +303,43 @@ public class ProductsServiceImpl implements ProductsService {
 
         List<Product> productListNew = new ArrayList<>();
 
-
-        if (!producers.isEmpty()){
-            productListNew = filterService.productsByProducer(productList, producers);
-        }
-
-        if (!filters.isEmpty()){
-            productListNew = filterService.productsByFiltersDescription(productList, filters);
-        }
-
         if (!filters.isEmpty() && !producers.isEmpty()) {
 
             List<Product> listProductsByProducer = filterService.productsByProducer(productList, producers);
             productListNew = filterService.productsByFiltersDescription(listProductsByProducer, filters);
-        }
 
-        if(max != 0 && min >= 0) {
+        } else if (!producers.isEmpty()){
+            productListNew = filterService.productsByProducer(productList, producers);
 
-            productListNew = filterService.productsByPrice(productList, max, min);
-        }
+        } else if (!filters.isEmpty()){
+            productListNew = filterService.productsByFiltersDescription(productList, filters);
 
-        if (max != 0 && min >= 0 && !filters.isEmpty()) {
-
-            productListNew = filterService.productsByFiltersDescriptionAndProducer(productList, filters)
-                    .stream()
-                    .filter(v -> v.getPrice().intValue() >= min && v.getPrice().intValue() <= max)
-                    .collect(Collectors.toList());
-        }
-
-        if (max != 0 && min >= 0 && !producers.isEmpty()) {
-
-            productListNew = filterService.productsByFiltersDescriptionAndProducer(productList, producers)
-                    .stream()
-                    .filter(v -> v.getPrice().intValue() >= min && v.getPrice().intValue() <= max)
-                    .collect(Collectors.toList());
-        }
-
-        if (max != 0 && min >= 0 && !filters.isEmpty() && !producers.isEmpty()) {
+        } else if (max != 0 && min >= 0 && !filters.isEmpty() && !producers.isEmpty()) {
 
             productListNew = filterService.productsByFiltersDescriptionAndProducer(productList, filters, producers)
                     .stream()
                     .filter(v -> v.getPrice().intValue() >= min && v.getPrice().intValue() <= max)
                     .collect(Collectors.toList());
-        }
 
-        if (productListNew.isEmpty()){
+        } else if (max != 0 && min >= 0 && !filters.isEmpty()) {
+
+            productListNew = filterService.productsByFiltersDescriptionAndProducer(productList, filters)
+                    .stream()
+                    .filter(v -> v.getPrice().intValue() >= min && v.getPrice().intValue() <= max)
+                    .collect(Collectors.toList());
+
+        } else if (max != 0 && min >= 0 && !producers.isEmpty()) {
+
+            productListNew = filterService.productsByFiltersDescriptionAndProducer(productList, producers)
+                    .stream()
+                    .filter(v -> v.getPrice().intValue() >= min && v.getPrice().intValue() <= max)
+                    .collect(Collectors.toList());
+
+        } else if(max != 0 && min >= 0) {
+
+            productListNew = filterService.productsByPrice(productList, max, min);
+
+        } else {
             return productMapper.productsToProductsDTO(productsDAO.getAllProductsByCategory(category));
         }
 
@@ -360,6 +352,10 @@ public class ProductsServiceImpl implements ProductsService {
     public List<ProductDTO> getAllProductsByPrice(Multimap<String, String> filters,
                                                   List<String> producers,
                                                   String category, Integer max, Integer min) {
+
+
+        System.out.println("max: "  +max);
+        System.out.println("min: " + min);
 
         List<Product> productList = productsDAO.getAllProductsByCategory(category);
         List<Product> productListNew = new ArrayList<>();
@@ -385,9 +381,27 @@ public class ProductsServiceImpl implements ProductsService {
                     .filter(v -> v.getPrice().intValue() >= min && v.getPrice().intValue() <= max)
                     .collect(Collectors.toList());
 
-        } else if(max != 0 && min >= 0) {
+        } else if (max != 0 && min >= 0) {
 
-            productListNew.addAll(filterService.productsByPrice(productList, max, min));
+            productListNew = filterService.productsByPrice(productList, max, min);
+
+        } else if (max != 0){
+
+            productListNew = productsDAO.getAllProductsByCategory(category)
+                    .stream()
+                    .filter(product -> product.getPrice().intValue() < max)
+                    .collect(Collectors.toList());
+
+        } else if (min >= 0){
+
+            productListNew = productsDAO.getAllProductsByCategory(category)
+                    .stream()
+                    .filter(product -> product.getPrice().intValue() >= min)
+                    .collect(Collectors.toList());
+
+        } else {
+
+            productMapper.productsToProductsDTO(productList);
         }
 
        return productMapper.productsToProductsDTO(productListNew);

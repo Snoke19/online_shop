@@ -146,22 +146,6 @@
 
                     $scope.mainProducts = d;
 
-                    var stooges1 = $scope.mainProducts;
-                    $scope.max = _.max(stooges1, function(stooge){ return stooge.price; });
-                    $scope.min = _.min(stooges1, function(stooge){ return stooge.price; });
-
-                    $scope.slider = {
-                        minValue: 0,
-                        maxValue: 0,
-                        options: {
-                            floor: 0,
-                            ceil: $scope.max.price,
-                            translate: function(value) {
-                                return '$' + value;
-                            }
-                        }
-                    };
-
                     $scope.progressbar.complete();
                 }).catch(function (response) {
                     $ngConfirm({
@@ -247,22 +231,6 @@
                 MainProductsService.getAllProductsByCategory($routeParams.category).then(function (d) {
                     $scope.mainProducts = d;
 
-                    var stooges1 = $scope.mainProducts;
-                    $scope.max = _.max(stooges1, function(stooge){ return stooge.price; });
-                    $scope.min = _.min(stooges1, function(stooge){ return stooge.price; });
-
-                    $scope.slider = {
-                        minValue: 0,
-                        maxValue: 0,
-                        options: {
-                            floor: 0,
-                            ceil: $scope.max.price,
-                            translate: function(value) {
-                                return '$' + value;
-                            }
-                        }
-                    };
-
                     $scope.progressbar.complete();
                 }).catch(function(response){
                     $ngConfirm({
@@ -285,22 +253,6 @@
             if (filters !== undefined || filters.length !== 0) {
                 MainProductsService.getAllProductsByFilters($routeParams.category, filters, $scope.producersProducts, $scope.slider.minValue, $scope.slider.maxValue).then(function (d) {
                     $scope.mainProducts = d;
-
-                    var stooges1 = $scope.mainProducts;
-                    $scope.max = _.max(stooges1, function(stooge){ return stooge.price; });
-                    $scope.min = _.min(stooges1, function(stooge){ return stooge.price; });
-
-                    $scope.slider = {
-                        minValue: 0,
-                        maxValue: 0,
-                        options: {
-                            floor: 0,
-                            ceil: $scope.max.price,
-                            translate: function(value) {
-                                return '$' + value;
-                            }
-                        }
-                    };
 
                     $scope.progressbar.complete();
                 }).catch(function (response) {
@@ -370,22 +322,6 @@
                 MainProductsService.getAllProductsByCategory($routeParams.category).then(function (d) {
                     $scope.mainProducts = d;
 
-                    var stooges1 = $scope.mainProducts;
-                    $scope.max = _.max(stooges1, function(stooge){ return stooge.price; });
-                    $scope.min = _.min(stooges1, function(stooge){ return stooge.price; });
-
-                    $scope.slider = {
-                        minValue: 0,
-                        maxValue: 0,
-                        options: {
-                            floor: 0,
-                            ceil: $scope.max.price,
-                            translate: function(value) {
-                                return '$' + value;
-                            }
-                        }
-                    };
-
                     $scope.progressbar.complete();
                 }).catch(function(response){
                     $ngConfirm({
@@ -408,22 +344,6 @@
             if (filters !== undefined || filters.length !== 0) {
                 MainProductsService.getAllProductsByFilters($routeParams.category, filters, $scope.producersProducts, $scope.slider.maxValue, $scope.slider.minValue).then(function (d) {
                     $scope.mainProducts = d;
-
-                    var stooges1 = $scope.mainProducts;
-                    $scope.max = _.max(stooges1, function(stooge){ return stooge.price; });
-                    $scope.min = _.min(stooges1, function(stooge){ return stooge.price; });
-
-                    $scope.slider = {
-                        minValue: 0,
-                        maxValue: 0,
-                        options: {
-                            floor: 0,
-                            ceil: $scope.max.price,
-                            translate: function(value) {
-                                return '$' + value;
-                            }
-                        }
-                    };
 
                     $scope.progressbar.complete();
                 }).catch(function (response) {
@@ -492,22 +412,6 @@
                 MainProductsService.getAllProductsByCategory($routeParams.category).then(function (d) {
                     $scope.mainProducts = d;
 
-                    var stooges1 = $scope.mainProducts;
-                    $scope.max = _.max(stooges1, function(stooge){ return stooge.price; });
-                    $scope.min = _.min(stooges1, function(stooge){ return stooge.price; });
-
-                    $scope.slider = {
-                        minValue: 0,
-                        maxValue: 0,
-                        options: {
-                            floor: 0,
-                            ceil: $scope.max.price,
-                            translate: function(value) {
-                                return '$' + value;
-                            }
-                        }
-                    };
-
                     $scope.progressbar.complete();
                 }).catch(function(response){
                     $ngConfirm({
@@ -523,29 +427,13 @@
 
         $scope.productsByPrice = function(){
 
-            $scope.priceMaxChip = $scope.slider.maxValue;
-            $scope.priceMinChip = $scope.slider.minValue;
-
             $scope.progressbar.start();
             MainProductsService.getAllProductsByPrice($scope.filtersProducts, $scope.producersProducts, $routeParams.category, $scope.slider.maxValue, $scope.slider.minValue).then(function (d) {
 
                 $scope.mainProducts = d;
 
-                var stooges1 = $scope.mainProducts;
-                $scope.max = _.max(stooges1, function(stooge){ return stooge.price; });
-                $scope.min = _.min(stooges1, function(stooge){ return stooge.price; });
-
-                $scope.slider = {
-                    minValue: 0,
-                    maxValue: 0,
-                    options: {
-                        floor: 0,
-                        ceil: $scope.max.price,
-                        translate: function(value) {
-                            return '$' + value;
-                        }
-                    }
-                };
+                $scope.priceMaxChip = $scope.slider.maxValue;
+                $scope.priceMinChip = $scope.slider.minValue;
 
                 $scope.progressbar.complete();
             }).catch(function(response){
@@ -572,6 +460,109 @@
             });
 
             MainProductsService.getAllProducerWithCountProductsByFilter($routeParams.category, $scope.filtersProducts, $scope.slider.maxValue, $scope.slider.minValue).then(function (d) {
+                $scope.producers = d;
+
+                $scope.progressbar.complete();
+            }).catch(function (response) {
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
+            });
+        };
+
+
+        $scope.clearPriceFilterMax = function () {
+
+            $scope.slider.maxValue = 0;
+
+            $scope.priceMaxChip = 0;
+
+            var max = $scope.priceMaxChip;
+
+            $scope.progressbar.start();
+            MainProductsService.getAllProductsByPrice($scope.filtersProducts, $scope.producersProducts, $routeParams.category, max, $scope.slider.minValue).then(function (d) {
+
+                $scope.mainProducts = d;
+
+                $scope.progressbar.complete();
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
+            });
+
+            MainProductsService.getSideBarFilterProducts($routeParams.category, $scope.producersProducts, max, $scope.slider.minValue).then(function (d) {
+
+                $scope.filterProducts = d;
+
+                $scope.progressbar.complete();
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
+            });
+
+            MainProductsService.getAllProducerWithCountProductsByFilter($routeParams.category, $scope.filtersProducts, max, $scope.slider.minValue).then(function (d) {
+                $scope.producers = d;
+
+                $scope.progressbar.complete();
+            }).catch(function (response) {
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
+            });
+        };
+
+        $scope.clearPriceFilterMin = function () {
+
+            $scope.slider.minValue = 0;
+
+            $scope.priceMinChip = 0;
+
+            var min = $scope.priceMinChip;
+
+            $scope.progressbar.start();
+            MainProductsService.getAllProductsByPrice($scope.filtersProducts, $scope.producersProducts, $routeParams.category, $scope.slider.maxValue, min).then(function (d) {
+
+                $scope.mainProducts = d;
+
+                $scope.progressbar.complete();
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
+            });
+
+            MainProductsService.getSideBarFilterProducts($routeParams.category, $scope.producersProducts, $scope.slider.maxValue, min).then(function (d) {
+
+                $scope.filterProducts = d;
+
+                $scope.progressbar.complete();
+            }).catch(function(response){
+                $ngConfirm({
+                    title: 'Error',
+                    type: 'red',
+                    content: response.data
+                });
+                $scope.progressbar.reset();
+            });
+
+            MainProductsService.getAllProducerWithCountProductsByFilter($routeParams.category, $scope.filtersProducts, $scope.slider.maxValue, min).then(function (d) {
                 $scope.producers = d;
 
                 $scope.progressbar.complete();

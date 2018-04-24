@@ -55,7 +55,7 @@
                 return $http({
                     method: "PUT",
                     url: "/products/price/" + category,
-                    data: {allFilter: filters, allProducers: producers, min: valueMax, max: valueMin}
+                    data: {allFilter: filters, allProducers: producers, max: valueMax, min: valueMin}
                 }).then(function (response) {
                     return response.data;
                 });

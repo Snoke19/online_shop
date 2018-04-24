@@ -105,20 +105,22 @@
 
                         </li>
 
-                        <li class="nav-item ml-auto">
+                        <li class="nav-item ml-auto" ng-if="isAuthority('User')">
                             <a class="nav-link dark-grey-text font-bold" ng-href="#!/cart">
                                 <span class="badge danger-color">{{cartSize}}</span>
                                 <i class="fa fa-shopping-cart blue-text"></i>
                                 <span class="clearfix d-none d-sm-inline-block">Cart</span>
                             </a>
                         </li>
+
                         <!--Administration-->
-                        <li class="nav-item">
+                        <li class="nav-item" ng-if="isAuthority('Admin')">
                             <a class="nav-link dark-grey-text font-bold" ng-href="#!/admin"><i class="fa fa-cog blue-text"></i>Administration</a>
                         </li>
                         <!--/Administration-->
+
                         <!--Profile button-->
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown" ng-if="isAuthority('User')">
                             <a class="nav-link dropdown-toggle dark-grey-text font-bold" id="Profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-user blue-text" aria-hidden="true"></i>{{user.username}}
                             </a>
@@ -126,6 +128,18 @@
                                 <a class="dropdown-item" ng-href="#!/user/profile">My Profile</a>
                                 <a class="dropdown-item" ng-href="#!/sign-up" ng-click="logout()">Log out</a>
                             </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a ng-href="#!/login" class="nav-link dark-grey-text font-bold " id="LogIn">
+                                <u>Log In</u>
+                            </a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a ng-href="#!/sign-up" class="nav-link dark-grey-text font-bold " id="SignUp">
+                                <u>Sign Up</u>
+                            </a>
                         </li>
 
                     </ul>
