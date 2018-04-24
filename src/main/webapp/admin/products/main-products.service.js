@@ -28,11 +28,11 @@
                     return response.data;
                 });
             },
-            getAllProducerWithCountProductsByFilter: function (category, filters) {
+            getAllProducerWithCountProductsByFilter: function (category, filters, valueMax, valueMin) {
                 return $http({
                     method: "PUT",
                     url: "/producers/filtered/" + category,
-                    data: filters
+                    data: {allFilter: filters, max: valueMax, min: valueMin}
                 }).then(function (response) {
                     return response.data;
                 });
@@ -51,11 +51,11 @@
                     return response.data;
                 });
             },
-            getAllProductsByPrice: function (filters, producers, category, maxPrice, minPrice) {
+            getAllProductsByPrice: function (filters, producers, category, valueMax, valueMin) {
                 return $http({
                     method: "PUT",
                     url: "/products/price/" + category,
-                    data: {allFilter: filters, allProducers: producers, min: minPrice, max: maxPrice}
+                    data: {allFilter: filters, allProducers: producers, min: valueMax, max: valueMin}
                 }).then(function (response) {
                     return response.data;
                 });

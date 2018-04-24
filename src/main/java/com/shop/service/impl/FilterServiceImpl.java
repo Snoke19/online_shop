@@ -74,4 +74,13 @@ public class FilterServiceImpl implements FilterService {
     public List<Product> productsByFiltersDescriptionAndProducer(List<Product> productList, List<String> listProducer) {
         return productsByProducer(productList, listProducer);
     }
+
+
+    @Override
+    public List<Product> productsByPrice(List<Product> productList, Integer max, Integer min) {
+        return productList.stream()
+                .filter(v -> v.getPrice().intValue() >= min && v.getPrice().intValue() <= max)
+                .collect(Collectors.toList());
+    }
+
 }

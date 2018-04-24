@@ -111,9 +111,7 @@ public class OrdersServiceImpl implements OrdersService {
 
         Map<String, Integer> mapNumberStatus = new HashMap<>();
 
-        for(String  s: status){
-            mapNumberStatus.put(s, Collections.frequency(status, s));
-        }
+        status.forEach(s -> mapNumberStatus.put(s, Collections.frequency(status, s)));
 
         return mapNumberStatus;
     }

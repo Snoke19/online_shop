@@ -33,8 +33,8 @@ public class MainPageController {
 
 
     @GetMapping("/categories/count/product")
-    public Map<String, Long> getAllCategoriesWithCountProducts(){
-        return categoryService.getAllCategoriesWithCountProducts();
+    public ResponseEntity<Map<String, Long>> getAllCategoriesWithCountProducts(){
+        return ResponseEntity.ok(categoryService.getAllCategoriesWithCountProducts());
     }
 
     @PutMapping("/sidebar/products/{category}")

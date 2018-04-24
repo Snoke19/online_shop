@@ -36,7 +36,7 @@ public class ProductsController {
 
 
     @PutMapping("/products/filtered/{category}")
-    public ResponseEntity<Collection<ProductDTO>> allProductsByFilters(@PathVariable("category") String category,
+    public ResponseEntity<Set<ProductDTO>> allProductsByFilters(@PathVariable("category") String category,
                                                                        @RequestBody Map<String, Object> filter){
         @SuppressWarnings("unchecked")
         List<String> filterList = (List<String>) filter.get("allFilter");
@@ -60,14 +60,20 @@ public class ProductsController {
 
     @PutMapping("/producers/filtered/{category}")
     public ResponseEntity<Map<String, Long>> getAllProducerWithCountProductsByFilter(@PathVariable("category") String category,
-                                                                                     @RequestBody List<String> filter){
+                                                                                     @RequestBody Map<String, Object> filter){
 
-        Multimap<String, String> stringMap = filter
+        @SuppressWarnings("unchecked")
+        List<String> filterList = (List<String>) filter.get("allFilter");
+
+        Integer min = (Integer) filter.get("min");
+        Integer max = (Integer) filter.get("max");
+
+        Multimap<String, String> stringMap = filterList
                 .stream()
                 .map(elem -> elem.split(": "))
                 .collect(ImmutableListMultimap.toImmutableListMultimap(e -> e[0], e -> e[1]));
 
-        return ResponseEntity.ok(productsService.getAllProducerWithCountProductsByFilter(stringMap, category));
+        return ResponseEntity.ok(productsService.getAllProducerWithCountProductsByFilter(stringMap, category, max, min));
     }
 
 

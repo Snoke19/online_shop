@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service("categoryService")
@@ -56,12 +57,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public Map<String, Long> getAllCategoriesWithCountProducts() {
-        Map<String, Long> results = new HashMap<>();
         List<Object[]> list = categoryDAO.getAllCategoriesWithCountProducts();
-        for (Object[] object : list) {
-            results.put((String)object[0], (Long)object[1]);
-        }
-        return results;
+        return list.stream().collect(Collectors.toMap(object -> (String)object[0], object -> (Long)object[1]));
     }
 
     @Override

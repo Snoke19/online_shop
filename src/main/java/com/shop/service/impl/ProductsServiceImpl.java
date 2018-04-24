@@ -51,14 +51,9 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     @Transactional
     public List<ProductDTO> getAll() {
-        List<Product> productDTOList = productsDAO.getAll();
-        List<Product> newResultList = new ArrayList<>();
 
-        for (Product p : productDTOList) {
-            if (p.getIsActive()){
-                newResultList.add(p);
-            }
-        }
+        List<Product> productDTOList = productsDAO.getAll();
+        List<Product> newResultList = productDTOList.stream().filter(Product::getIsActive).collect(Collectors.toList());
 
         Collections.shuffle(newResultList);
 
@@ -178,10 +173,7 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     @Transactional
     public void deleteProductSelected(List<Long> selected) {
-
-        for (Long aSelected : selected) {
-            productsDAO.delete(aSelected);
-        }
+        selected.forEach(p -> productsDAO.delete(p));
     }
 
 
@@ -209,14 +201,9 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     @Transactional
     public Map<String, Long> getAllProducerWithCountProducts() {
-        Map<String, Long> results = new HashMap<>();
+
         List<Object[]> list = productsDAO.getAllProducerWithCountProducts();
-
-        for (Object[] object : list) {
-            results.put((String)object[0], (Long)object[1]);
-        }
-
-        return results;
+        return list.stream().collect(Collectors.toMap(object -> (String)object[0], object -> (Long)object[1]));
     }
 
 
@@ -249,16 +236,16 @@ public class ProductsServiceImpl implements ProductsService {
                     }
                 }
             }
-        } else if(max != 0 && min >= 0) {
+        } else if (max != 0 && min >= 0) {
 
             List<Product> productList = productsDAO.getAllProductsByCategory(category)
                     .stream()
                     .filter(product -> product.getPrice().intValue() >= min && product.getPrice().intValue() <= max)
                     .collect(Collectors.toList());
 
-            if (!productList.isEmpty()){
+            if (!productList.isEmpty()) {
                 descriptionCategories = productList;
-            }else {
+            } else {
                 descriptionCategories = productsDAO.getAllProductsByCategory(category);
             }
         } else {
@@ -289,13 +276,17 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     @Transactional
-    public Map<String, Long> getAllProducerWithCountProductsByFilter(Multimap<String, String> filter, String category) {
+    public Map<String, Long> getAllProducerWithCountProductsByFilter(Multimap<String, String> filter, String category, Integer max, Integer min) {
 
         List<Product> list = productsDAO.getAllProductsByCategory(category);
         List<Product> listNew;
 
         if (!filter.isEmpty()){
             listNew = filterService.productsByFiltersDescription(list, filter);
+        } else if (max != 0 && min >= 0){
+            listNew = list.stream()
+                    .filter(e -> e.getPrice().intValue() >= min && e.getPrice().intValue() <= max)
+                    .collect(Collectors.toList());
         }else {
             return getAllProducerWithCountProducts();
         }
@@ -313,25 +304,24 @@ public class ProductsServiceImpl implements ProductsService {
         List<Product> productListNew = new ArrayList<>();
 
 
+        if (!producers.isEmpty()){
+            productListNew = filterService.productsByProducer(productList, producers);
+        }
+
+        if (!filters.isEmpty()){
+            productListNew = filterService.productsByFiltersDescription(productList, filters);
+        }
+
         if (!filters.isEmpty() && !producers.isEmpty()) {
 
             List<Product> listProductsByProducer = filterService.productsByProducer(productList, producers);
-
-            productListNew.clear();
-            productListNew.addAll(filterService.productsByFiltersDescription(listProductsByProducer, filters));
-
-        } else if (!producers.isEmpty()){
-
-            productListNew.addAll(filterService.productsByProducer(productList, producers));
-
-        } else if (!filters.isEmpty()){
-
-            productListNew.addAll(filterService.productsByFiltersDescription(productList, filters));
-
-        } else {
-            return productMapper.productsToProductsDTO(productsDAO.getAllProductsByCategory(category));
+            productListNew = filterService.productsByFiltersDescription(listProductsByProducer, filters);
         }
 
+        if(max != 0 && min >= 0) {
+
+            productListNew = filterService.productsByPrice(productList, max, min);
+        }
 
         if (max != 0 && min >= 0 && !filters.isEmpty()) {
 
@@ -339,20 +329,26 @@ public class ProductsServiceImpl implements ProductsService {
                     .stream()
                     .filter(v -> v.getPrice().intValue() >= min && v.getPrice().intValue() <= max)
                     .collect(Collectors.toList());
+        }
 
-        } else if (max != 0 && min >= 0 && !producers.isEmpty()) {
+        if (max != 0 && min >= 0 && !producers.isEmpty()) {
 
             productListNew = filterService.productsByFiltersDescriptionAndProducer(productList, producers)
                     .stream()
                     .filter(v -> v.getPrice().intValue() >= min && v.getPrice().intValue() <= max)
                     .collect(Collectors.toList());
+        }
 
-        } else if (max != 0 && min >= 0 && !filters.isEmpty() && !producers.isEmpty()) {
+        if (max != 0 && min >= 0 && !filters.isEmpty() && !producers.isEmpty()) {
 
             productListNew = filterService.productsByFiltersDescriptionAndProducer(productList, filters, producers)
                     .stream()
                     .filter(v -> v.getPrice().intValue() >= min && v.getPrice().intValue() <= max)
                     .collect(Collectors.toList());
+        }
+
+        if (productListNew.isEmpty()){
+            return productMapper.productsToProductsDTO(productsDAO.getAllProductsByCategory(category));
         }
 
         return productMapper.productsToProductsDTO(productListNew);
@@ -368,12 +364,32 @@ public class ProductsServiceImpl implements ProductsService {
         List<Product> productList = productsDAO.getAllProductsByCategory(category);
         List<Product> productListNew = new ArrayList<>();
 
-        for (Product product : productList){
-            if (product.getPrice().intValue() >= min &&product.getPrice().intValue() <= max){
-                productListNew.add(product);
-            }
+        if (max != 0 && min >= 0 && !filters.isEmpty() && !producers.isEmpty()) {
+
+            productListNew = filterService.productsByFiltersDescriptionAndProducer(productList, filters, producers)
+                    .stream()
+                    .filter(v -> v.getPrice().intValue() >= min && v.getPrice().intValue() <= max)
+                    .collect(Collectors.toList());
+
+        }else if (max != 0 && min >= 0 && !filters.isEmpty()) {
+
+            productListNew = filterService.productsByFiltersDescriptionAndProducer(productList, filters)
+                    .stream()
+                    .filter(v -> v.getPrice().intValue() >= min && v.getPrice().intValue() <= max)
+                    .collect(Collectors.toList());
+
+        } else if (max != 0 && min >= 0 && !producers.isEmpty()) {
+
+            productListNew = filterService.productsByFiltersDescriptionAndProducer(productList, producers)
+                    .stream()
+                    .filter(v -> v.getPrice().intValue() >= min && v.getPrice().intValue() <= max)
+                    .collect(Collectors.toList());
+
+        } else if(max != 0 && min >= 0) {
+
+            productListNew.addAll(filterService.productsByPrice(productList, max, min));
         }
 
-        return productMapper.productsToProductsDTO(productListNew);
+       return productMapper.productsToProductsDTO(productListNew);
     }
 }

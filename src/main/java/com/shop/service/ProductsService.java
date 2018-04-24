@@ -38,7 +38,7 @@ public interface ProductsService extends Service<ProductDTO> {
 
     Multimap<String, Map<String, Integer>> getSideBarFilterProducts(String category, List<String> producers, Integer max, Integer min);
 
-    Map<String, Long> getAllProducerWithCountProductsByFilter(Multimap<String, String> filter, String category);
+    Map<String, Long> getAllProducerWithCountProductsByFilter(Multimap<String, String> filter, String category, Integer max, Integer min);
 
     List<ProductDTO> getAllProductsByFilters(Multimap<String, String> filters,
                                              List<String> producers,
