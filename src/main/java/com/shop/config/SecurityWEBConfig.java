@@ -2,6 +2,7 @@ package com.shop.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,12 +26,24 @@ public class SecurityWEBConfig extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication().withUser("admin").password("qwerty").roles("ADMIN");
     }
 
+
+    @Bean(name = "authenticationManager")
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/admin").access("hasRole('ADMIN')")
-                .and().csrf().disable().formLogin()
-                .and().exceptionHandling().accessDeniedPage("/Access_Denied");
+                .antMatchers("/admin").hasAuthority("ADMIN")
+                .antMatchers("/admin/add/product").hasAuthority("ADMIN")
+                .and()
+                .csrf().disable()
+                .formLogin().loginPage("/login").usernameParameter("username").passwordParameter("password");
     }
 }

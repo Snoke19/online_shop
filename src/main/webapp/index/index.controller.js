@@ -6,10 +6,17 @@ angular
 
         $scope.orderProp = 'name';
 
+
         $scope.logout = function () {
             $http.get('/logout');
             window.location.reload();
         };
+
+
+        $http.get('/current/user').then(function(response) {
+            $rootScope.user = response.data;
+        });
+
 
         $rootScope.isAuthority = function (role) {
             if ($rootScope.user === undefined) {

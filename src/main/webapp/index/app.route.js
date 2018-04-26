@@ -38,7 +38,14 @@
                 template: '<details-product></details-product>'
 
             }).when('/admin', {
-                template: '<admin-board></admin-board>'
+                template: '<admin-board></admin-board>',
+                resolve: {
+                    app: function ($q, $timeout) {
+                        var defer = $q.defer();
+                        return defer.resolve;
+                    }
+            }
+
             }).when('/admin/add/product', {
                 template: '<admin-board-add-product></admin-board-add-product>'
             }).when('/admin/all/products', {

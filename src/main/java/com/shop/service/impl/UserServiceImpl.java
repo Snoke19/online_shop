@@ -46,11 +46,13 @@ public class UserServiceImpl implements UserService {
         return UserMapper.mapper.usersToUsersDTO(userDAO.getAll());
     }
 
+
     @Override
     @Transactional
     public UserDTO get(Long id) {
         return UserMapper.mapper.userToUserDTO(userDAO.get(id));
     }
+
 
     @Override
     @Transactional
@@ -58,11 +60,13 @@ public class UserServiceImpl implements UserService {
         userDAO.add(UserMapper.mapper.userDTOToUser(entityDTO));
     }
 
+
     @Override
     @Transactional
     public void delete(Long id) {
         userDAO.delete(id);
     }
+
 
     @Override
     @Transactional
@@ -70,11 +74,13 @@ public class UserServiceImpl implements UserService {
         userDAO.update(UserMapper.mapper.userDTOToUser(entityDTO));
     }
 
+
     @Override
     @Transactional
     public List<UserDTO> getAllUsers() {
         return UserMapper.mapper.usersToUsersDTO(userDAO.getAllUsers());
     }
+
 
     @Override
     @Transactional
@@ -84,11 +90,13 @@ public class UserServiceImpl implements UserService {
         return adminDTOList;
     }
 
+
     @Override
     @Transactional
     public void updateEnabled(boolean data, Long id) {
         userDAO.updateEnabled(data, id);
     }
+
 
     @Override
     @Transactional
@@ -106,6 +114,7 @@ public class UserServiceImpl implements UserService {
 
         userRoleDAO.add(userRole);
     }
+
 
     @Override
     @Transactional

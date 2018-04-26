@@ -65,6 +65,7 @@
     <script type="text/javascript" src="/admin/users/all-users.service.js"></script>
     <script type="text/javascript" src="/admin/products/main-products.service.js"></script>
     <script type="text/javascript" src="/admin/main-page/main-page.service.js"></script>
+    <script type="text/javascript" src="/auth/auth.service.js"></script>
     <!--service-->
 
     <script type="text/javascript" src="/index/index.controller.js"></script>
@@ -105,7 +106,7 @@
 
                         </li>
 
-                        <li class="nav-item ml-auto" ng-if="isAuthority('User')">
+                        <li class="nav-item ml-auto" ng-if="isAuthority('ROLE_USER')">
                             <a class="nav-link dark-grey-text font-bold" ng-href="#!/cart">
                                 <span class="badge danger-color">{{cartSize}}</span>
                                 <i class="fa fa-shopping-cart blue-text"></i>
@@ -120,7 +121,7 @@
                         <!--/Administration-->
 
                         <!--Profile button-->
-                        <li class="nav-item dropdown" ng-if="isAuthority('User')">
+                        <li class="nav-item dropdown" ng-if="isAuthority('ROLE_USER')">
                             <a class="nav-link dropdown-toggle dark-grey-text font-bold" id="Profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-user blue-text" aria-hidden="true"></i>{{user.username}}
                             </a>

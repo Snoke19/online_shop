@@ -20,8 +20,7 @@ component('login', {
                         password: $scope.password
                     }
                 }).then(function() {
-                    window.location.reload();
-                    window.location.replace('#!/products');
+                    window.location.replace('#!/main');
                 },function errorCallback(response) {
                     if (response.status === 404) {
                         $scope.errorMessage = 'No such user found.';
