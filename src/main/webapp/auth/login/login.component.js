@@ -9,7 +9,7 @@ module('login').
 component('login', {
     templateUrl: '/auth/login/login.template.html',
     controller: ['$scope', '$http',
-        function ($scope, $http) {
+        function ($scope, $http, $rootScope) {
 
             $scope.logIn = function () {
                 $http({
@@ -20,6 +20,7 @@ component('login', {
                         password: $scope.password
                     }
                 }).then(function() {
+                    window.location.reload();
                     window.location.replace('#!/main');
                 },function errorCallback(response) {
                     if (response.status === 404) {
