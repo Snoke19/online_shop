@@ -122,4 +122,18 @@ public class UserServiceImpl implements UserService {
         User user = userDAO.findByEmail(email);
         return user != null;
     }
+
+
+    @Override
+    @Transactional
+    public User findByEmail(String email) {
+        return userDAO.findByEmail(email);
+    }
+
+
+    @Override
+    @Transactional
+    public UserRole findRolesForUser(User user) {
+        return userDAO.findRolesForUser(user);
+    }
 }

@@ -19,7 +19,9 @@
         'users-orders',
 
         'login',
-        'sign-up'
+        'sign-up',
+
+        'permission-service'
     ]);
 
     angular.module('shop').config(['$locationProvider' ,'$routeProvider', '$qProvider',
@@ -37,27 +39,106 @@
             }).when('/product/details/:idProduct', {
                 template: '<details-product></details-product>'
 
+
             }).when('/admin', {
                 template: '<admin-board></admin-board>',
                 resolve: {
-                    app: function ($q, $timeout) {
+                    app: function ($q, PermissionService) {
                         var defer = $q.defer();
-                        return defer.resolve;
-                    }
-            }
 
+                        if (PermissionService.permissionROLE_ADMIN('ROLE_ADMIN')) {
+                            return defer.resolve;
+                        } else {
+                            window.location.replace('#!/main');
+                            return defer.promise;
+                        }
+                    }
+                }
             }).when('/admin/add/product', {
-                template: '<admin-board-add-product></admin-board-add-product>'
+                template: '<admin-board-add-product></admin-board-add-product>',
+                resolve: {
+                    app: function ($q, PermissionService) {
+                        var defer = $q.defer();
+
+                        if (PermissionService.permissionROLE_ADMIN('ROLE_ADMIN')) {
+                            return defer.resolve;
+                        } else {
+                            window.location.replace('#!/main');
+                            return defer.promise;
+                        }
+                    }
+                }
             }).when('/admin/all/products', {
-                template: '<admin-board-all-products></admin-board-all-products>'
+                template: '<admin-board-all-products></admin-board-all-products>',
+                resolve: {
+                    app: function ($q, PermissionService) {
+                        var defer = $q.defer();
+
+                        if (PermissionService.permissionROLE_ADMIN('ROLE_ADMIN')) {
+                            return defer.resolve;
+                        } else {
+                            window.location.replace('#!/main');
+                            return defer.promise;
+                        }
+                    }
+                }
             }).when('/admin/edit/product/:idProduct', {
-                template: '<admin-board-edit-product></admin-board-edit-product>'
+                template: '<admin-board-edit-product></admin-board-edit-product>',
+                resolve: {
+                    app: function ($q, PermissionService) {
+                        var defer = $q.defer();
+
+                        if (PermissionService.permissionROLE_ADMIN('ROLE_ADMIN')) {
+                            return defer.resolve;
+                        } else {
+                            window.location.replace('#!/main');
+                            return defer.promise;
+                        }
+                    }
+                }
             }).when('/admin/users', {
-                template: '<admin-board-all-users></admin-board-all-users>'
+                template: '<admin-board-all-users></admin-board-all-users>',
+                resolve: {
+                    app: function ($q, PermissionService) {
+                        var defer = $q.defer();
+
+                        if (PermissionService.permissionROLE_ADMIN('ROLE_ADMIN')) {
+                            return defer.resolve;
+                        } else {
+                            window.location.replace('#!/main');
+                            return defer.promise;
+                        }
+                    }
+                }
             }).when('/admin/discount', {
-                template: '<admin-board-discount-product></admin-board-discount-product>'
+                template: '<admin-board-discount-product></admin-board-discount-product>',
+                resolve: {
+                    app: function ($q, PermissionService) {
+                        var defer = $q.defer();
+
+                        if (PermissionService.permissionROLE_ADMIN('ROLE_ADMIN')) {
+                            return defer.resolve;
+                        } else {
+                            window.location.replace('#!/main');
+                            return defer.promise;
+                        }
+                    }
+                }
             }).when('/users/orders', {
-                template: '<users-orders></users-orders>'
+                template: '<users-orders></users-orders>',
+                resolve: {
+                    app: function ($q, PermissionService) {
+                        var defer = $q.defer();
+
+                        if (PermissionService.permissionROLE_ADMIN('ROLE_ADMIN')) {
+                            return defer.resolve;
+                        } else {
+                            window.location.replace('#!/main');
+                            return defer.promise;
+                        }
+                    }
+                }
+
 
             }).when('/login', {
                 template: '<login></login>'

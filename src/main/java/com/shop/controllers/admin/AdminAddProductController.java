@@ -6,6 +6,7 @@ import com.shop.dto.category.CategoryDTO;
 import com.shop.dto.product.ProductDTO;
 import com.shop.service.ProductsService;
 import com.shop.service.impl.ImageService;
+import com.sun.corba.se.impl.orbutil.fsm.GuardedAction;
 import com.sun.org.apache.regexp.internal.RE;
 import io.swagger.annotations.ResponseHeader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +31,7 @@ import java.util.NoSuchElementException;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
+@Secured("ROLE_ADMIN")
 public class AdminAddProductController {
 
     private ProductsService productsService;
@@ -47,10 +50,6 @@ public class AdminAddProductController {
 
     @PostMapping("/admin/product")
     public ResponseEntity<String> addProduct(@RequestBody ProductDTO productDTO) {
-
-        System.out.println(productDTO);
-
-        System.out.println(productDTO.getDescription());
 
         CategoryDTO categoryDTO = new CategoryDTO();
         categoryDTO.setIdCategory(productDTO.getCategory().getIdCategory());

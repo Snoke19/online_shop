@@ -8,6 +8,7 @@ import com.shop.utils.products.DescriptionCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@Secured("ROLE_ADMIN")
 public class AdminEditProductController {
 
     private ProductsService productsService;

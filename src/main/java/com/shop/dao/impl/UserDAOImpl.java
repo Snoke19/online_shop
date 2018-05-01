@@ -12,6 +12,7 @@ import java.util.List;
 @Repository("userDAO")
 public class UserDAOImpl extends HibernateSessionDAO implements UserDAO {
 
+
     @Override
     @SuppressWarnings("unchecked")
     public List<User> getAll() {
@@ -20,15 +21,18 @@ public class UserDAOImpl extends HibernateSessionDAO implements UserDAO {
                 .list();
     }
 
+
     @Override
     public User get(Long id) {
         return getSession().get(User.class, id);
     }
 
+
     @Override
     public void add(User entity) {
         getSession().save(entity);
     }
+
 
     @Override
     public void delete(Long id) {
@@ -38,10 +42,12 @@ public class UserDAOImpl extends HibernateSessionDAO implements UserDAO {
                 .executeUpdate();
     }
 
+
     @Override
     public void update(User entity) {
         getSession().update(entity);
     }
+
 
     @Override
     @SuppressWarnings("unchecked")
@@ -56,6 +62,7 @@ public class UserDAOImpl extends HibernateSessionDAO implements UserDAO {
         return userList;
     }
 
+
     @Override
     @SuppressWarnings("unchecked")
     public List<User> getAllAdmins() {
@@ -69,6 +76,7 @@ public class UserDAOImpl extends HibernateSessionDAO implements UserDAO {
         return adminList;
     }
 
+
     @Override
     public void updateEnabled(boolean data, Long id) {
         getSession()
@@ -78,6 +86,7 @@ public class UserDAOImpl extends HibernateSessionDAO implements UserDAO {
                 .executeUpdate();
     }
 
+
     @Override
     @SuppressWarnings("unchecked")
     public User findByEmail(String email) {
@@ -85,6 +94,18 @@ public class UserDAOImpl extends HibernateSessionDAO implements UserDAO {
                 .createQuery("from User u where u.email = :email")
                 .setParameter("email", email)
                 .list();
+        return (list.isEmpty() ? null : list.get(0));
+    }
+
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public UserRole findRolesForUser(User user) {
+        List<UserRole> list = getSession()
+                .createQuery("from UserRole ur where ur.user = :user")
+                .setParameter("user", user)
+                .list();
+
         return (list.isEmpty() ? null : list.get(0));
     }
 }

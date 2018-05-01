@@ -1,30 +1,37 @@
 package com.shop.config;
 
 
+import com.shop.utils.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.*;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.sql.DataSource;
-
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityWEBConfig extends WebSecurityConfigurerAdapter {
 
+    private UserDetailsServiceImpl detailsService;
 
-    private DataSource dataSource;
 
     @Autowired
-    @Qualifier("dataBaseShop")
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public void setDetailsService(UserDetailsServiceImpl detailsService) {
+        this.detailsService = detailsService;
+    }
+
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(detailsService);
+        auth.authenticationProvider(authenticationProvider());
     }
 
 
@@ -34,15 +41,12 @@ public class SecurityWEBConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .usersByUsernameQuery("SELECT email , password, enabled FROM user WHERE email = ?")
-                .authoritiesByUsernameQuery("SELECT u.email as username, ur.role" +
-                        "FROM user u, user_role ur" +
-                        "WHERE u.email = ? AND u.id_user = ur.id_user")
-                .passwordEncoder(passwordEncoder());
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(detailsService);
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        return daoAuthenticationProvider;
     }
 
 
@@ -58,10 +62,8 @@ public class SecurityWEBConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/admin").hasAuthority("ADMIN")
-                .antMatchers("/admin/add/product").hasAuthority("ADMIN")
                 .and()
                 .csrf().disable()
-                .formLogin().loginPage("/login").usernameParameter("username").passwordParameter("password");
+                .formLogin().loginPage("/login").usernameParameter("email").passwordParameter("password");
     }
 }

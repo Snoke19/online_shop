@@ -12,6 +12,7 @@ import com.shop.service.ProductsService;
 import com.shop.utils.products.Description;
 import com.shop.utils.products.DescriptionCategory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
