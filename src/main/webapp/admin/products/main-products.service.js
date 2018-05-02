@@ -59,6 +59,15 @@
                 }).then(function (response) {
                     return response.data;
                 });
+            },
+            makeRating: function (rating, username, idProduct) {
+                return $http({
+                    method: "PUT",
+                    url: "/rating",
+                    data: {star: rating, userName: username, idProduct: idProduct}
+                }).then(function (response) {
+                    return response.data;
+                });
             }
         }
     }

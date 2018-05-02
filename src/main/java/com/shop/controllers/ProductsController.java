@@ -117,4 +117,10 @@ public class ProductsController {
     public ResponseEntity<Map<String, Long>> getAllProducers(){
         return ResponseEntity.ok().body(productsService.getAllProducerWithCountProducts());
     }
+
+
+    @PutMapping("/rating")
+    public ResponseEntity<Void> makeRating(@RequestBody Map<String, String> map){
+
+    }
 }
