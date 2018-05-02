@@ -1,5 +1,6 @@
 package com.shop.entity;
 
+import com.shop.utils.RatingJsonConverter;
 import com.shop.utils.products.Description;
 import com.shop.utils.products.DescriptionCategory;
 import com.shop.utils.products.Rating;
@@ -19,6 +20,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Data
 @Entity
@@ -67,9 +69,9 @@ public class Product implements Serializable {
 
     @Column(name = "discount")
     private Integer discount;
-
-    @Type(type = "json")
-    @Column(name = "rating", columnDefinition = "json")
+    
+    @Column(name = "rating")
+    @Convert(converter = RatingJsonConverter.class)
     private List<Rating> rating;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

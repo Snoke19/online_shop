@@ -60,11 +60,11 @@
                     return response.data;
                 });
             },
-            makeRating: function (rating, username, idProduct) {
+            makeRating: function (rating, email, idProduct) {
                 return $http({
                     method: "PUT",
                     url: "/rating",
-                    data: {star: rating, userName: username, idProduct: idProduct}
+                    data: {stars: rating, email: email, idProduct: idProduct}
                 }).then(function (response) {
                     return response.data;
                 });

@@ -5,10 +5,12 @@ import com.shop.dto.product.ProductDTO;
 import com.shop.entity.Product;
 import com.shop.utils.layers.Service;
 import com.shop.utils.products.DescriptionCategory;
+import com.shop.utils.products.Rating;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface ProductsService extends Service<ProductDTO> {
 
@@ -23,6 +25,8 @@ public interface ProductsService extends Service<ProductDTO> {
     void updateQuantity(Integer number, Long id);
     void updateCategory(Long idCategory, Long id);
     void updateCode(String code, Long id);
+
+    Double makeRating(Double stars, String username, Long idProduct);
 
     void deleteOneImageProduct(int indexImage, Long idProduct);
 

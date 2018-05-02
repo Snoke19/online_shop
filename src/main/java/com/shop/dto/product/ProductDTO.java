@@ -3,6 +3,7 @@ package com.shop.dto.product;
 import com.shop.dto.category.CategoryDTO;
 import com.shop.utils.products.Description;
 import com.shop.utils.products.DescriptionCategory;
+import com.shop.utils.products.Rating;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

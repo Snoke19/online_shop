@@ -165,12 +165,12 @@
                                 <div class="card-body">
 
                                     <ng-rate-it class="d-inline text-center"
-                                                ng-model="mainProduct.ratings"
+                                                ng-model="mainProducts.ratings"
                                                 min="0"
                                                 max="5"
                                                 step="1"
                                                 read-only="readOnlyRating"
-                                                rated="ratingProduct(rating, mainProduct.idProduct)"
+                                                rated="ratingProduct(rating, userProducts, mainProduct.idProduct)"
                                                 resetable="false"></ng-rate-it>
                                     <span class="badge badge-success float-right" ng-hide="mainProduct.discount === 0">Sale</span>
 

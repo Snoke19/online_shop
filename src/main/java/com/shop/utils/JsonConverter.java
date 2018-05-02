@@ -2,13 +2,11 @@ package com.shop.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.shop.utils.products.Description;
 import com.shop.utils.products.DescriptionCategory;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import java.util.List;
-import java.util.Map;
 
 @Converter
 public class JsonConverter implements AttributeConverter<List<DescriptionCategory>, String> {

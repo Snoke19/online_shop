@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Multimap;
 import com.shop.dto.product.ProductDTO;
 import com.shop.service.ProductsService;
+import com.shop.utils.products.Rating;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -120,7 +121,11 @@ public class ProductsController {
 
 
     @PutMapping("/rating")
-    public ResponseEntity<Void> makeRating(@RequestBody Map<String, String> map){
+    public ResponseEntity<Double> makeRating(@RequestBody Map<String, Object> map){
+        Integer stars = (Integer) map.get("stars");
+        String user = (String) map.get("email");
+        Integer idProduct = (Integer) map.get("idProduct");
 
+        return ResponseEntity.ok(productsService.makeRating(Double.valueOf(stars), user, Long.valueOf(idProduct)));
     }
 }

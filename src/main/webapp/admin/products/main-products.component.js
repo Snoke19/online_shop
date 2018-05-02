@@ -22,9 +22,12 @@
             controller: ProductsController
         });
 
-    ProductsController.$inject = ['$scope', '$routeParams', '$ngConfirm', 'ngProgressFactory', 'MainPageService', 'MainProductsService'];
+    ProductsController.$inject = ['$scope', '$rootScope', '$routeParams', '$ngConfirm', 'ngProgressFactory', 'MainPageService', 'MainProductsService'];
 
-    function ProductsController ($scope, $routeParams, $ngConfirm, ngProgressFactory, MainPageService, MainProductsService) {
+    function ProductsController ($scope, $rootScope, $routeParams, $ngConfirm, ngProgressFactory, MainPageService, MainProductsService) {
+
+        //rating
+        $scope.userProducts = $rootScope.mainUser.username;
 
         //progress bar
         $scope.progressbar = ngProgressFactory.createInstance();
@@ -126,9 +129,10 @@
         };
 
 
-        $scope.ratingProduct = function (rating, idProduct) {
-            alert(rating + "" + idProduct);
-            $scope.readOnlyRating = true;
+        $scope.ratingProduct = function (rating, email, idProduct) {
+            MainProductsService.makeRating(rating, email, idProduct).then(function (d) {
+                $scope.mainProducts.ratings = d;
+            });
         };
 
 

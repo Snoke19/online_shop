@@ -9,10 +9,11 @@ import com.shop.dto.product.ProductMapImpl;
 import com.shop.entity.Product;
 import com.shop.service.FilterService;
 import com.shop.service.ProductsService;
+import com.shop.utils.products.CountRating;
 import com.shop.utils.products.Description;
 import com.shop.utils.products.DescriptionCategory;
+import com.shop.utils.products.Rating;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -27,6 +28,7 @@ public class ProductsServiceImpl implements ProductsService {
     private ProductsService productsService;
     private ProductMapImpl productMapper;
     private FilterService filterService;
+    private CountRating countRating;
 
     @Autowired
     public void setProductsDAO(ProductsDAO productsDAO) {
@@ -46,6 +48,11 @@ public class ProductsServiceImpl implements ProductsService {
     @Autowired
     public void setFilterService(FilterService filterService) {
         this.filterService = filterService;
+    }
+
+    @Autowired
+    public void setCountRating(CountRating countRating) {
+        this.countRating = countRating;
     }
 
 
@@ -159,6 +166,19 @@ public class ProductsServiceImpl implements ProductsService {
     @Transactional
     public void updateCode(String code, Long id) {
         productsDAO.updateCode(code, id);
+    }
+
+
+    @Override
+    @Transactional
+    public Double makeRating(Double stars, String username, Long idProduct) {
+        Product product = productsDAO.get(idProduct);
+
+        product.getRating().add(new Rating(stars, username));
+
+        productsDAO.add(product);
+
+        return countRating.getAverageRating(product.getRating());
     }
 
 

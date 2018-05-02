@@ -1,24 +1,25 @@
 package com.shop.dto.product;
 
 import com.shop.dto.category.CategoryDTO;
-import com.shop.dto.product.util.CountRatingUtil;
 import com.shop.entity.Category;
 import com.shop.entity.Product;
-import com.shop.utils.products.Description;
+import com.shop.utils.products.CountRating;
 import com.shop.utils.products.DescriptionCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Component
 public class ProductMapImpl {
 
-    @Autowired
-    private CountRatingUtil countRatingUtil;
+    private CountRating countRating;
 
+    @Autowired
+    public void setCountRating(CountRating countRating) {
+        this.countRating = countRating;
+    }
 
     public List<ProductDTO> productsToProductsDTO(List<Product> productList) {
         if ( productList == null ) {
@@ -41,13 +42,13 @@ public class ProductMapImpl {
 
         ProductDTO productDTO = new ProductDTO();
 
-        productDTO.setRatings( countRatingUtil.rating( product.getRating() ) );
+        productDTO.setRatings(countRating.getAverageRating(product.getRating()));
         productDTO.setIdProduct( product.getIdProduct() );
         productDTO.setName( product.getName() );
         productDTO.setProducer( product.getProducer() );
         List<DescriptionCategory> list = product.getDescription();
         if ( list != null ) {
-            productDTO.setDescription(new ArrayList<DescriptionCategory>(list));
+            productDTO.setDescription(new ArrayList<>(list));
         }
         else {
             productDTO.setDescription( null );

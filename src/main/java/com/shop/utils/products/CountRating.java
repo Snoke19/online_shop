@@ -1,14 +1,14 @@
 package com.shop.utils.products;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
-@Data
 @Component
+@ToString
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class CountRating {
@@ -19,24 +19,24 @@ public class CountRating {
     private double sumFourStars = 0;
     private double sumFiveStars = 0;
 
-    public double getAverageRating(List<Rating> ratingList) {
+    public double getAverageRating(Set<Rating> ratingSet) {
 
-        if (ratingList == null){
+        if (ratingSet == null){
             return 0.0;
         } else {
 
-            for (Rating aRatingList : ratingList) {
+            for (Rating aRatingList : ratingSet) {
 
-                if (aRatingList.getStar().equals(1.0)) {
-                    sumOneStar += aRatingList.getStar();
-                } else if (aRatingList.getStar().equals(2.0)) {
-                    sumTwoStars += aRatingList.getStar();
-                } else if (aRatingList.getStar().equals(3.0)) {
-                    sumThreeStars += aRatingList.getStar();
-                } else if (aRatingList.getStar().equals(4.0)) {
-                    sumFourStars += aRatingList.getStar();
-                } else if (aRatingList.getStar().equals(5.0)) {
-                    sumFiveStars += aRatingList.getStar();
+                if (aRatingList.getStars().equals(1.0)) {
+                    sumOneStar += aRatingList.getStars();
+                } else if (aRatingList.getStars().equals(2.0)) {
+                    sumTwoStars += aRatingList.getStars();
+                } else if (aRatingList.getStars().equals(3.0)) {
+                    sumThreeStars += aRatingList.getStars();
+                } else if (aRatingList.getStars().equals(4.0)) {
+                    sumFourStars += aRatingList.getStars();
+                } else if (aRatingList.getStars().equals(5.0)) {
+                    sumFiveStars += aRatingList.getStars();
                 }
             }
 
@@ -50,10 +50,10 @@ public class CountRating {
     }
 
     private void zeroAllVariables(){
-        setSumOneStar(0);
-        setSumTwoStars(0);
-        setSumThreeStars(0);
-        setSumFourStars(0);
-        setSumFiveStars(0);
+        sumOneStar = 0;
+        sumTwoStars = 0;
+        sumThreeStars = 0;
+        sumFourStars = 0;
+        sumFiveStars = 0;
     }
 }

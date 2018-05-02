@@ -11,6 +11,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class Rating implements Serializable {
 
-    private Double star;
+    private Double stars;
     private String userName;
 }
