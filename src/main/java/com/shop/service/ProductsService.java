@@ -26,7 +26,7 @@ public interface ProductsService extends Service<ProductDTO> {
     void updateCategory(Long idCategory, Long id);
     void updateCode(String code, Long id);
 
-    Double makeRating(Double stars, String username, Long idProduct);
+    Map<Boolean, Rating> makeRating(Double stars, String username, Long idProduct);
 
     void deleteOneImageProduct(int indexImage, Long idProduct);
 

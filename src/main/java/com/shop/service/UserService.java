@@ -19,4 +19,6 @@ public interface UserService extends Service<UserDTO> {
 
     User findByEmail(String email);
     UserRole findRolesForUser(User user);
+
+    org.springframework.security.core.userdetails.User getCurrentUser();
 }

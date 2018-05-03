@@ -1,10 +1,15 @@
 package com.shop.utils.products;
 
+import com.shop.service.UserService;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 @Component
 @ToString
@@ -19,34 +24,43 @@ public class CountRating {
     private double sumFourStars = 0;
     private double sumFiveStars = 0;
 
-    public double getAverageRating(Set<Rating> ratingSet) {
+    private UserService userService;
 
-        if (ratingSet == null){
-            return 0.0;
-        } else {
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
-            for (Rating aRatingList : ratingSet) {
+    public Map<Boolean, Rating> getAverageRating(List<Rating> ratingSet) {
 
-                if (aRatingList.getStars().equals(1.0)) {
-                    sumOneStar += aRatingList.getStars();
-                } else if (aRatingList.getStars().equals(2.0)) {
-                    sumTwoStars += aRatingList.getStars();
-                } else if (aRatingList.getStars().equals(3.0)) {
-                    sumThreeStars += aRatingList.getStars();
-                } else if (aRatingList.getStars().equals(4.0)) {
-                    sumFourStars += aRatingList.getStars();
-                } else if (aRatingList.getStars().equals(5.0)) {
-                    sumFiveStars += aRatingList.getStars();
-                }
+        for (Rating aRatingList : ratingSet) {
+            if (aRatingList.getStars().equals(1.0)) {
+                sumOneStar += aRatingList.getStars();
+            } else if (aRatingList.getStars().equals(2.0)) {
+                sumTwoStars += aRatingList.getStars();
+            } else if (aRatingList.getStars().equals(3.0)) {
+                sumThreeStars += aRatingList.getStars();
+            } else if (aRatingList.getStars().equals(4.0)) {
+                sumFourStars += aRatingList.getStars();
+            } else if (aRatingList.getStars().equals(5.0)) {
+                sumFiveStars += aRatingList.getStars();
             }
-
-            double sum = (5 * sumFiveStars + 4 * sumFourStars + 3 * sumThreeStars + 2 * sumTwoStars + 1 * sumOneStar) /
-                    (sumFiveStars + sumFourStars + sumThreeStars + sumTwoStars + sumOneStar);
-
-            zeroAllVariables();
-
-            return sum;
         }
+
+        double sum = (5 * sumFiveStars + 4 * sumFourStars + 3 * sumThreeStars + 2 * sumTwoStars + 1 * sumOneStar) /
+                (sumFiveStars + sumFourStars + sumThreeStars + sumTwoStars + sumOneStar);
+        zeroAllVariables();
+
+        User user = userService.getCurrentUser();
+
+        boolean userVoted = ratingSet.stream().map(Rating::getUserName).anyMatch(r -> r.equalsIgnoreCase(user.getUsername()));
+
+        String userIfVoted = ratingSet.stream().map(Rating::getUserName).filter(u -> u.equalsIgnoreCase(user.getUsername())).findAny().orElse("non");
+
+        Map<Boolean, Rating> booleanRatingMap = new HashMap<>();
+        booleanRatingMap.put(userVoted, new Rating(sum, userIfVoted));
+
+        return booleanRatingMap;
     }
 
     private void zeroAllVariables(){

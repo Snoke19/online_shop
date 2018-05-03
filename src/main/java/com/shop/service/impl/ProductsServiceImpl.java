@@ -14,6 +14,10 @@ import com.shop.utils.products.Description;
 import com.shop.utils.products.DescriptionCategory;
 import com.shop.utils.products.Rating;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -171,7 +175,7 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     @Transactional
-    public Double makeRating(Double stars, String username, Long idProduct) {
+    public Map<Boolean, Rating> makeRating(Double stars, String username, Long idProduct) {
         Product product = productsDAO.get(idProduct);
 
         product.getRating().add(new Rating(stars, username));

@@ -131,7 +131,7 @@
 
         $scope.ratingProduct = function (rating, email, idProduct) {
             MainProductsService.makeRating(rating, email, idProduct).then(function (d) {
-                $scope.mainProducts.ratings = d;
+                console.log(d);
             });
         };
 
