@@ -5,7 +5,8 @@ import com.google.common.collect.Multimap;
 import com.google.gson.Gson;
 import com.shop.dto.product.ProductDTO;
 import com.shop.service.ProductsService;
-import com.shop.utils.products.Rating;
+import com.shop.service.UserService;
+import com.shop.utils.products.CountRating;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +19,23 @@ import java.util.*;
 public class ProductsController {
 
     private ProductsService productsService;
+    private UserService userService;
+    private CountRating countRating;
 
     @Autowired
     public void setProductsService(ProductsService productsService) {
         this.productsService = productsService;
     }
 
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Autowired
+    public void setCountRating(CountRating countRating) {
+        this.countRating = countRating;
+    }
 
     @GetMapping("/products")
     public ResponseEntity<List<ProductDTO>> allProducts(){
@@ -122,12 +134,17 @@ public class ProductsController {
 
 
     @PutMapping("/rating")
-    public ResponseEntity<Map<Boolean, Rating>> makeRating(@RequestBody Map<String, Object> map){
+    public ResponseEntity<String> makeRating(@RequestBody Map<String, Object> map){
         Integer stars = (Integer) map.get("stars");
         String user = (String) map.get("email");
         Integer idProduct = (Integer) map.get("idProduct");
 
+        if (userService.getCurrentUser().getUsername().equalsIgnoreCase(countRating.getCurrentUserInVotedRating(idProduct))){
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(new Gson().toJson("You have already voted! Your vote is not submitted!"));
+        }
 
-        return ResponseEntity.ok(productsService.makeRating(Double.valueOf(stars), user, Long.valueOf(idProduct)));
+        return ResponseEntity.ok(String.valueOf(productsService.makeRating(Double.valueOf(stars), user, Long.valueOf(idProduct))));
     }
 }

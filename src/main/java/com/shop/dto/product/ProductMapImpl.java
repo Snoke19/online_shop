@@ -5,6 +5,7 @@ import com.shop.entity.Category;
 import com.shop.entity.Product;
 import com.shop.utils.products.CountRating;
 import com.shop.utils.products.DescriptionCategory;
+import com.shop.utils.products.Rating;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -83,7 +84,7 @@ public class ProductMapImpl {
         product.setProducer( productDTO.getProducer() );
         List<DescriptionCategory> list = productDTO.getDescription();
         if ( list != null ) {
-            product.setDescription( new ArrayList<DescriptionCategory>( list ) );
+            product.setDescription( new ArrayList<>( list ) );
         }
         else {
             product.setDescription( null );
@@ -101,6 +102,10 @@ public class ProductMapImpl {
         product.setQuantity( productDTO.getQuantity() );
         product.setDiscount( productDTO.getDiscount() );
         product.setCategory( categoryDTOToCategory( productDTO.getCategory() ) );
+        Rating rating = new Rating((double) 0, "anonimysUser");
+        List<Rating> list2 = new ArrayList<>();
+        list2.add(rating);
+        product.setRating(list2);
 
         return product;
     }

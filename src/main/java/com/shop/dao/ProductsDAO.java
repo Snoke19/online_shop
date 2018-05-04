@@ -23,19 +23,9 @@ public interface ProductsDAO extends DAO<Product> {
 
     void setDiscount(Long idProduct, Integer discount);
 
-    List<String> getAllProducer();
-
     List<Product> getProductsByRange(Integer start, String category);
 
     List<Product> getAllProductsByCategory(String something);
 
-    List<Object[]> getAllProductsWithCountProducts();
-
     List<Object[]> getAllProducerWithCountProducts();
-
-    List<String> getAllProducerByCategory(String nameCategory);
-
-    List<Object[]> getAllProducerWithCountProductsByCategory(String nameCategory);
-
-    List<Object[]> getAllProductsWithCountProductsByProducer(String nameProducer);
 }

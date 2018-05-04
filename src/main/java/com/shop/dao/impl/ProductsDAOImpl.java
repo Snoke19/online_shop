@@ -154,31 +154,12 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<String> getAllProducer() {
-        return getSession()
-                .createQuery("select p.producer from Product p group by p.producer")
-                .list();
-    }
-
-
-    @Override
-    @SuppressWarnings("unchecked")
     public List<Product> getProductsByRange(Integer start, String category) {
         return getSession()
                 .createQuery("from Product p where (p.category.name = :category) and p.isActive = true")
                 .setParameter("category", category)
                 .setFirstResult(start)
                 .setMaxResults(12)
-                .list();
-    }
-
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<String> getAllProducerByCategory(String nameCategory) {
-        return getSession()
-                .createQuery("select p.producer from Product p inner join p.category c where c.name = :nameCategory group by p.producer")
-                .setParameter("nameCategory", nameCategory)
                 .list();
     }
 
@@ -196,38 +177,9 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Object[]> getAllProductsWithCountProducts() {
-        return getSession()
-                .createQuery("select p.name, COUNT(p.idProduct) from Product p left join p.category c where p.isActive = true group by p.name")
-                .list();
-    }
-
-
-    @Override
-    @SuppressWarnings("unchecked")
     public List<Object[]> getAllProducerWithCountProducts() {
         return getSession()
                 .createQuery("select p.producer, COUNT(p.idProduct) from Product p where p.isActive = true group by p.producer")
-                .list();
-    }
-
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<Object[]> getAllProducerWithCountProductsByCategory(String nameCategory) {
-        return getSession()
-                .createQuery("select p.producer, COUNT(p.idProduct) from Product p left join p.category c where p.isActive = true and c.name = :nameCategory group by p.name")
-                .setParameter("nameCategory", nameCategory)
-                .list();
-    }
-
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<Object[]> getAllProductsWithCountProductsByProducer(String nameProducer) {
-        return getSession()
-                .createQuery("select p.name, COUNT(p.idProduct) from Product p where p.isActive = true and p.producer = :nameProducer group by p.name")
-                .setParameter("nameProducer", nameProducer)
                 .list();
     }
 }

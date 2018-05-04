@@ -26,7 +26,7 @@ public interface ProductsService extends Service<ProductDTO> {
     void updateCategory(Long idCategory, Long id);
     void updateCode(String code, Long id);
 
-    Map<Boolean, Rating> makeRating(Double stars, String username, Long idProduct);
+    Double makeRating(Double stars, String username, Long idProduct);
 
     void deleteOneImageProduct(int indexImage, Long idProduct);
 
@@ -34,15 +34,25 @@ public interface ProductsService extends Service<ProductDTO> {
 
     void setDiscount(List<Long> idList, Integer discount);
 
-    List<ProductDTO> getProductsByRange(Integer start, String category);
+    List<ProductDTO> getProductsByRange(Integer start,
+                                        String category,
+                                        Multimap<String, String> filters,
+                                        List<String> producers,
+                                        Integer max, Integer min);
 
     List<ProductDTO> getAllProductsByCategory(String something);
 
     Map<String, Long> getAllProducerWithCountProducts();
 
-    Multimap<String, Map<String, Integer>> getSideBarFilterProducts(String category, List<String> producers, Integer max, Integer min);
+    Multimap<String, Map<String, Integer>> getSideBarFilterProducts(String category,
+                                                                    List<String> producers,
+                                                                    Integer max,
+                                                                    Integer min);
 
-    Map<String, Long> getAllProducerWithCountProductsByFilter(Multimap<String, String> filter, String category, Integer max, Integer min);
+    Map<String, Long> getAllProducerWithCountProductsByFilter(Multimap<String, String> filter,
+                                                              String category,
+                                                              Integer max,
+                                                              Integer min);
 
     List<ProductDTO> getAllProductsByFilters(Multimap<String, String> filters,
                                              List<String> producers,

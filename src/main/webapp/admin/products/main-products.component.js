@@ -12,7 +12,8 @@
         'cp.ngConfirm',
         'ngImageDimensions',
         'checklist-model',
-        'ui.swiper'
+        'ui.swiper',
+        'cgNotify'
     ]);
 
     angular
@@ -22,12 +23,25 @@
             controller: ProductsController
         });
 
-    ProductsController.$inject = ['$scope', '$rootScope', '$routeParams', '$ngConfirm', 'ngProgressFactory', 'MainPageService', 'MainProductsService'];
+    ProductsController.$inject = ['$scope', '$rootScope', '$routeParams', 'notify', '$ngConfirm', 'ngProgressFactory', 'MainPageService', 'MainProductsService', '$http'];
 
-    function ProductsController ($scope, $rootScope, $routeParams, $ngConfirm, ngProgressFactory, MainPageService, MainProductsService) {
+    function ProductsController ($scope, $rootScope, $routeParams, notify, $ngConfirm, ngProgressFactory, MainPageService, MainProductsService, $http) {
 
         //rating
-        $scope.userProducts = $rootScope.mainUser.username;
+        $http.get('/current/user').then(function(response) {
+            $rootScope.mainUser = response.data;
+
+            $scope.userProducts = $rootScope.mainUser.username;
+        });
+
+
+        var rate = _.findWhere($rootScope.mainUser.authorities, {authority: 'ROLE_ANONYMOUS'});
+
+        if (rate){
+            $scope.readonlyEnables = true;
+        } else {
+            $scope.readonlyEnables = false;
+        }
 
         //progress bar
         $scope.progressbar = ngProgressFactory.createInstance();
@@ -130,8 +144,14 @@
 
 
         $scope.ratingProduct = function (rating, email, idProduct) {
+            $scope.progressbar.start();
+
             MainProductsService.makeRating(rating, email, idProduct).then(function (d) {
-                console.log(d);
+                notify({message: d  + " stars", position: 'right', classes: 'alert-success'});
+                $scope.progressbar.complete();
+            }).catch(function(response){
+                notify({message: response.data, position: 'right', classes: 'alert-danger'});
+                $scope.progressbar.reset();
             });
         };
 

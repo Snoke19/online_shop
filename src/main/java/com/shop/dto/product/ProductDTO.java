@@ -26,6 +26,6 @@ public class ProductDTO {
     private String code;
     private Integer quantity;
     private Integer discount;
-    private Map<Boolean, Rating> ratings;
+    private Double ratings;
     private CategoryDTO category;
 }

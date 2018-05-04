@@ -12,16 +12,9 @@
 
             permissionROLE_ADMIN: function (role) {
 
-                if ($rootScope.mainUser === undefined) {
-                    return false;
-                }
-                var authorities = $rootScope.mainUser.authorities;
-                for (var authority in authorities) {
-                    if (authorities[authority].authority === role) {
-                        return true;
-                    }
-                }
-                return false;
+                var even = _.findWhere($rootScope.mainUser.authorities, {authority: role});
+
+                return !!even;
             }
         };
     }

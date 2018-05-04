@@ -31,6 +31,13 @@
                 }
                 return false;
             };
+
+            $rootScope.getCurrentUser = function () {
+                $http.get('/current/user').then(function(response) {
+                    $rootScope.currentUser = response.data;
+                });
+            }
+
         });
 
 })();

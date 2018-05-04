@@ -43,10 +43,12 @@
             }).when('/admin', {
                 template: '<admin-board></admin-board>',
                 resolve: {
-                    app: function ($q, PermissionService) {
+                    app: function ($q, $rootScope) {
                         var defer = $q.defer();
 
-                        if (PermissionService.permissionROLE_ADMIN('ROLE_ADMIN')) {
+                        var even = _.findWhere($rootScope.mainUser.authorities, {authority: 'ROLE_ADMIN'});
+
+                        if (even) {
                             return defer.resolve;
                         } else {
                             window.location.replace('#!/main');
@@ -57,10 +59,12 @@
             }).when('/admin/add/product', {
                 template: '<admin-board-add-product></admin-board-add-product>',
                 resolve: {
-                    app: function ($q, PermissionService) {
+                    app: function ($q, $rootScope) {
                         var defer = $q.defer();
 
-                        if (PermissionService.permissionROLE_ADMIN('ROLE_ADMIN')) {
+                        var even = _.findWhere($rootScope.mainUser.authorities, {authority: 'ROLE_ADMIN'});
+
+                        if (even) {
                             return defer.resolve;
                         } else {
                             window.location.replace('#!/main');
@@ -71,10 +75,12 @@
             }).when('/admin/all/products', {
                 template: '<admin-board-all-products></admin-board-all-products>',
                 resolve: {
-                    app: function ($q, PermissionService) {
+                    app: function ($q, $rootScope) {
                         var defer = $q.defer();
 
-                        if (PermissionService.permissionROLE_ADMIN('ROLE_ADMIN')) {
+                        var even = _.findWhere($rootScope.mainUser.authorities, {authority: 'ROLE_ADMIN'});
+
+                        if (even) {
                             return defer.resolve;
                         } else {
                             window.location.replace('#!/main');
@@ -85,10 +91,12 @@
             }).when('/admin/edit/product/:idProduct', {
                 template: '<admin-board-edit-product></admin-board-edit-product>',
                 resolve: {
-                    app: function ($q, PermissionService) {
+                    app: function ($q, $rootScope) {
                         var defer = $q.defer();
 
-                        if (PermissionService.permissionROLE_ADMIN('ROLE_ADMIN')) {
+                        var even = _.findWhere($rootScope.mainUser.authorities, {authority: 'ROLE_ADMIN'});
+
+                        if (even) {
                             return defer.resolve;
                         } else {
                             window.location.replace('#!/main');
@@ -99,10 +107,12 @@
             }).when('/admin/users', {
                 template: '<admin-board-all-users></admin-board-all-users>',
                 resolve: {
-                    app: function ($q, PermissionService) {
+                    app: function ($q, $rootScope) {
                         var defer = $q.defer();
 
-                        if (PermissionService.permissionROLE_ADMIN('ROLE_ADMIN')) {
+                        var even = _.findWhere($rootScope.mainUser.authorities, {authority: 'ROLE_ADMIN'});
+
+                        if (even) {
                             return defer.resolve;
                         } else {
                             window.location.replace('#!/main');
@@ -113,10 +123,12 @@
             }).when('/admin/discount', {
                 template: '<admin-board-discount-product></admin-board-discount-product>',
                 resolve: {
-                    app: function ($q, PermissionService) {
+                    app: function ($q, $rootScope) {
                         var defer = $q.defer();
 
-                        if (PermissionService.permissionROLE_ADMIN('ROLE_ADMIN')) {
+                        var even = _.findWhere($rootScope.mainUser.authorities, {authority: 'ROLE_ADMIN'});
+
+                        if (even) {
                             return defer.resolve;
                         } else {
                             window.location.replace('#!/main');
@@ -127,10 +139,12 @@
             }).when('/users/orders', {
                 template: '<users-orders></users-orders>',
                 resolve: {
-                    app: function ($q, PermissionService) {
+                    app: function ($q, $rootScope) {
                         var defer = $q.defer();
 
-                        if (PermissionService.permissionROLE_ADMIN('ROLE_ADMIN')) {
+                        var even = _.findWhere($rootScope.mainUser.authorities, {authority: 'ROLE_ADMIN'});
+
+                        if (even) {
                             return defer.resolve;
                         } else {
                             window.location.replace('#!/main');

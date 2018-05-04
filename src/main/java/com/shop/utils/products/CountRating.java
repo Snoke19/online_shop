@@ -1,5 +1,7 @@
 package com.shop.utils.products;
 
+import com.shop.dao.ProductsDAO;
+import com.shop.entity.Product;
 import com.shop.service.UserService;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,12 +9,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Component
 @ToString
+@Component
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,15 +28,21 @@ public class CountRating {
     private double sumFiveStars = 0;
 
     private UserService userService;
+    private ProductsDAO productsDAO;
 
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
-    public Map<Boolean, Rating> getAverageRating(List<Rating> ratingSet) {
+    @Autowired
+    public void setProductsDAO(ProductsDAO productsDAO) {
+        this.productsDAO = productsDAO;
+    }
 
-        for (Rating aRatingList : ratingSet) {
+    public Double getAverageRating(List<Rating> ratingList) {
+
+        for (Rating aRatingList : ratingList) {
             if (aRatingList.getStars().equals(1.0)) {
                 sumOneStar += aRatingList.getStars();
             } else if (aRatingList.getStars().equals(2.0)) {
@@ -51,16 +60,7 @@ public class CountRating {
                 (sumFiveStars + sumFourStars + sumThreeStars + sumTwoStars + sumOneStar);
         zeroAllVariables();
 
-        User user = userService.getCurrentUser();
-
-        boolean userVoted = ratingSet.stream().map(Rating::getUserName).anyMatch(r -> r.equalsIgnoreCase(user.getUsername()));
-
-        String userIfVoted = ratingSet.stream().map(Rating::getUserName).filter(u -> u.equalsIgnoreCase(user.getUsername())).findAny().orElse("non");
-
-        Map<Boolean, Rating> booleanRatingMap = new HashMap<>();
-        booleanRatingMap.put(userVoted, new Rating(sum, userIfVoted));
-
-        return booleanRatingMap;
+        return sum;
     }
 
     private void zeroAllVariables(){
@@ -69,5 +69,15 @@ public class CountRating {
         sumThreeStars = 0;
         sumFourStars = 0;
         sumFiveStars = 0;
+    }
+
+    @Transactional
+    public String getCurrentUserInVotedRating(Integer idProduct){
+
+        List<Rating> rating = productsDAO.get(Long.valueOf(idProduct)).getRating();
+        User user = userService.getCurrentUser();
+
+        return rating.stream().map(Rating::getUserName).filter(u -> u.equalsIgnoreCase(user.getUsername())).findAny().orElse("non");
+
     }
 }

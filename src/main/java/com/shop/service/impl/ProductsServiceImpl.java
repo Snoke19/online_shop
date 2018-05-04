@@ -175,7 +175,7 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     @Transactional
-    public Map<Boolean, Rating> makeRating(Double stars, String username, Long idProduct) {
+    public Double makeRating(Double stars, String username, Long idProduct) {
         Product product = productsDAO.get(idProduct);
 
         product.getRating().add(new Rating(stars, username));
@@ -211,8 +211,70 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     @Transactional
-    public List<ProductDTO> getProductsByRange(Integer start, String category) {
-        return productMapper.productsToProductsDTO(productsDAO.getProductsByRange(start, category));
+    public List<ProductDTO> getProductsByRange(Integer start,
+                                               String category,
+                                               Multimap<String, String> filters,
+                                               List<String> producers,
+                                               Integer max, Integer min) {
+
+        List<Product> productList = productsDAO.getAllProductsByCategory(category);
+        List<Product> productListNew = new ArrayList<>();
+
+        if (max != 0 && min >= 0 && !filters.isEmpty() && !producers.isEmpty()) {
+
+            productListNew = filterService.productsByFiltersDescriptionAndProducer(productList, filters, producers)
+                    .stream()
+                    .filter(v -> v.getPrice().intValue() >= min && v.getPrice().intValue() <= max)
+                    .collect(Collectors.toList());
+
+        }else if (max != 0 && min >= 0 && !filters.isEmpty()) {
+
+            productListNew = filterService.productsByFiltersDescriptionAndProducer(productList, filters)
+                    .stream()
+                    .filter(v -> v.getPrice().intValue() >= min && v.getPrice().intValue() <= max)
+                    .collect(Collectors.toList());
+
+        } else if (max != 0 && min >= 0 && !producers.isEmpty()) {
+
+            productListNew = filterService.productsByFiltersDescriptionAndProducer(productList, producers)
+                    .stream()
+                    .filter(v -> v.getPrice().intValue() >= min && v.getPrice().intValue() <= max)
+                    .collect(Collectors.toList());
+
+        } else if (max != 0 && min >= 0) {
+
+            productListNew = filterService.productsByPrice(productList, max, min);
+
+        } else if (max != 0){
+
+            productListNew = productsDAO.getAllProductsByCategory(category)
+                    .stream()
+                    .filter(product -> product.getPrice().intValue() < max)
+                    .collect(Collectors.toList());
+
+        } else if (min >= 0){
+
+            productListNew = productsDAO.getAllProductsByCategory(category)
+                    .stream()
+                    .filter(product -> product.getPrice().intValue() >= min)
+                    .collect(Collectors.toList());
+
+        } else {
+
+            productMapper.productsToProductsDTO(productsDAO.getProductsByRange(start, category));
+        }
+
+        List<Product> list = new ArrayList<>();
+
+        int c = 0;
+        for (int i = start; i < productListNew.size(); i++) {
+            if (c != 12){
+                list.add(productListNew.get(i));
+                c++;
+            }
+        }
+
+        return productMapper.productsToProductsDTO(list);
     }
 
 
@@ -326,7 +388,7 @@ public class ProductsServiceImpl implements ProductsService {
 
         List<Product> productList = productsDAO.getAllProductsByCategory(category);
 
-        List<Product> productListNew = new ArrayList<>();
+        List<Product> productListNew;
 
         if (!filters.isEmpty() && !producers.isEmpty()) {
 
@@ -378,9 +440,6 @@ public class ProductsServiceImpl implements ProductsService {
                                                   List<String> producers,
                                                   String category, Integer max, Integer min) {
 
-
-        System.out.println("max: "  +max);
-        System.out.println("min: " + min);
 
         List<Product> productList = productsDAO.getAllProductsByCategory(category);
         List<Product> productListNew = new ArrayList<>();
