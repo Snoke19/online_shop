@@ -13,6 +13,7 @@ import com.shop.utils.products.CountRating;
 import com.shop.utils.products.Description;
 import com.shop.utils.products.DescriptionCategory;
 import com.shop.utils.products.Rating;
+import one.util.streamex.StreamEx;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -217,12 +218,21 @@ public class ProductsServiceImpl implements ProductsService {
                                                List<String> producers,
                                                Integer max, Integer min) {
 
-        List<Product> productList = productsDAO.getProductsByRange(start, category);
-        List<Product> productListNew = filterService.productsByProducer(productList, producers).stream().limit(12).collect(Collectors.toList());
+        List<Product> productList = productsDAO.getAllProductsByCategory(category);
+        List<Product> productListNew;
 
+        if (!producers.isEmpty()){
 
+            productListNew = filterService.productsByProducer(productList, producers);
+            productListNew = productListNew.subList(start, productListNew.size());
+
+        } else {
+
+            return productMapper.productsToProductsDTO(productsDAO.getProductsByRange(start, category));
+        }
 
         return productMapper.productsToProductsDTO(productListNew);
+
     }
 
 

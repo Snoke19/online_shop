@@ -2,7 +2,8 @@
     'use strict';
 
     angular.module('login', [
-        'ngRoute'
+        'ngRoute',
+        'cgNotify'
     ]);
 
     angular.
@@ -12,9 +13,9 @@
         controller: LoginController
     });
 
-    LoginController.$inject = ['$scope', '$http'];
+    LoginController.$inject = ['$scope', '$http', 'notify'];
 
-    function LoginController($scope, $http) {
+    function LoginController($scope, $http, notify) {
 
         $scope.logIn = function () {
             $http({
@@ -29,11 +30,11 @@
                 window.location.replace('#!/main');
             },function errorCallback(response) {
                 if (response.status === 404) {
-                    $scope.errorMessage = 'No such user found.';
+                    notify({message: "No such user found!", position: 'right', classes: 'alert-danger'});
                 } else if (response.status === 403) {
-                    $scope.errorMessage = 'Access is denied';
+                    notify({message: "Access is denied!", position: 'right', classes: 'alert-danger'});
                 } else {
-                    $scope.errorMessage = 'Sorry, but system error occurred. Try again later, please.';
+                    notify({message: "Sorry, but system error occurred. Try again later, please!", position: 'right', classes: 'alert-danger'});
                 }
             });
         }

@@ -32,16 +32,18 @@
             $rootScope.mainUser = response.data;
 
             $scope.userProducts = $rootScope.mainUser.username;
+
+            if (!$rootScope.mainUser.authorities === undefined) {
+                var rate = _.findWhere($rootScope.mainUser.authorities, {authority: 'ROLE_ANONYMOUS'});
+            }
+
+            if (rate){
+                $scope.readonlyEnables = true;
+            } else {
+                $scope.readonlyEnables = false;
+            }
         });
 
-
-        var rate = _.findWhere($rootScope.mainUser.authorities, {authority: 'ROLE_ANONYMOUS'});
-
-        if (rate){
-            $scope.readonlyEnables = true;
-        } else {
-            $scope.readonlyEnables = false;
-        }
 
         //progress bar
         $scope.progressbar = ngProgressFactory.createInstance();
@@ -125,11 +127,13 @@
 
         var start = 12;
         $scope.showMoreProduct = function () {
+
             $scope.progressbar.start();
 
             var filters = $scope.filtersProducts;
 
             MainProductsService.getProductsByRange(start, $routeParams.category, filters, $scope.producersProducts, $scope.slider.maxValue,  $scope.slider.minValue).then(function (d) {
+                $scope.countPage = d;
                 for (var i=0; i<d.length; i++){
                     $scope.mainProducts.push(d[i]);
                 }
@@ -272,6 +276,7 @@
 
 
         $scope.deleteFiltersProducts = function (data, productsFilter) {
+
             $scope.filtersProducts.splice($scope.filtersProducts.indexOf(data), 1);
 
             $scope.progressbar.start();
@@ -363,6 +368,7 @@
 
 
         $scope.deleteFiltersProducersProducts = function (data, producerFilter) {
+
             $scope.producersProducts.splice($scope.producersProducts.indexOf(data), 1);
 
             $scope.progressbar.start();

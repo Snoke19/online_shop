@@ -158,6 +158,8 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
         return getSession()
                 .createQuery("from Product p where p.category.name = :category and p.isActive = true")
                 .setParameter("category", category)
+                .setFirstResult(start)
+                .setMaxResults(12)
                 .list();
     }
 

@@ -11,6 +11,8 @@ import com.shop.utils.products.CountRating;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -46,8 +48,6 @@ public class ProductsController {
 
     @GetMapping("/products/{category}")
     public ResponseEntity<List<ProductDTO>> allProductsByCategory(@PathVariable("category") String category){
-
-        productsService.getAllProductsByCategory(category).forEach(productDTO -> System.out.println(productDTO.getName()));
 
         return ResponseEntity.status(HttpStatus.OK).body(productsService.getAllProductsByCategory(category));
     }
@@ -162,6 +162,12 @@ public class ProductsController {
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
                     .body(new Gson().toJson("You have already voted! Your vote is not submitted!"));
+        }
+
+        if (userService.getCurrentUser().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ANONYMOUS"))){
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(new Gson().toJson("You need to Log in or Sign up"));
         }
 
         return ResponseEntity.ok(String.valueOf(productsService.makeRating(Double.valueOf(stars), user, Long.valueOf(idProduct))));
