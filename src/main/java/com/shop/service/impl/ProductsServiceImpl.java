@@ -221,9 +221,25 @@ public class ProductsServiceImpl implements ProductsService {
         List<Product> productList = productsDAO.getAllProductsByCategory(category);
         List<Product> productListNew;
 
-        if (!producers.isEmpty()){
+        if (!filters.isEmpty() && !producers.isEmpty()) {
+
+            List<Product> listProductsByProducer = filterService.productsByProducer(productList, producers);
+            productListNew = filterService.productsByFiltersDescription(listProductsByProducer, filters);
+            productListNew = productListNew.subList(start, productListNew.size());
+
+        } else if (!producers.isEmpty()){
 
             productListNew = filterService.productsByProducer(productList, producers);
+
+            if (producers.size() >= 2){
+                productListNew = productListNew.subList(start, start);
+
+            }else {
+                productListNew = productListNew.subList(start, productListNew.size());
+            }
+
+        } else if (!filters.isEmpty()){
+            productListNew = filterService.productsByFiltersDescription(productList, filters);
             productListNew = productListNew.subList(start, productListNew.size());
 
         } else {

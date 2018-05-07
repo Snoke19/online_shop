@@ -138,6 +138,10 @@
                     $scope.mainProducts.push(d[i]);
                 }
                 start += 12;
+
+                if ($scope.countPage.length < 12){
+                    $scope.hide = true;
+                }
                 $scope.progressbar.complete();
             }).catch(function(response){
                 $ngConfirm({
@@ -165,6 +169,8 @@
 
         $scope.productsByFilters = function (producerFilter) {
             $scope.progressbar.start();
+            $scope.hide = false;
+            start = 12;
 
             if ($scope.filtersProducts !== undefined || $scope.filtersProducts.length !== 0) {
 
