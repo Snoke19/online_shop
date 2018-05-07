@@ -156,10 +156,8 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
     @SuppressWarnings("unchecked")
     public List<Product> getProductsByRange(Integer start, String category) {
         return getSession()
-                .createQuery("from Product p where (p.category.name = :category) and p.isActive = true")
+                .createQuery("from Product p where p.category.name = :category and p.isActive = true")
                 .setParameter("category", category)
-                .setFirstResult(start)
-                .setMaxResults(12)
                 .list();
     }
 
@@ -168,9 +166,8 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
     @SuppressWarnings("unchecked")
     public List<Product> getAllProductsByCategory(String category) {
         return getSession()
-                .createQuery("from Product p where (p.category.name = :category) and p.isActive = true")
+                .createQuery("from Product p where p.category.name = :category and p.isActive = true")
                 .setParameter("category", category)
-                .setMaxResults(12)
                 .list();
     }
 

@@ -14,8 +14,12 @@
                     return response.data;
                 });
             },
-            getProductsByRange: function (start, category) {
-                return $http.get("/more/products/" + category + "/" + start).then(function (response) {
+            getProductsByRange: function (start, category, filters, producer, valueMax, valueMin) {
+                return $http({
+                    method: "PUT",
+                    url: "/more/products/" + category + "/" + start,
+                    data: {allFilter: filters, allProducers: producer, max: valueMax, min: valueMin}
+                }).then(function (response) {
                     return response.data;
                 });
             },

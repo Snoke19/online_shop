@@ -19,4 +19,6 @@ public interface FilterService {
     List<Product> productsByFiltersDescriptionAndProducer(List<Product> productList, List<String> listProducer);
 
     List<Product> productsByPrice(List<Product> productList, Integer max, Integer min);
+
+
 }

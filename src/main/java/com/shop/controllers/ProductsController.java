@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gson.Gson;
 import com.shop.dto.product.ProductDTO;
+import com.shop.entity.Product;
 import com.shop.service.ProductsService;
 import com.shop.service.UserService;
 import com.shop.utils.products.CountRating;
@@ -45,13 +46,16 @@ public class ProductsController {
 
     @GetMapping("/products/{category}")
     public ResponseEntity<List<ProductDTO>> allProductsByCategory(@PathVariable("category") String category){
+
+        productsService.getAllProductsByCategory(category).forEach(productDTO -> System.out.println(productDTO.getName()));
+
         return ResponseEntity.status(HttpStatus.OK).body(productsService.getAllProductsByCategory(category));
     }
 
 
     @PutMapping("/products/filtered/{category}")
     public ResponseEntity<Set<ProductDTO>> allProductsByFilters(@PathVariable("category") String category,
-                                                                       @RequestBody Map<String, Object> filter){
+                                                                @RequestBody Map<String, Object> filter){
         @SuppressWarnings("unchecked")
         List<String> filterList = (List<String>) filter.get("allFilter");
         @SuppressWarnings("unchecked")
@@ -114,10 +118,25 @@ public class ProductsController {
     }
 
 
-    @GetMapping("/more/products/{category}/{number}")
+    @PutMapping("/more/products/{category}/{number}")
     public ResponseEntity<List<ProductDTO>> productsWithinRage(@PathVariable("category") String category,
-                                                               @PathVariable("number") Integer start){
-        return ResponseEntity.status(HttpStatus.OK).body(productsService.getProductsByRange(start, category));
+                                                           @PathVariable("number") Integer start,
+                                                           @RequestBody Map<String, Object> map){
+        @SuppressWarnings("unchecked")
+        List<String> filterList = (List<String>) map.get("allFilter");
+        @SuppressWarnings("unchecked")
+        List<String> allProducers = (List<String>) map.get("allProducers");
+
+        Integer min = (Integer) map.get("min");
+        Integer max = (Integer) map.get("max");
+
+        Multimap<String, String> filterMap = filterList
+                .stream()
+                .map(elem -> elem.split(": "))
+                .collect(ImmutableListMultimap.toImmutableListMultimap(e -> e[0], e -> e[1]));
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(productsService.getProductsByRange(start, category, filterMap, allProducers, max, min));
     }
 
 

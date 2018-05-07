@@ -126,7 +126,10 @@
         var start = 12;
         $scope.showMoreProduct = function () {
             $scope.progressbar.start();
-            MainProductsService.getProductsByRange(start, $routeParams.category).then(function (d) {
+
+            var filters = $scope.filtersProducts;
+
+            MainProductsService.getProductsByRange(start, $routeParams.category, filters, $scope.producersProducts, $scope.slider.maxValue,  $scope.slider.minValue).then(function (d) {
                 for (var i=0; i<d.length; i++){
                     $scope.mainProducts.push(d[i]);
                 }
