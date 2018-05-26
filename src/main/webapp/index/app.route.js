@@ -18,6 +18,8 @@
 
         'users-orders',
 
+        'user-profile',
+
         'login',
         'sign-up',
 
@@ -153,6 +155,8 @@
                     }
                 }
 
+            }).when('/user/profile', {
+                template: '<user-profile></user-profile>'
 
             }).when('/login', {
                 template: '<login></login>'

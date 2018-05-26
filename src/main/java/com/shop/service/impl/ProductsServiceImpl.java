@@ -1,6 +1,7 @@
 package com.shop.service.impl;
 
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.shop.dao.ProductsDAO;
 import com.shop.dto.product.ProductMapper;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service("productsService")
@@ -221,34 +223,51 @@ public class ProductsServiceImpl implements ProductsService {
         List<Product> productList = productsDAO.getAllProductsByCategory(category);
         List<Product> productListNew;
 
-        if (!filters.isEmpty() && !producers.isEmpty()) {
+        if (max != 0 && min >= 0 && !filters.isEmpty() && !producers.isEmpty()) {
+
+            productListNew = filterService.productsByFiltersDescriptionAndProducer(productList, filters, producers)
+                    .stream()
+                    .filter(v -> v.getPrice().intValue() >= min && v.getPrice().intValue() <= max)
+                    .collect(Collectors.toList());
+
+        } else if (max != 0 && min >= 0 && !filters.isEmpty()) {
+
+            productListNew = filterService.productsByFiltersDescriptionAndProducer(productList, filters)
+                    .stream()
+                    .filter(v -> v.getPrice().intValue() >= min && v.getPrice().intValue() <= max)
+                    .collect(Collectors.toList());
+
+        } else if (max != 0 && min >= 0 && !producers.isEmpty()) {
+
+            productListNew = filterService.productsByFiltersDescriptionAndProducer(productList, producers)
+                    .stream()
+                    .filter(v -> v.getPrice().intValue() >= min && v.getPrice().intValue() <= max)
+                    .collect(Collectors.toList());
+
+        }  else if(max != 0 && min >= 0) {
+
+            productListNew = filterService.productsByPrice(productList, max, min);
+
+        } else if (!filters.isEmpty() && !producers.isEmpty()) {
 
             List<Product> listProductsByProducer = filterService.productsByProducer(productList, producers);
             productListNew = filterService.productsByFiltersDescription(listProductsByProducer, filters);
-            productListNew = productListNew.subList(start, productListNew.size());
 
         } else if (!producers.isEmpty()){
 
             productListNew = filterService.productsByProducer(productList, producers);
 
-            if (producers.size() >= 2){
-                productListNew = productListNew.subList(start, start);
-
-            }else {
-                productListNew = productListNew.subList(start, productListNew.size());
-            }
-
         } else if (!filters.isEmpty()){
             productListNew = filterService.productsByFiltersDescription(productList, filters);
-            productListNew = productListNew.subList(start, productListNew.size());
 
         } else {
-
-            return productMapper.productsToProductsDTO(productsDAO.getProductsByRange(start, category));
+            productListNew = productsDAO.getAllProductsByCategory(category);
         }
 
-        return productMapper.productsToProductsDTO(productListNew);
 
+        productList.clear();
+        List<List<Product>> sendList = Lists.partition(productListNew, 12);
+        return productMapper.productsToProductsDTO(sendList.get(start));
     }
 
 
@@ -270,7 +289,9 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     @Transactional
-    public Multimap<String, Map<String, Integer>> getSideBarFilterProducts(String category, List<String> producers, Integer max, Integer min) {
+    public Multimap<String, Map<String, Integer>> getSideBarFilterProducts(String category,
+                                                                           List<String> producers,
+                                                                           Integer max, Integer min) {
 
         List<Product> descriptionCategories = new ArrayList<>();
 
@@ -337,7 +358,10 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     @Transactional
-    public Map<String, Long> getAllProducerWithCountProductsByFilter(Multimap<String, String> filter, String category, Integer max, Integer min) {
+    public Map<String, Long> getAllProducerWithCountProductsByFilter(Multimap<String, String> filter,
+                                                                     String category,
+                                                                     Integer max,
+                                                                     Integer min) {
 
         List<Product> list = productsDAO.getAllProductsByCategory(category);
         List<Product> listNew;
@@ -358,7 +382,10 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     @Transactional
-    public List<ProductDTO> getAllProductsByFilters(Multimap<String, String> filters, List<String> producers, String category, Integer max, Integer min) {
+    public List<ProductDTO> getAllProductsByFilters(Multimap<String, String> filters,
+                                                    List<String> producers,
+                                                    String category,
+                                                    Integer max, Integer min) {
 
         List<Product> productList = productsDAO.getAllProductsByCategory(category);
 

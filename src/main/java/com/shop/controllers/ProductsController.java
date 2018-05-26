@@ -130,6 +130,7 @@ public class ProductsController {
         Integer min = (Integer) map.get("min");
         Integer max = (Integer) map.get("max");
 
+
         Multimap<String, String> filterMap = filterList
                 .stream()
                 .map(elem -> elem.split(": "))

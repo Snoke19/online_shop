@@ -125,7 +125,7 @@
         });
 
 
-        var start = 12;
+        var start = 1;
         $scope.showMoreProduct = function () {
 
             $scope.progressbar.start();
@@ -137,7 +137,7 @@
                 for (var i=0; i<d.length; i++){
                     $scope.mainProducts.push(d[i]);
                 }
-                start += 12;
+                start += 1;
 
                 if ($scope.countPage.length < 12){
                     $scope.hide = true;
@@ -170,7 +170,7 @@
         $scope.productsByFilters = function (producerFilter) {
             $scope.progressbar.start();
             $scope.hide = false;
-            start = 12;
+            start = 1;
 
             if ($scope.filtersProducts !== undefined || $scope.filtersProducts.length !== 0) {
 
@@ -282,7 +282,7 @@
 
 
         $scope.deleteFiltersProducts = function (data, productsFilter) {
-
+            start = 1;
             $scope.filtersProducts.splice($scope.filtersProducts.indexOf(data), 1);
 
             $scope.progressbar.start();
@@ -291,6 +291,10 @@
             if (filters !== undefined || filters.length !== 0) {
                 MainProductsService.getAllProductsByFilters($routeParams.category, filters, $scope.producersProducts, $scope.slider.minValue, $scope.slider.maxValue).then(function (d) {
                     $scope.mainProducts = d;
+
+                    if ($scope.mainProducts.length < 12){
+                        $scope.hide = false;
+                    }
 
                     $scope.progressbar.complete();
                 }).catch(function (response) {
@@ -360,6 +364,10 @@
                 MainProductsService.getAllProductsByCategory($routeParams.category).then(function (d) {
                     $scope.mainProducts = d;
 
+                    if ($scope.mainProducts.length <= 12){
+                        $scope.hide = false;
+                    }
+
                     $scope.progressbar.complete();
                 }).catch(function(response){
                     $ngConfirm({
@@ -374,7 +382,7 @@
 
 
         $scope.deleteFiltersProducersProducts = function (data, producerFilter) {
-
+            start  = 1;
             $scope.producersProducts.splice($scope.producersProducts.indexOf(data), 1);
 
             $scope.progressbar.start();
@@ -383,6 +391,10 @@
             if (filters !== undefined || filters.length !== 0) {
                 MainProductsService.getAllProductsByFilters($routeParams.category, filters, $scope.producersProducts, $scope.slider.maxValue, $scope.slider.minValue).then(function (d) {
                     $scope.mainProducts = d;
+
+                    if ($scope.mainProducts.length <= 12){
+                        $scope.hide = false;
+                    }
 
                     $scope.progressbar.complete();
                 }).catch(function (response) {
@@ -450,6 +462,10 @@
             }else{
                 MainProductsService.getAllProductsByCategory($routeParams.category).then(function (d) {
                     $scope.mainProducts = d;
+
+                    if ($scope.mainProducts.length <= 12){
+                        $scope.hide = false;
+                    }
 
                     $scope.progressbar.complete();
                 }).catch(function(response){
