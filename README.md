@@ -1,7 +1,7 @@
 # Electronic-Shop
 This project is a theme - online store. 
 
-Language: Java
+Language: Java /n
 Frameworks: Spring Core, Spring MVC, Spring Security.
 Database: MySQL, Hibernate.
 Front-end: HTML, CSS, AngularJS.
