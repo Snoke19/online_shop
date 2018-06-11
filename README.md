@@ -7,7 +7,7 @@ Database: MySQL, Hibernate.<br/>
 Front-end: HTML, CSS, AngularJS.<br/>
 Tools: Maven, IntelliJ IDEA, Git, Lombok.<br/>
 
-#### User
+## User
 
 ### Log in
 ![login](https://user-images.githubusercontent.com/13545575/41237350-fc164aaa-6d9b-11e8-85ac-c7c092ad2e25.PNG)
