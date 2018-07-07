@@ -1,6 +1,7 @@
 package com.shop.dao.impl;
 
 import com.shop.dao.ProductsDAO;
+import com.shop.dto.ProfileProducts;
 import com.shop.utils.products.Description;
 import com.shop.entity.Product;
 import com.shop.utils.HibernateSessionDAO;
@@ -179,6 +180,22 @@ public class ProductsDAOImpl extends HibernateSessionDAO implements ProductsDAO 
     public List<Object[]> getAllProducerWithCountProducts() {
         return getSession()
                 .createQuery("select p.producer, COUNT(p.idProduct) from Product p where p.isActive = true group by p.producer")
+                .list();
+    }
+
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<ProfileProducts> getAllProductsProfile(String userEmail) {
+        return getSession()
+                .createQuery("select oi.pricePerQuantity, " +
+                        "oi.quantityProducts, " +
+                        "oi.pricePerQuantity * oi.quantityProducts, " +
+                        "p.name, " +
+                        "o.status " +
+                        "from OrderItems oi inner join oi.product p, Orders o, User user " +
+                        "WHERE user.email = :userEmail")
+                .setParameter("userEmail", userEmail)
                 .list();
     }
 }

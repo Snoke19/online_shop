@@ -28,4 +28,6 @@ public interface ProductsDAO extends DAO<Product> {
     List<Product> getAllProductsByCategory(String something);
 
     List<Object[]> getAllProducerWithCountProducts();
+
+    List getAllProductsProfile(String userEmail);
 }

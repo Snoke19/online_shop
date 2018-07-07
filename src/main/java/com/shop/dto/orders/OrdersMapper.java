@@ -23,8 +23,7 @@ public interface OrdersMapper {
             @Mapping(target = "user.address", ignore = true),
             @Mapping(target = "user.birthday", ignore = true),
             @Mapping(target = "user.phone", ignore = true),
-            @Mapping(target = "user.enabled", ignore = true),
-            @Mapping(target = "user.avatar", ignore = true)
+            @Mapping(target = "user.enabled", ignore = true)
     })
     OrdersDTO orderToDTO(Orders orders);
 

@@ -44,7 +44,4 @@ public class User implements Serializable {
 
     @Column(name = "enabled")
     private Boolean enabled;
-
-    @Column(name = "avatar")
-    private byte[] avatar;
 }

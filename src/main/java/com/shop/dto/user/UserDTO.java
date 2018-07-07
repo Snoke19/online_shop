@@ -21,5 +21,4 @@ public class UserDTO {
     private LocalDate birthday;
     private String phone;
     private Boolean enabled;
-    private byte[] avatar;
 }

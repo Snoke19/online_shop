@@ -4,6 +4,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.shop.dao.ProductsDAO;
+import com.shop.dto.ProfileProducts;
 import com.shop.dto.product.ProductMapper;
 import com.shop.dto.product.ProductDTO;
 import com.shop.dto.product.ProductMapImpl;
@@ -25,7 +26,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service("productsService")
@@ -289,9 +289,7 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     @Transactional
-    public Multimap<String, Map<String, Integer>> getSideBarFilterProducts(String category,
-                                                                           List<String> producers,
-                                                                           Integer max, Integer min) {
+    public Multimap<String, Map<String, Integer>> getSideBarFilterProducts(String category, List<String> producers, Integer max, Integer min) {
 
         List<Product> descriptionCategories = new ArrayList<>();
 
@@ -358,10 +356,7 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     @Transactional
-    public Map<String, Long> getAllProducerWithCountProductsByFilter(Multimap<String, String> filter,
-                                                                     String category,
-                                                                     Integer max,
-                                                                     Integer min) {
+    public Map<String, Long> getAllProducerWithCountProductsByFilter(Multimap<String, String> filter, String category, Integer max, Integer min) {
 
         List<Product> list = productsDAO.getAllProductsByCategory(category);
         List<Product> listNew;
@@ -490,5 +485,12 @@ public class ProductsServiceImpl implements ProductsService {
         }
 
        return productMapper.productsToProductsDTO(productListNew).stream().limit(12).collect(Collectors.toList());
+    }
+
+
+    @Override
+    @Transactional
+    public List<ProfileProducts> getAllProductsProfile(String userEmail) {
+        return productsDAO.getAllProductsProfile(userEmail);
     }
 }

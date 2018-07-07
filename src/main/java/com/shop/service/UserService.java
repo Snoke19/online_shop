@@ -17,7 +17,7 @@ public interface UserService extends Service<UserDTO> {
     void addAdmin(AdminDTO adminDTO);
     boolean emailExist(String email);
 
-    User findByEmail(String email);
+    UserDTO findByEmail(String email);
     UserRole findRolesForUser(User user);
 
     org.springframework.security.core.userdetails.User getCurrentUser();

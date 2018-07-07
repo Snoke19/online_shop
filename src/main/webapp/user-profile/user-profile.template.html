@@ -9,43 +9,27 @@
             <!--Card-->
             <div class="card">
 
-                <!--Card content-->
                 <div class="card-body">
 
                     <h4 class="card-title">My orders</h4>
 
-                    <!-- Grid row -->
                     <div class="row">
-
+                        <div class="col-xl-3 col-md-6" ng-repeat="product in allProductsProfile">
+                            <div class="card hoverable">
+                                <div class="card-body text-center">
+                                    {{product[3]}}
+                                    status: <span class="badge badge-primary">{{product[4]}}</span>
+                                    <br>
+                                    price: {{product[0]}}
+                                    quantity: {{product[1]}}
+                                    <br>
+                                    total price: {{product[2]}}
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <!-- Grid row -->
-
-                    <!-- Grid row -->
-                    <div class="row">
-
-                    </div>
-                    <!-- Grid row -->
-
-                    <!-- Grid row -->
-                    <div class="row">
-
-                    </div>
-                    <!-- Grid row -->
-
-                    <!-- Grid row -->
-                    <div class="row">
-
-                    </div>
-                    <!-- Grid row -->
-
-                    <!-- Grid row -->
-                    <div class="row">
-
-                    </div>
-                    <!-- Grid row -->
 
                 </div>
-                <!--/.Card content-->
 
             </div>
             <!--/.Card-->
@@ -61,10 +45,34 @@
 
                 <div class="card-body">
 
-                    <h4 class="card-title">Profile</h4>
+                    <h4 class="card-title">{{userProfile.userName}} {{userProfile.surname}}</h4>
 
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <p class="card-text text-left">
+                        Address:  <a href="#" editable-text="userProfile.address" onbeforesave="updateAddressUser()">
+                             {{ userProfile.address || 'empty' }}
+                        </a>
+                    </p>
+                    <p class="card-text text-left">
+                        Birthday:  <a href="#" editable-text="userProfile.birthday" onbeforesave="updateUser($data)">
+                            {{ userProfile.birthday || 'empty' }}
+                        </a>
+                    </p>
 
+                    <p class="card-text text-left">
+                        Phone: <a href="#" editable-text="userProfile.phone" onbeforesave="updateUser($data)">
+                            {{userProfile.phone || 'empty'}}
+                        </a>
+                    </p>
+
+                    <p class="card-text text-left">
+                        Email: <a href="#" editable-text="userProfile.email" onbeforesave="updateUser($data)">
+                            {{userProfile.email || 'empty'}}
+                        </a>
+                    </p>
+
+                    <p class="card-text text-left">
+                        Password: {{userProfile.email || 'empty'}}
+                    </p>
                 </div>
 
             </div>

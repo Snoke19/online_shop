@@ -7,7 +7,9 @@
 
         'main-page',
         'main-products',
+        'shoping-cart',
         'details-product',
+        'checkout',
 
         'admin-board',
         'admin-board-add-product',
@@ -37,7 +39,9 @@
             }).when('/products/:category',{
                 template: '<main-products></main-products>'
             }).when('/cart', {
-                template: '<shopping-cart></shopping-cart>'
+                template: '<shoping-cart></shoping-cart>'
+            }).when('/checkout', {
+                template: '<checkout></checkout>'
             }).when('/product/details/:idProduct', {
                 template: '<details-product></details-product>'
 

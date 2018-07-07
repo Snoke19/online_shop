@@ -1,6 +1,7 @@
 package com.shop.service;
 
 import com.google.common.collect.Multimap;
+import com.shop.dto.ProfileProducts;
 import com.shop.dto.product.ProductDTO;
 import com.shop.entity.Product;
 import com.shop.utils.layers.Service;
@@ -65,4 +66,7 @@ public interface ProductsService extends Service<ProductDTO> {
                                            String category,
                                            Integer max,
                                            Integer min);
+
+
+    public List<ProfileProducts> getAllProductsProfile(String userEmail);
 }

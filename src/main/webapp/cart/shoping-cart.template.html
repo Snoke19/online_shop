@@ -1,0 +1,58 @@
+<div class="container">
+    <h3 class="text-center mt-3 mb-3">Shoping Cart</h3>
+    <table id="cart" class="table table-hover table-condensed">
+        <thead>
+        <tr>
+            <th style="width:50%">Product</th>
+            <th style="width:10%">Price</th>
+            <th style="width:8%">Quantity</th>
+            <th style="width:22%" class="text-center">Subtotal</th>
+            <th style="width:10%"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td data-th="Product">
+                <div class="row">
+                    <div class="col-sm-10">
+                        <h4 class="nomargin">IPhone X</h4>
+                    </div>
+                </div>
+            </td>
+            <td data-th="Price">$999.99</td>
+            <td data-th="Quantity">
+                <input type="number" class="form-control text-center" value="1">
+            </td>
+            <td data-th="Subtotal" class="text-center">$999.99</td>
+            <td class="actions" data-th="">
+                <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+            </td>
+        </tr>
+        <tr>
+            <td data-th="Product">
+                <div class="row">
+                    <div class="col-sm-10">
+                        <h4 class="nomargin">Samsung Galaxy S8</h4>
+                    </div>
+                </div>
+            </td>
+            <td data-th="Price">$800.00</td>
+            <td data-th="Quantity">
+                <input type="number" class="form-control text-center" value="1">
+            </td>
+            <td data-th="Subtotal" class="text-center">$800.00</td>
+            <td class="actions" data-th="">
+                <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+            </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+            <td colspan="2" class="hidden-xs"></td>
+            <td class="hidden-xs text-center"><strong>Total $1799.99</strong></td>
+            <td><a href="#!/checkout"  class="btn btn-success btn-sm">Checkout <i class="fa fa-angle-right"></i></a></td>
+        </tr>
+        </tfoot>
+    </table>
+</div>

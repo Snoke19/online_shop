@@ -1,5 +1,6 @@
 package com.shop.utils.security;
 
+import com.shop.dto.user.UserMapper;
 import com.shop.entity.UserRole;
 import com.shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserRole userRolesDTO = userService.findRolesForUser(userService.findByEmail(username));
+        UserRole userRolesDTO = userService.findRolesForUser(UserMapper.mapper.userDTOToUser(userService.findByEmail(username)));
 
 
         User.UserBuilder userBuilder;
