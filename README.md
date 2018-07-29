@@ -1,6 +1,25 @@
 # Electronic-Shop
 This project is a theme - online store. 
 
+I was developing online-shop for selling techniques with some functionality:
+
+Admin:
+   - add/edit/delete/update product;
+   - add/edit/delete/update user;
+   - accept orders;
+   - view all products;
+   - add/edit/delete/update category;
+   - add discount.
+
+User:
+   - log in/ log out;
+   - view all products;
+   - filters;
+   - cart;
+   - profile;
+   - make order;
+   - checkout.
+
 Language: Java<br/>
 Frameworks: Spring Core, Spring MVC, Spring Security.<br />
 Database: MySQL, Hibernate.<br/>
